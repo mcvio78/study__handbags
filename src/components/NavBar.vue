@@ -11,10 +11,10 @@
 					</v-col>
 
 					<v-col cols="6" class="text-center">
-						<v-btn color="deep-purple lighten-3">Button 1</v-btn>
-						<v-btn color="deep-purple lighten-3">Button 1</v-btn>
-						<v-btn color="deep-purple lighten-3">Button 1</v-btn>
-						<v-btn color="deep-purple lighten-3">Button 1</v-btn>
+						<v-btn color="deep-purple lighten-3">Patrizia</v-btn>
+						<v-btn color="deep-purple lighten-3">Melania</v-btn>
+						<v-btn color="deep-purple lighten-3">Olivia</v-btn>
+						<v-btn color="deep-purple lighten-3">Anna</v-btn>
 					</v-col>
 
 					<v-col cols="3" class="text-right">
