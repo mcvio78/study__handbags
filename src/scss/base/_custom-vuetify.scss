@@ -1,3 +1,7 @@
 html {
-	 overflow-y: auto
+	overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+	display: none;
 }
