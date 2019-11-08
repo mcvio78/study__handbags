@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid class=" pa-0 purple lighten-5">
+	<v-container fluid class="pa-0 purple lighten-5" height='100%'>
 		<!--<h1>Homepage</h1>-->
 		<v-row>
 			<v-col class="text-center pa-0" cols="12">
@@ -46,6 +46,17 @@
 					<img src="./../client/img/hero-optimized/hero_smallest--fallback.jpg" :alt="myDescription" />
 				</picture>
 			</v-col>
+		</v-row>
+		<v-row>
+			<v-col>
+				<h1 class='display-1 mb-2'>Philosophy:</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos inventore itaque odio omnis optio rem
+					sapiente suscipit tenetur velit voluptate? Alias ducimus, eveniet in itaque nobis optio rem sit vero.
+				</p>
+			</v-col>
+		</v-row>
+		<v-row style="height: 3vh" class='purple darken-1'>
 		</v-row>
 	</v-container>
 </template>
