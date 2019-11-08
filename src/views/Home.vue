@@ -47,7 +47,7 @@
 				</picture>
 			</v-col>
 		</v-row>
-		<v-row class="justify-center ma-0">
+		<v-row class="justify-center">
 			<v-col cols="11" class="col-md-10">
 				<h1 class="display-1 mb-2">Philosophy:</h1>
 				<p>
