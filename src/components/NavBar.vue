@@ -22,41 +22,57 @@
 						<p><small>Our collection</small></p>
 					</div>
 
-					<div class="d-block d-sm-inline my-2">
-						<v-btn
-							color="deep-purple lighten-3"
-							class="ma-sm-1 small"
-							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
-							>Patrizia</v-btn
-						>
-					</div>
 
-					<div class="d-block d-sm-inline my-2">
-						<v-btn
-							color="deep-purple lighten-3"
-							class="ma-sm-1 small"
-							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
-							>Olivia</v-btn
-						>
-					</div>
 
-					<div class="d-block d-sm-inline my-2">
-						<v-btn
-							color="deep-purple lighten-3"
-							class="ma-sm-1 small"
-							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
-							>Melania</v-btn
-						>
-					</div>
+										<div v-for='bagName in bagNames' class="d-block d-sm-inline my-2">
+											<v-btn
+												color="deep-purple lighten-3"
+												class="ma-sm-1 small"
+												:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
+												>{{ bagName }}</v-btn
+											>
+										</div>
 
-					<div class="d-block d-sm-inline my-2">
-						<v-btn
-							color="deep-purple lighten-3"
-							class="ma-sm-1 small"
-							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
-							>Anna</v-btn
-						>
-					</div>
+
+
+
+
+
+<!--					<div class="d-block d-sm-inline my-2">-->
+<!--						<v-btn-->
+<!--							color="deep-purple lighten-3"-->
+<!--							class="ma-sm-1 small"-->
+<!--							:class="{ 'v-size&#45;&#45;x-large': $vuetify.breakpoint.sm }"-->
+<!--							>Patrizia</v-btn-->
+<!--						>-->
+<!--					</div>-->
+
+<!--					<div class="d-block d-sm-inline my-2">-->
+<!--						<v-btn-->
+<!--							color="deep-purple lighten-3"-->
+<!--							class="ma-sm-1 small"-->
+<!--							:class="{ 'v-size&#45;&#45;x-large': $vuetify.breakpoint.sm }"-->
+<!--							>Olivia</v-btn-->
+<!--						>-->
+<!--					</div>-->
+
+<!--					<div class="d-block d-sm-inline my-2">-->
+<!--						<v-btn-->
+<!--							color="deep-purple lighten-3"-->
+<!--							class="ma-sm-1 small"-->
+<!--							:class="{ 'v-size&#45;&#45;x-large': $vuetify.breakpoint.sm }"-->
+<!--							>Melania</v-btn-->
+<!--						>-->
+<!--					</div>-->
+
+<!--					<div class="d-block d-sm-inline my-2">-->
+<!--						<v-btn-->
+<!--							color="deep-purple lighten-3"-->
+<!--							class="ma-sm-1 small"-->
+<!--							:class="{ 'v-size&#45;&#45;x-large': $vuetify.breakpoint.sm }"-->
+<!--							>Anna</v-btn-->
+<!--						>-->
+<!--					</div>-->
 				</v-list>
 			</v-menu>
 		</v-toolbar>
@@ -72,7 +88,11 @@ export default {
 	data: () => ({
 		fab: false
 	}),
-
+	computed: {
+		bagNames() {
+			return Object.keys(this.$store.state.handbags.series)
+		}
+	},
 	methods: {
 		onScroll(e) {
 			if (typeof window === 'undefined') return;
