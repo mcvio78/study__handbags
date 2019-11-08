@@ -1,5 +1,5 @@
 <template>
-	<v-container id="homeContainer" fluid class="pa-0 purple lighten-5" height="100%">
+	<v-container fluid class="py-0 purple lighten-5" height="100%">
 		<!--<h1>Homepage</h1>-->
 		<v-row>
 			<v-col class="text-center pa-0" cols="12">
