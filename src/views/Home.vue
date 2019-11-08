@@ -1,8 +1,8 @@
 <template>
-	<v-container fluid class="fill-height pa-0 purple lighten-5">
+	<v-container fluid class=" pa-0 purple lighten-5">
 		<!--<h1>Homepage</h1>-->
 		<v-row>
-			<v-col class="text-center" cols="12">
+			<v-col class="text-center pa-0" cols="12">
 				<picture>
 					<source
 						type="image/jpg"
@@ -30,12 +30,20 @@
 					/>
 					<source
 						type="image/jpg"
+						media="(min-width: 530px)"
 						srcset="
 							./../client/img/hero-optimized/hero_smaller.jpg          640w,
 							./../client/img/hero-optimized/hero_smaller--hi-dpi.jpg 1280w
 						"
 					/>
-					<img src="./../client/img/hero-optimized/hero_smaller--fallback.jpg" :alt="myDescription" />
+					<source
+						type="image/jpg"
+						srcset="
+							./../client/img/hero-optimized/hero_smallest.jpg          530w,
+							./../client/img/hero-optimized/hero_smallest--hi-dpi.jpg 1060w
+						"
+					/>
+					<img src="./../client/img/hero-optimized/hero_smallest--fallback.jpg" :alt="myDescription" />
 				</picture>
 			</v-col>
 		</v-row>
@@ -46,6 +54,7 @@
 export default {
 	name: 'Home',
 	data() {
+		// TODO Complete responsive photos with relative paths.
 		return {
 			// heroLarge: require('./../client/img/hero-optimized/hero_large.jpg'),
 			// heroLargeHiDpi: require('./../client/img/hero-optimized/hero_smaller--hi-dpi.jpg'),

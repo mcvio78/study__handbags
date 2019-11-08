@@ -1,32 +1,66 @@
-<template>
-	<v-container fluid class="pa-0">
-		<v-row no-gutters>
-			<v-app-bar color="purple darken-1" dark>
-				<v-col cols="6">
-					<v-toolbar-title class="headline">
-						<span class="font-weight-bold">ZH</span>
-						<span class="font-weight-thin grey--text">andbags</span>
-					</v-toolbar-title>
-				</v-col>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+	<div>
+		<v-toolbar color="purple darken-1" dark>
+			<v-toolbar-title class="headline">
+				<span class="font-weight-bold">ZH</span>
+				<span class="font-weight-thin grey--text">andbags</span>
+			</v-toolbar-title>
 
-				<!--				<v-col cols="8" class="text-sm-center s">-->
-				<!--					<v-btn color="deep-purple lighten-3" class='v-size&#45;&#45;large ma-1'>Patrizia</v-btn>-->
-				<!--					<v-btn color="deep-purple lighten-3" class='v-size&#45;&#45;large ma-1'>Olivia</v-btn>-->
-				<!--					<v-btn color="deep-purple lighten-3" class='v-size&#45;&#45;large ma-1'>Melania</v-btn>-->
-				<!--					<v-btn color="deep-purple lighten-3" class='v-size&#45;&#45;large ma-1'>Anna</v-btn>-->
-				<!--				</v-col>-->
+			<v-spacer></v-spacer>
 
-				<v-spacer></v-spacer>
+			<v-menu offset-y>
+				<template v-slot:activator="{ on }">
+					<v-btn color="primary" dark v-on="on">Handbags</v-btn>
+				</template>
 
-				<v-col cols="6" class="text-end">
-					<v-btn color="deep-purple lighten-3 black--text" class="v-size--large">
-						<v-icon left>mdi-cart</v-icon>
-						<span>Cart</span>
-					</v-btn>
-				</v-col>
-			</v-app-bar>
-		</v-row>
-	</v-container>
+				<v-list class="text-center py-sm-2 ma-sm-0">
+					<div class="d-inline">
+						<p class="black--text headline px-1 px-sm-0 mb-0 mb-sm-2">Select your Bag</p>
+					</div>
+
+					<div class="d-inline">
+						<p><small>Our collection</small></p>
+					</div>
+
+					<div class="d-block d-sm-inline my-2">
+						<v-btn
+							color="deep-purple lighten-3"
+							class="ma-sm-1 small"
+							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
+							>Patrizia</v-btn
+						>
+					</div>
+
+					<div class="d-block d-sm-inline my-2">
+						<v-btn
+							color="deep-purple lighten-3"
+							class="ma-sm-1 small"
+							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
+							>Olivia</v-btn
+						>
+					</div>
+
+					<div class="d-block d-sm-inline my-2">
+						<v-btn
+							color="deep-purple lighten-3"
+							class="ma-sm-1 small"
+							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
+							>Melania</v-btn
+						>
+					</div>
+
+					<div class="d-block d-sm-inline my-2">
+						<v-btn
+							color="deep-purple lighten-3"
+							class="ma-sm-1 small"
+							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
+							>Anna</v-btn
+						>
+					</div>
+				</v-list>
+			</v-menu>
+		</v-toolbar>
+	</div>
 </template>
 
 <script>

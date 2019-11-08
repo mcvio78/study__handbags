@@ -17,5 +17,14 @@ export default new Vuetify({
 				error: '#b71c1c'
 			}
 		}
+	},
+	breakpoint: {
+		thresholds: {
+			xs: 340,
+			sm: 540,
+			md: 800,
+			lg: 1280
+		},
+		scrollBarWidth: 24
 	}
 });

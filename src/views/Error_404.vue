@@ -1,0 +1,28 @@
+<template>
+	<div class="text-center">
+		<v-overlay :value="overlay">
+			<h1 class="pa-sm-2 red--text">404 Page Not Found.</h1>
+			<div class="my-2">
+				<v-btn x-large @click="close">
+					<p class="display-1 ma-auto"><v-icon>mdi-close</v-icon>Home</p>
+				</v-btn>
+			</div>
+		</v-overlay>
+	</div>
+</template>
+
+<script>
+export default {
+	name: 'Error_404',
+	data() {
+		return {
+			overlay: true
+		};
+	},
+	methods: {
+		close() {
+			this.$router.push({ name: 'home' });
+		}
+	}
+};
+</script>
