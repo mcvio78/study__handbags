@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 	<div>
-		<v-toolbar id="scroll-target" color="purple darken-1" dark>
+		<v-toolbar color="purple darken-1" dark>
 			<v-toolbar-title class="headline">
 				<span class="font-weight-bold">ZH</span>
 				<span class="font-weight-thin grey--text">andbags</span>
@@ -60,17 +60,7 @@
 				</v-list>
 			</v-menu>
 		</v-toolbar>
-		<v-btn
-			v-scroll="onScroll"
-			v-show="fab"
-			fab
-			fixed
-			dark
-			bottom
-			right
-			color="pink"
-			@click='toTop'
-		>
+		<v-btn v-scroll="onScroll" v-show="fab" fab fixed dark bottom right color="pink" @click="toTop">
 			<v-icon>mdi-home</v-icon>
 		</v-btn>
 	</div>
@@ -85,13 +75,12 @@ export default {
 
 	methods: {
 		onScroll(e) {
-			console.log('e: ', e);
 			if (typeof window === 'undefined') return;
 			const top = window.pageYOffset || e.target.scrollTop || 0;
-			this.fab = top > 20;
+			this.fab = top > 200;
 		},
 		toTop() {
-			this.$vuetify.goTo(0);
+			return this.$vuetify.goTo(0);
 		}
 	}
 };

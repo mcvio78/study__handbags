@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid class="pa-0 purple lighten-5" height="100%">
+	<v-container id="homeContainer" fluid class="pa-0 purple lighten-5" height="100%">
 		<!--<h1>Homepage</h1>-->
 		<v-row>
 			<v-col class="text-center pa-0" cols="12">
@@ -47,8 +47,8 @@
 				</picture>
 			</v-col>
 		</v-row>
-		<v-row class='justify-center'>
-			<v-col cols="11" class='col-md-10'>
+		<v-row class="justify-center ma-0">
+			<v-col cols="11" class="col-md-10">
 				<h1 class="display-1 mb-2">Philosophy:</h1>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos inventore itaque odio omnis optio rem
@@ -73,9 +73,13 @@
 			</v-col>
 		</v-row>
 
-
-		<v-row style="height: 3vh" class="purple darken-1"> </v-row>
-
+		<v-footer class="ma-0 pa-0">
+			<v-row style="height: 32vmax" class="purple darken-1 align-end">
+				<v-col>
+					<a href="#" onClick="return false" class="white--text my-0 mx-2">www.zhandbags.com</a>
+				</v-col>
+			</v-row>
+		</v-footer>
 	</v-container>
 </template>
 
