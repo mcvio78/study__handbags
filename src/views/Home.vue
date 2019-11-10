@@ -27,11 +27,12 @@
 						:srcset="heroSmaller + ' 640w, ' + heroSmallerHiDpi + ' 1280w'"
 					/>
 
-					<source type="image/jpg" :srcset="heroSmallest + ' 530w, ' + heroSmallestHiDpi + ' 1060w'" />
+					<source type="image/jpg" :srcset="heroSmallest + ' 530w'" />
+					<!--TODO decide if:   + ' 530w, ' + heroSmallestHiDpi + ' 1060w'   is necessary or not.-->
 
 					<img
 						type="image/jpg"
-						:src="heroSmallestFallback"
+						:src="heroMediumFallback"
 						:srcset="heroSmall + ' 990w, ' + heroLarge + ' 1920w'"
 						:alt="myDescription"
 					/>
@@ -86,37 +87,37 @@ export default {
 	},
 	computed: {
 		heroLarge() {
-			return require('./../client/img/hero-optimized/hero_large.jpg');
+			return require('./../../public/img/hero_large.jpg');
 		},
 		heroLargeHiDpi() {
-			return require('./../client/img/hero-optimized/hero_large--hi-dpi.jpg');
+			return require('./../../public/img/hero_large--hi-dpi.jpg');
 		},
 		heroMedium() {
-			return require('./../client/img/hero-optimized/hero_medium.jpg');
+			return require('./../../public/img/hero_medium.jpg');
 		},
 		heroMediumHiDpi() {
-			return require('./../client/img/hero-optimized/hero_medium--hi-dpi.jpg');
+			return require('./../../public/img/hero_medium--hi-dpi.jpg');
 		},
 		heroSmall() {
-			return require('./../client/img/hero-optimized/hero_small.jpg');
+			return require('./../../public/img/hero_small.jpg');
 		},
 		heroSmallHiDpi() {
-			return require('./../client/img/hero-optimized/hero_small--hi-dpi.jpg');
+			return require('./../../public/img/hero_small--hi-dpi.jpg');
 		},
 		heroSmaller() {
-			return require('./../client/img/hero-optimized/hero_smaller.jpg');
+			return require('./../../public/img/hero_smaller.jpg');
 		},
 		heroSmallerHiDpi() {
-			return require('./../client/img/hero-optimized/hero_smaller--hi-dpi.jpg');
+			return require('./../../public/img/hero_smaller--hi-dpi.jpg');
 		},
 		heroSmallest() {
-			return require('./../client/img/hero-optimized/hero_smallest.jpg');
+			return require('./../../public/img/hero_smallest.jpg');
 		},
-		heroSmallestHiDpi() {
-			return require('./../client/img/hero-optimized/hero_smallest--hi-dpi.jpg');
-		},
-		heroSmallestFallback() {
-			return require('./../client/img/hero-optimized/hero_smallest--fallback.jpg');
+		// heroSmallestHiDpi() {
+		// 	return require('../../public/img/hero_smallest--hi-dpi.jpg');
+		// },
+		heroMediumFallback() {
+			return require('./../../public/img/hero_medium--fallback.jpg');
 		}
 	}
 };
