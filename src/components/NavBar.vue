@@ -22,7 +22,7 @@
 						<p><small>Our collection</small></p>
 					</div>
 
-					<div v-for="(bagName, index) in bagNames" :key='index' class="d-block d-sm-inline my-2">
+					<div v-for="(bagName, index) in bagNames" :key="index" class="d-block d-sm-inline my-2">
 						<v-btn
 							color="deep-purple lighten-3"
 							class="ma-sm-1 small"
@@ -47,7 +47,7 @@ export default {
 	}),
 	computed: {
 		bagNames() {
-			return Object.keys(this.$store.state.handbags.series);
+			return Object.keys(this.$store.state.handbags);
 		}
 	},
 	methods: {
