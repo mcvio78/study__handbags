@@ -7,13 +7,13 @@
 </template>
 
 <script>
-	export default {
-		name: 'list',
-		props: ['bagType'],
-		computed: {
-			borse() {
-				 return this.$store.state.handbags.series
-			}
+export default {
+	name: 'list',
+	props: ['bagType'],
+	computed: {
+		borse() {
+			return this.$store.state.handbags.series;
 		}
 	}
+};
 </script>
