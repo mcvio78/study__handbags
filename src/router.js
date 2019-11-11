@@ -22,9 +22,9 @@ requireComponent.keys().forEach(fileName => {
 		camelCase(
 			// Gets the file name regardless of folder depth
 			fileName
-			.split('/')
-			.pop()
-			.replace(/\.\w+$/, '')
+				.split('/')
+				.pop()
+				.replace(/\.\w+$/, '')
 		)
 	);
 
@@ -51,12 +51,12 @@ export default new Router({
 		},
 		{
 			path: '/list/:bagType',
-			name: 'list',
+			name: 'bags-list',
 			props: true,
 			// route level code-splitting
 			// this generates a separate chunk (list.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
-			component: () => import(/* webpackChunkName: "list" */ './views/List.vue')
+			component: () => import(/* webpackChunkName: "list" */ './views/BagsList.vue')
 		},
 		{ path: '*', component: Error_404 }
 	]
