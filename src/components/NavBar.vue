@@ -22,12 +22,13 @@
 						<p><small>Our collection</small></p>
 					</div>
 
-					<div v-for="(bagName, index) in bagNames" :key="index" class="d-block d-sm-inline my-2">
+					<div v-for="(bagType, index) in bagTypes" :key="index" class="d-block d-sm-inline my-2">
 						<v-btn
 							color="deep-purple lighten-3"
 							class="ma-sm-1 small"
 							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
-							>{{ bagName }}</v-btn
+							@click="toBagsList(bagType)"
+							>{{ bagType }}</v-btn
 						>
 					</div>
 				</v-list>
@@ -46,7 +47,7 @@ export default {
 		fab: false
 	}),
 	computed: {
-		bagNames() {
+		bagTypes() {
 			return Object.keys(this.$store.state.handbags);
 		}
 	},
@@ -58,6 +59,9 @@ export default {
 		},
 		toTop() {
 			return this.$vuetify.goTo(0);
+		},
+		toBagsList(bagType) {
+			this.$router.push({ name: 'bags-list', params: { bagType: bagType } });
 		}
 	}
 };
