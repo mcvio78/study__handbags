@@ -1,7 +1,7 @@
 <template>
-	<v-card class="d-inline-block mx-auto elevation-12">
+	<v-card class="d-inline-block ma-2 ma-md-3 ma-lg-4 elevation-12">
 		<v-container>
-			<v-row justify="space-between">
+			<v-row>
 				<v-col cols="auto">
 					<v-img
 						height="200"

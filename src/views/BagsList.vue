@@ -1,13 +1,11 @@
 <template>
 	<div class="bagsList">
 		<h1>This is the BagList page</h1>
-		<h2>This is the prop that NavBar has passed: - {{ bagType }} -</h2>
+		<h2>NavBar prop has been passed: - {{ bagType }} -</h2>
 
-		<v-container fluid>
-			<v-row>
-				<v-col class="text-center">
-					<BaseBagCard v-for="handbag in handbags[bagType]" :key="handbag.id" :handbag="handbag"></BaseBagCard>
-				</v-col>
+		<v-container fluid class="text-center">
+			<v-row no-gutters class="justify-center">
+				<BaseBagCard v-for="handbag in handbags[bagType]" :key="handbag.id" :handbag="handbag"> </BaseBagCard>
 			</v-row>
 		</v-container>
 	</div>
