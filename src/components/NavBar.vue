@@ -1,6 +1,9 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 	<div>
 		<v-toolbar color="purple darken-1" dark>
+			<!-- TODO link to home -->
+			<router-link :to="{ name: 'home' }"> TODO </router-link>
+
 			<v-toolbar-title class="headline">
 				<span class="font-weight-bold">ZH</span>
 				<span class="font-weight-thin grey--text">andbags</span>
