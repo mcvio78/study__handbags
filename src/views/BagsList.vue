@@ -1,5 +1,5 @@
 <template>
-	<div class="bagsList">
+	<div class="bagsList fill-height pink lighten-5">
 		<h1>This is the BagList page</h1>
 		<h2>NavBar prop has been passed: - {{ bagType }} -</h2>
 

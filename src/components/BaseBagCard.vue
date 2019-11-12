@@ -13,7 +13,7 @@
 					>
 						<v-row align="start" class="lightbox white--text pa-2 fill-height">
 							<v-col>
-								<div class="subheading">{{ handbag.name }}</div>
+								<div class="subheading pink--text white">{{ handbag.name }}</div>
 								<div class="body-1">Mmcvio78@gmail.com</div>
 							</v-col>
 						</v-row>
