@@ -3,10 +3,17 @@
 		<v-container>
 			<v-row justify="space-between">
 				<v-col cols="auto">
-					<v-img height="200" width="200" :src="patriziaTypes.patrizia_01.image">
+					<v-img
+						height="200"
+						width="200"
+						sizes="(min-width: 350px) 320px, 160px"
+						:srcset="handbag.imagePreviewLo + ' 160w, ' + handbag.imagePreviewHi + ' 320w'"
+						:src="handbag.imagePreviewHi"
+						:alt="alt"
+					>
 						<v-row align="start" class="lightbox white--text pa-2 fill-height">
 							<v-col>
-								<div class="subheading">Mauro Vio</div>
+								<div class="subheading">{{ handbag.name }}</div>
 								<div class="body-1">Mmcvio78@gmail.com</div>
 							</v-col>
 						</v-row>
@@ -40,10 +47,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
 	name: 'BagCard',
-	computed: mapState({ patriziaTypes: state => state.handbags.patrizia })
+	props: {
+		handbag: {
+			type: Object,
+			required: true
+		}
+	},
+	data() {
+		return {
+			alt: 'Bag preview image.'
+		};
+	}
 };
 </script>
