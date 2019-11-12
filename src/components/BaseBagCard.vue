@@ -1,5 +1,5 @@
 <template>
-	<v-card class="d-inline-block ma-2 ma-md-3 ma-lg-4 elevation-12">
+	<v-card class="d-inline-block ma-2 ma-md-3 ma-lg-4 elevation-12" @click.stop>
 		<v-container>
 			<v-row>
 				<v-col cols="auto">
@@ -23,20 +23,20 @@
 				<v-col cols="auto" class="text-center pl-0">
 					<v-row class="flex-column ma-0 fill-height" justify="center">
 						<v-col class="px-0">
-							<v-btn icon>
+							<v-btn icon @click.native.stop>
 								<v-icon>mdi-heart</v-icon>
 							</v-btn>
 						</v-col>
 
 						<v-col class="px-0">
-							<v-btn icon>
+							<v-btn icon @click.stop>
 								<v-icon>mdi-bookmark</v-icon>
 							</v-btn>
 						</v-col>
 
 						<v-col class="px-0">
-							<v-btn icon>
-								<v-icon>mdi-share-variant</v-icon>
+							<v-btn icon @click.stop="modalTrue">
+								<v-icon>mdi-magnify</v-icon>
 							</v-btn>
 						</v-col>
 					</v-row>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { eventBus } from './../main';
+
 export default {
 	name: 'BagCard',
 	props: {
@@ -59,6 +61,12 @@ export default {
 		return {
 			alt: 'Bag preview image.'
 		};
+	},
+	methods: {
+		modalTrue() {
+			//Todo action
+			eventBus.$emit('modalTrue', true);
+		}
 	}
 };
 </script>
