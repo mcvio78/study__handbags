@@ -13,6 +13,8 @@ export default new Vuex.Store({
 					price: 40,
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_01/patrizia-london-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_01/patrizia-london-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_01/patrizia-london--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_01/patrizia-london--hi-dpi.jpg'),
 					quantity: 3
 				},
 				patrizia_02: {
