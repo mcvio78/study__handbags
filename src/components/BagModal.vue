@@ -3,7 +3,8 @@
 	<v-row justify="center" class="pa-0 ma-0">
 		<v-dialog v-model="dialog" persistent max-width="290">
 			<v-card>
-				<v-card-title class="headline">Use Google's location service?</v-card-title>
+				<v-card-title class="headline">{{ bagModel.name }}</v-card-title>
+				<v-img :src="bagModel.imageHi"></v-img>
 				<v-card-text
 					>Let Google help apps determine location. This means sending anonymous location data to Google, even when no
 					apps are running.</v-card-text
@@ -24,12 +25,19 @@ import { eventBus } from './../main';
 export default {
 	data() {
 		return {
-			dialog: false
+			dialog: false,
+			bagModel: null
 		};
 	},
-	created() {
-		eventBus.$on('modalTrue', data => {
-			this.dialog = data;
+	methods: {
+		setHandbagModal(handbag) {
+			this.bagModel = handbag;
+			this.dialog = true;
+		}
+	},
+	mounted() {
+		eventBus.$on('modalTrueAndBag', handbag => {
+			this.setHandbagModal(handbag);
 		});
 	}
 };

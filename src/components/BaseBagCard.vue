@@ -35,7 +35,7 @@
 						</v-col>
 
 						<v-col class="px-0">
-							<v-btn icon @click.stop="modalTrue">
+							<v-btn icon @click.stop="modalBag">
 								<v-icon>mdi-magnify</v-icon>
 							</v-btn>
 						</v-col>
@@ -63,9 +63,9 @@ export default {
 		};
 	},
 	methods: {
-		modalTrue() {
-			//Todo action
-			eventBus.$emit('modalTrue', true);
+		modalBag() {
+			const handbag = this.handbag;
+			eventBus.$emit('modalTrueAndBag', handbag);
 		}
 	}
 };
