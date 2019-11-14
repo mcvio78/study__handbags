@@ -80,45 +80,21 @@
 export default {
 	name: 'Home',
 	data() {
-		// TODO Complete responsive photos with relative paths.
 		return {
+			heroLarge: require('../assets/img/hero_large.jpg'),
+			heroLargeHiDpi: require('../assets/img/hero_large--hi-dpi.jpg'),
+			heroMedium: require('../assets/img/hero_medium.jpg'),
+			heroMediumHiDpi: require('../assets/img/hero_medium--hi-dpi.jpg'),
+			heroSmall: require('../assets/img/hero_small.jpg'),
+			heroSmallHiDpi: require('../assets/img/hero_small--hi-dpi.jpg'),
+			heroSmaller: require('../assets/img/hero_smaller.jpg'),
+			heroSmallerHiDpi: require('../assets/img/hero_smaller--hi-dpi.jpg'),
+			heroSmallest: require('../assets/img/hero_smallest.jpg'),
+			//Todo look if heroSmallestHiDpi is necessary.
+			// heroSmallestHiDpi: require('./../../public/img/hero_smallest--hi-dpi.jpg'),
+			heroMediumFallback: require('../assets/img/hero_medium--fallback.jpg'),
 			myDescription: 'An Image of a couple of Handbags.'
 		};
-	},
-	computed: {
-		heroLarge() {
-			return require('./../../public/img/hero_large.jpg');
-		},
-		heroLargeHiDpi() {
-			return require('./../../public/img/hero_large--hi-dpi.jpg');
-		},
-		heroMedium() {
-			return require('./../../public/img/hero_medium.jpg');
-		},
-		heroMediumHiDpi() {
-			return require('./../../public/img/hero_medium--hi-dpi.jpg');
-		},
-		heroSmall() {
-			return require('./../../public/img/hero_small.jpg');
-		},
-		heroSmallHiDpi() {
-			return require('./../../public/img/hero_small--hi-dpi.jpg');
-		},
-		heroSmaller() {
-			return require('./../../public/img/hero_smaller.jpg');
-		},
-		heroSmallerHiDpi() {
-			return require('./../../public/img/hero_smaller--hi-dpi.jpg');
-		},
-		heroSmallest() {
-			return require('./../../public/img/hero_smallest.jpg');
-		},
-		// heroSmallestHiDpi() {
-		// 	return require('../../public/img/hero_smallest--hi-dpi.jpg');
-		// },
-		heroMediumFallback() {
-			return require('./../../public/img/hero_medium--fallback.jpg');
-		}
 	}
 };
 </script>
