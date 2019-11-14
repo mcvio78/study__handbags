@@ -23,6 +23,8 @@ export default new Vuex.Store({
 					price: 40,
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_02/patrizia-dots-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_02/patrizia-dots-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_02/patrizia-dots--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_02/patrizia-dots--hi-dpi.jpg'),
 					quantity: 1
 				},
 				patrizia_03: {
@@ -30,6 +32,8 @@ export default new Vuex.Store({
 					name: 'Patrizia Flowers',
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_03/patrizia-flowers-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_03/patrizia-flowers-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_03/patrizia-flowers--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_03/patrizia-flowers--hi-dpi.jpg'),
 					price: 40,
 					quantity: 5
 				},
@@ -38,6 +42,8 @@ export default new Vuex.Store({
 					name: 'Patrizia Painting',
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_04/patrizia-painting-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_04/patrizia-painting-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_04/patrizia-painting--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_04/patrizia-painting--hi-dpi.jpg'),
 					price: 40,
 					quantity: 7
 				},
@@ -46,6 +52,8 @@ export default new Vuex.Store({
 					name: 'Patrizia Art',
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_05/patrizia-art-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_05/patrizia-art-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_05/patrizia-art--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_05/patrizia-art--hi-dpi.jpg'),
 					price: 40,
 					quantity: 11
 				},
@@ -54,6 +62,8 @@ export default new Vuex.Store({
 					name: 'Patrizia Aqua',
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_06/patrizia-aqua-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_06/patrizia-aqua-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_06/patrizia-aqua--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_06/patrizia-aqua--hi-dpi.jpg'),
 					price: 40,
 					quantity: 2
 				},
@@ -62,6 +72,8 @@ export default new Vuex.Store({
 					name: 'Patrizia Venice',
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_07/patrizia-venice-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_07/patrizia-venice-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_07/patrizia-venice--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_07/patrizia-venice--hi-dpi.jpg'),
 					price: 40,
 					quantity: 8
 				},
@@ -70,6 +82,8 @@ export default new Vuex.Store({
 					name: 'Patrizia U.S.',
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_08/patrizia-us-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_08/patrizia-us-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_08/patrizia-us--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_08/patrizia-us--hi-dpi.jpg'),
 					price: 40,
 					quantity: 9
 				},
@@ -78,6 +92,8 @@ export default new Vuex.Store({
 					name: 'Patrizia Cusco',
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_09/patrizia-cusco-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_09/patrizia-cusco-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_09/patrizia-cusco--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_09/patrizia-cusco--hi-dpi.jpg'),
 					price: 40,
 					quantity: 14
 				},
@@ -86,6 +102,8 @@ export default new Vuex.Store({
 					name: 'Patrizia Mandala',
 					imagePreviewLo: require('./../server/img/patrizia/patrizia_10/patrizia-mandala-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/patrizia/patrizia_10/patrizia-mandala-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/patrizia/patrizia_10/patrizia-mandala--lo-dpi.jpg'),
+					imageHi: require('./../server/img/patrizia/patrizia_10/patrizia-mandala--hi-dpi.jpg'),
 					price: 40,
 					quantity: 5
 				}
