@@ -1,5 +1,5 @@
 <template>
-	<v-card class="d-inline-block ma-2 ma-md-3 ma-lg-4 elevation-12" @click.stop>
+	<v-card class="d-inline-block ma-2 ma-md-3 ma-lg-4 elevation-12" @click.native.stop>
 		<v-container>
 			<v-row>
 				<v-col cols="auto">
