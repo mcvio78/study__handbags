@@ -113,6 +113,8 @@ export default new Vuex.Store({
 					name: 'Olivia Owl',
 					imagePreviewLo: require('./../server/img/olivia/olivia_01/olivia-owl-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/olivia/olivia_01/olivia-owl-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/olivia/olivia_01/olivia-owl--lo-dpi.jpg'),
+					imageHi: require('./../server/img/olivia/olivia_01/olivia-owl--hi-dpi.jpg'),
 					price: 35,
 					quantity: 6
 				},
@@ -120,6 +122,8 @@ export default new Vuex.Store({
 					name: 'Olivia Love',
 					imagePreviewLo: require('./../server/img/olivia/olivia_02/olivia-love-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/olivia/olivia_02/olivia-love-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/olivia/olivia_02/olivia-love--lo-dpi.jpg'),
+					imageHi: require('./../server/img/olivia/olivia_02/olivia-love--hi-dpi.jpg'),
 					price: 35,
 					quantity: 8
 				},
@@ -127,6 +131,8 @@ export default new Vuex.Store({
 					name: 'Olivia Crane',
 					imagePreviewLo: require('./../server/img/olivia/olivia_03/olivia-crane-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/olivia/olivia_03/olivia-crane-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/olivia/olivia_03/olivia-crane--lo-dpi.jpg'),
+					imageHi: require('./../server/img/olivia/olivia_03/olivia-crane--hi-dpi.jpg'),
 					price: 35,
 					quantity: 11
 				},
@@ -134,6 +140,8 @@ export default new Vuex.Store({
 					name: 'Olivia Marilyn',
 					imagePreviewLo: require('./../server/img/olivia/olivia_04/olivia-marilyn-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/olivia/olivia_04/olivia-marilyn-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/olivia/olivia_04/olivia-marilyn--lo-dpi.jpg'),
+					imageHi: require('./../server/img/olivia/olivia_04/olivia-marilyn--hi-dpi.jpg'),
 					price: 35,
 					quantity: 1
 				},
@@ -141,6 +149,8 @@ export default new Vuex.Store({
 					name: 'Olivia Cinquecento',
 					imagePreviewLo: require('./../server/img/olivia/olivia_05/olivia-cinquecento-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/olivia/olivia_05/olivia-cinquecento-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/olivia/olivia_05/olivia-cinquecento--lo-dpi.jpg'),
+					imageHi: require('./../server/img/olivia/olivia_05/olivia-cinquecento--hi-dpi.jpg'),
 					price: 35,
 					quantity: 9
 				},
@@ -148,6 +158,8 @@ export default new Vuex.Store({
 					name: 'Olivia B&W',
 					imagePreviewLo: require('./../server/img/olivia/olivia_06/olivia-bw-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/olivia/olivia_06/olivia-bw-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/olivia/olivia_06/olivia-bw--lo-dpi.jpg'),
+					imageHi: require('./../server/img/olivia/olivia_06/olivia-bw--hi-dpi.jpg'),
 					price: 35,
 					quantity: 6
 				},
@@ -155,6 +167,8 @@ export default new Vuex.Store({
 					name: 'Olivia Route 66',
 					imagePreviewLo: require('./../server/img/olivia/olivia_07/olivia-route66-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/olivia/olivia_07/olivia-route66-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/olivia/olivia_07/olivia-route66--lo-dpi.jpg'),
+					imageHi: require('./../server/img/olivia/olivia_07/olivia-route66--hi-dpi.jpg'),
 					price: 35,
 					quantity: 7
 				}
@@ -164,6 +178,8 @@ export default new Vuex.Store({
 					name: 'Melania Military',
 					imagePreviewLo: require('./../server/img/melania/melania_01/melania-military-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/melania/melania_01/melania-military-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/melania/melania_01/melania-military--lo-dpi.jpg'),
+					imageHi: require('./../server/img/melania/melania_01/melania-military--hi-dpi.jpg'),
 					price: 65,
 					quantity: 12
 				},
@@ -171,6 +187,8 @@ export default new Vuex.Store({
 					name: 'Melania Pop Art',
 					imagePreviewLo: require('./../server/img/melania/melania_02/melania-pop-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/melania/melania_02/melania-pop-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/melania/melania_02/melania-pop--lo-dpi.jpg'),
+					imageHi: require('./../server/img/melania/melania_02/melania-pop--hi-dpi.jpg'),
 					price: 65,
 					quantity: 4
 				},
@@ -178,6 +196,8 @@ export default new Vuex.Store({
 					name: 'Melania Sneakers',
 					imagePreviewLo: require('./../server/img/melania/melania_03/melania-sneakers--preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/melania/melania_03/melania-sneakers--preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/melania/melania_03/melania-sneakers--lo-dpi.jpg'),
+					imageHi: require('./../server/img/melania/melania_03/melania-sneakers--hi-dpi.jpg'),
 					price: 65,
 					quantity: 5
 				},
@@ -185,6 +205,8 @@ export default new Vuex.Store({
 					name: 'Melania Ballerina',
 					imagePreviewLo: require('./../server/img/melania/melania_04/melania-ballerina-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/melania/melania_04/melania-ballerina-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/melania/melania_04/melania-ballerina--lo-dpi.jpg'),
+					imageHi: require('./../server/img/melania/melania_04/melania-ballerina--hi-dpi.jpg'),
 					price: 65,
 					quantity: 3
 				},
@@ -192,6 +214,8 @@ export default new Vuex.Store({
 					name: 'Melania Vogue',
 					imagePreviewLo: require('./../server/img/melania/melania_05/melania-vogue-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/melania/melania_05/melania-vogue-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/melania/melania_05/melania-vogue--lo-dpi.jpg'),
+					imageHi: require('./../server/img/melania/melania_05/melania-vogue--hi-dpi.jpg'),
 					price: 65,
 					quantity: 11
 				}
@@ -201,6 +225,8 @@ export default new Vuex.Store({
 					name: 'Anna Crane',
 					imagePreviewLo: require('./../server/img/anna/anna_01/anna-crane-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_01/anna-crane-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_01/anna-crane--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_01/anna-crane--hi-dpi.jpg'),
 					price: 25,
 					quantity: 9
 				},
@@ -208,6 +234,8 @@ export default new Vuex.Store({
 					name: 'Anna Cats',
 					imagePreviewLo: require('./../server/img/anna/anna_02/anna-cats-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_02/anna-cats-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_02/anna-cats--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_02/anna-cats--hi-dpi.jpg'),
 					price: 25,
 					quantity: 11
 				},
@@ -215,6 +243,8 @@ export default new Vuex.Store({
 					name: 'Anna Piano',
 					imagePreviewLo: require('./../server/img/anna/anna_03/anna-piano-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_03/anna-piano-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_03/anna-piano--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_03/anna-piano--hi-dpi.jpg'),
 					price: 25,
 					quantity: 7
 				},
@@ -222,6 +252,8 @@ export default new Vuex.Store({
 					name: 'Anna Sneakers',
 					imagePreviewLo: require('./../server/img/anna/anna_04/anna-sneakers-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_04/anna-sneakers-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_04/anna-sneakers--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_04/anna-sneakers--hi-dpi.jpg'),
 					price: 25,
 					quantity: 2
 				},
@@ -229,6 +261,8 @@ export default new Vuex.Store({
 					name: 'Anna B&W',
 					imagePreviewLo: require('./../server/img/anna/anna_05/anna-bw-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_05/anna-bw-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_05/anna-bw--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_05/anna-bw--hi-dpi.jpg'),
 					price: 25,
 					quantity: 3
 				},
@@ -236,6 +270,8 @@ export default new Vuex.Store({
 					name: 'Anna Pink Flowers',
 					imagePreviewLo: require('./../server/img/anna/anna_06/anna-pinkflowers-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_06/anna-pinkflowers-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_06/anna-pinkflowers--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_06/anna-pinkflowers--hi-dpi.jpg'),
 					price: 25,
 					quantity: 6
 				},
@@ -243,6 +279,8 @@ export default new Vuex.Store({
 					name: 'Anna Blue Flowers',
 					imagePreviewLo: require('./../server/img/anna/anna_07/anna-blueflowers-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_07/anna-blueflowers-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_07/anna-blueflowers--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_07/anna-blueflowers--hi-dpi.jpg'),
 					price: 25,
 					quantity: 1
 				},
@@ -250,6 +288,8 @@ export default new Vuex.Store({
 					name: 'Anna Route 66',
 					imagePreviewLo: require('./../server/img/anna/anna_08/anna-route-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_08/anna-route-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_08/anna-route--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_08/anna-route--hi-dpi.jpg'),
 					price: 25,
 					quantity: 11
 				},
@@ -257,6 +297,8 @@ export default new Vuex.Store({
 					name: 'Anna Black Flowers',
 					imagePreviewLo: require('./../server/img/anna/anna_09/anna-blackflowers-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_09/anna-blackflowers-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_09/anna-blackflowers--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_09/anna-blackflowers--hi-dpi.jpg'),
 					price: 25,
 					quantity: 2
 				},
@@ -264,6 +306,8 @@ export default new Vuex.Store({
 					name: 'Anna Black Cat',
 					imagePreviewLo: require('./../server/img/anna/anna_10/anna-blackcat-preview--lo-dpi.jpg'),
 					imagePreviewHi: require('./../server/img/anna/anna_10/anna-blackcat-preview--hi-dpi.jpg'),
+					imageLo: require('./../server/img/anna/anna_10/anna-blackcat--lo-dpi.jpg'),
+					imageHi: require('./../server/img/anna/anna_10/anna-blackcat--hi-dpi.jpg'),
 					price: 25,
 					quantity: 12
 				}

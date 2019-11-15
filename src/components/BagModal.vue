@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 	<!-- Todo this has to be lazy.  -->
 	<v-row justify="center" class="pa-0 ma-0">
-		<v-dialog v-model="dialog" persistent max-width="100vh">
+		<v-dialog v-model="dialog" persistent max-width="1000px">
 			<v-card>
 				<v-card-title class="custom-selector" :class="this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'">{{
 					bagModel.name
@@ -20,8 +20,20 @@
 				</v-card-text>
 				<v-card-actions class="pt-0">
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" text @click="dialog = false">Close</v-btn>
-					<v-btn color="green darken-1" text @click="dialog = false">To Cart</v-btn>
+					<v-btn
+						color="red darken-1"
+						:class="this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'"
+						text
+						@click="dialog = false"
+						>Close</v-btn
+					>
+					<v-btn
+						color="green darken-1"
+						:class="this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'"
+						text
+						@click="dialog = false"
+						>To Cart</v-btn
+					>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
