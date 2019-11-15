@@ -1,15 +1,14 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 	<div>
 		<v-toolbar color="purple darken-1" dark>
-			<!-- TODO link to home -->
-			<router-link :to="{ name: 'home' }"> TODO </router-link>
-
 			<v-toolbar-title class="headline">
 				<span class="font-weight-bold">ZH</span>
 				<span class="font-weight-thin grey--text">andbags</span>
 			</v-toolbar-title>
 
 			<v-spacer></v-spacer>
+
+			<v-btn @click="toHome" v-if="main">Home</v-btn>
 
 			<v-menu offset-y>
 				<template v-slot:activator="{ on }">
@@ -36,6 +35,8 @@
 					</div>
 				</v-list>
 			</v-menu>
+
+			<v-btn color="primary">Login</v-btn>
 		</v-toolbar>
 		<v-btn v-scroll="onScroll" v-show="fab" fab fixed dark bottom right color="pink" @click="toTop">
 			<v-icon>mdi-home</v-icon>
@@ -52,6 +53,9 @@ export default {
 	computed: {
 		bagTypes() {
 			return Object.keys(this.$store.state.handbags);
+		},
+		main() {
+			return this.$route.path !== '/';
 		}
 	},
 	methods: {
@@ -65,6 +69,9 @@ export default {
 		},
 		toBagsList(bagType) {
 			this.$router.push({ name: 'bags-list', params: { bagType: bagType } });
+		},
+		toHome() {
+			this.$router.push({ name: 'home' });
 		}
 	}
 };
