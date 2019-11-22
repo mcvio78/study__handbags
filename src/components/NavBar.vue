@@ -52,7 +52,7 @@ export default {
 	}),
 	computed: {
 		bagTypes() {
-			return Object.keys(this.$store.state.handbags);
+			return Object.keys(this.$store.state.handbags).reverse();
 		},
 		main() {
 			return this.$route.path !== '/';
@@ -73,6 +73,9 @@ export default {
 		toHome() {
 			this.$router.push({ name: 'home' });
 		}
+	},
+	created() {
+		this.$store.dispatch('fetchEvents');
 	}
 };
 </script>
