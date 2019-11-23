@@ -1,7 +1,9 @@
 <template>
 	<div class="bagsList fill-height pink lighten-5">
-		<h1>This is the BagList page</h1>
-		<h2>NavBar prop has been passed: - {{ bagType }} -</h2>
+		<v-row no-gutters class="justify-center">
+			<h1>This is the {{ bagTypeUpperCase }} Collection</h1>
+			<h2>page</h2>
+		</v-row>
 
 		<v-container fluid class="text-center">
 			<v-row no-gutters class="justify-center">
@@ -27,6 +29,11 @@ export default {
 	components: {
 		BagModal
 	},
-	computed: mapState(['handbags'])
+	computed: {
+		bagTypeUpperCase() {
+			return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
+		},
+		...mapState(['handbags'])
+	}
 };
 </script>
