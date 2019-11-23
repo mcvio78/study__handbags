@@ -26,6 +26,7 @@
 
 					<div v-for="(bagType, index) in bagTypes" :key="index" class="d-block d-sm-inline my-2">
 						<v-btn
+							v-if="bagType !== params"
 							color="deep-purple lighten-3"
 							class="ma-sm-1 small"
 							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
@@ -56,6 +57,9 @@ export default {
 		},
 		main() {
 			return this.$route.path !== '/';
+		},
+		params() {
+			return this.$route.params.bagType;
 		}
 	},
 	methods: {
