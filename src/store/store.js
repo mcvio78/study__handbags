@@ -11,19 +11,29 @@ export default new Vuex.Store({
 		user
 	},
 	state: {
-		handbags: {}
+		handbags: {
+			collections: {},
+			patrizia: {},
+			olivia: {},
+			melania: {},
+			anna: {}
+		}
 	},
 	mutations: {
-		SET_EVENTS(state, names) {
-			state.handbags = names;
+		SET_HANDBAGS(state, payload) {
+			state.handbags[payload.subField] = payload.responseData;
 		}
 	},
 	actions: {
-		fetchEvents({ state, commit }) {
-			HandbagsService.getHandbagsService()
+		fetchHandbags({ state, commit }, subField) {
+			HandbagsService.getHandbagService(subField)
 				.then(response => {
 					if (state.user.user.name === 'Mauro') {
-						commit('SET_EVENTS', response.data);
+						const payload = {
+							subField: subField,
+							responseData: response.data
+						};
+						commit('SET_HANDBAGS', payload);
 					}
 				})
 				.catch(error => {
