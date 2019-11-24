@@ -34,6 +34,9 @@ export default {
 			return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
 		},
 		...mapState(['handbags'])
+	},
+	created() {
+		this.$store.dispatch('fetchHandbags', this.bagType);
 	}
 };
 </script>
