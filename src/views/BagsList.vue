@@ -33,7 +33,7 @@ export default {
 		bagTypeUpperCase() {
 			return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
 		},
-		...mapState(['handbags'])
+		...mapState({ handbags: state => state.event.handbags })
 	},
 	created() {
 		this.$store.dispatch('fetchHandbags', this.bagType);

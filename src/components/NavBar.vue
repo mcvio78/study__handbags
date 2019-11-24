@@ -64,7 +64,7 @@ export default {
 		params() {
 			return this.$route.params.bagType;
 		},
-		...mapState({ collections: state => state.handbags.collections })
+		...mapState({ collections: state => state.event.handbags.collections })
 	},
 	methods: {
 		onScroll(e) {
