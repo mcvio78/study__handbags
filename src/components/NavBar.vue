@@ -24,6 +24,7 @@
 						<p><small>Our collection</small></p>
 					</div>
 
+					<!--TODO bad resizing when it returns to home page. -->
 					<div v-for="(bagType, index) in bagTypes" :key="index" class="d-block d-sm-inline my-2">
 						<v-btn
 							v-if="bagType !== params"
@@ -46,6 +47,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	name: 'NavBar.vue',
 	data: () => ({
@@ -53,14 +56,15 @@ export default {
 	}),
 	computed: {
 		bagTypes() {
-			return Object.keys(this.$store.state.handbags).reverse();
+			return Object.values(this.collections);
 		},
 		main() {
 			return this.$route.path !== '/';
 		},
 		params() {
 			return this.$route.params.bagType;
-		}
+		},
+		...mapState({ collections: state => state.handbags.collections })
 	},
 	methods: {
 		onScroll(e) {
@@ -79,7 +83,7 @@ export default {
 		}
 	},
 	created() {
-		this.$store.dispatch('fetchEvents');
+		this.$store.dispatch('fetchHandbags', 'collections');
 	}
 };
 </script>
