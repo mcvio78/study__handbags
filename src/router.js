@@ -2,6 +2,9 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Error_404 from './views/Error_404';
+import Register from './components/Register';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 //
@@ -57,6 +60,21 @@ export default new Router({
 			// this generates a separate chunk (list.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
 			component: () => import(/* webpackChunkName: "list" */ './views/BagsList.vue')
+		},
+		{
+			path: '/login',
+			name: 'login',
+			component: Login
+		},
+		{
+			path: '/register',
+			name: 'Register',
+			component: Register
+		},
+		{
+			path: '/dashboard',
+			name: 'Dashboard',
+			component: Dashboard
 		},
 		{ path: '*', component: Error_404 }
 	]

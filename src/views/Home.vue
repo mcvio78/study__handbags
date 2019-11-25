@@ -2,6 +2,7 @@
 	<v-container fluid class="py-0 purple lighten-5" height="100%">
 		<v-row>
 			<v-col class="text-center pa-0" cols="12">
+				<!-- Todo manage pictures with CSS instead. -->
 				<picture>
 					<source
 						type="image/jpg"
