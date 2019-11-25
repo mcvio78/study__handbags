@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
 	name: 'NavBar.vue',
@@ -56,7 +56,7 @@ export default {
 	}),
 	computed: {
 		bagTypes() {
-			return Object.values(this.collections);
+			return this.collections;
 		},
 		main() {
 			return this.$route.path !== '/';
@@ -80,10 +80,12 @@ export default {
 		},
 		toHome() {
 			this.$router.push({ name: 'home' });
-		}
+		},
+		...mapActions('event', ['fetchHandbags'])
 	},
 	created() {
-		this.$store.dispatch('fetchHandbags', 'collections');
+		//this.$store.dispatch('event/fetchHandbags', 'collections');
+		this.fetchHandbags('collections');
 	}
 };
 </script>
