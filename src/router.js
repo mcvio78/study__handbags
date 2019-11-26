@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Error_404 from './views/Error_404';
-import Register from './components/Register';
+import Register from './views/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import upperFirst from 'lodash/upperFirst';
