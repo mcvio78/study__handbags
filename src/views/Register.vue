@@ -11,6 +11,7 @@
 					@click:append="showPassword = !showPassword"
 					v-model="password"
 					:rules="passwordRules"
+					autocomplete="on"
 					required
 				></v-text-field>
 
@@ -38,7 +39,7 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export default {
 	data() {
@@ -68,10 +69,11 @@ export default {
 					.then(data => {
 						data.user
 							.updateProfile({
-								displayName: this.form.name
+								displayName: this.name
 							})
 							.then(() => {
-								// Code here...
+								// console.log(data.user);
+								this.$router.push({ name: 'home' });
 							});
 					})
 					.catch(err => {
