@@ -25,7 +25,7 @@
 					</div>
 
 					<!--TODO bad resizing when it returns to home page. -->
-					<div v-for="(bagType, index) in bagTypes" :key="index" class="d-block d-sm-inline my-2">
+					<div v-for="(bagType, index) in collections" :key="index" class="d-block d-sm-inline my-2">
 						<v-btn
 							v-if="bagType !== params"
 							color="deep-purple lighten-3"
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'NavBar.vue',
@@ -55,9 +55,6 @@ export default {
 		fab: false
 	}),
 	computed: {
-		bagTypes() {
-			return this.collections;
-		},
 		main() {
 			return this.$route.path !== '/';
 		},
@@ -80,12 +77,14 @@ export default {
 		},
 		toHome() {
 			this.$router.push({ name: 'home' });
-		},
-		...mapActions('event', ['fetchHandbags'])
-	},
-	created() {
-		//this.$store.dispatch('event/fetchHandbags', 'collections');
-		this.fetchHandbags('collections');
+		}
+		//...mapActions('event', ['fetchHandbags'])
 	}
+	// created() {
+	// 	if(this.collections.length === 0){
+	// 		//this.$store.dispatch('event/fetchHandbags', 'collections');
+	// 		this.fetchHandbags('collections');
+	// 	}
+	// }
 };
 </script>
