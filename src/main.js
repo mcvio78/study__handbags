@@ -9,7 +9,6 @@ Vue.config.productionTip = false;
 
 import vuetify from './plugins/vuetify';
 
-//todo momentary eventBus
 export const eventBus = new Vue();
 
 new Vue({
