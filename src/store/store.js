@@ -11,6 +11,5 @@ export default new Vuex.Store({
 		user,
 		event,
 		notification
-	},
-	state: {}
+	}
 });
