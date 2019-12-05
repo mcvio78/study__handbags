@@ -7,6 +7,8 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
+import { eventBus } from './main';
+import store from './store/store';
 //
 const requireComponent = require.context(
 	// The relative path of the components folder
@@ -43,24 +45,43 @@ requireComponent.keys().forEach(fileName => {
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
 	mode: 'history',
 	base: process.env.BASE_URL,
 	routes: [
 		{
 			path: '/',
 			name: 'home',
-			component: Home
+			component: Home,
+			beforeEnter(routeTo, routeFrom, next) {
+				store.dispatch('event/fetchHandbags', 'collections').then(() => {
+					next();
+				});
+			}
 		},
 		{
+			//Todo try to filter inexistent dynamic route segments.
 			path: '/list/:bagType',
 			name: 'bags-list',
 			props: true,
 			// route level code-splitting
 			// this generates a separate chunk (list.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
-			component: () => import(/* webpackChunkName: "list" */ './views/BagsList.vue')
+			component: () => import(/* webpackChunkName: "list" */ './views/BagsList.vue'),
+			beforeEnter(routeTo, routeFrom, next) {
+				if (!store.state.event.handbags.collection) {
+					store.dispatch('event/fetchHandbags', 'collections').then(() => {
+						if (!Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)) {
+							router.push({ name: 'home' });
+						}
+					});
+				}
+				store.dispatch('event/fetchHandbags', routeTo.params.bagType).then(() => {
+					next();
+				});
+			}
 		},
+		//Todo lazy import for the rest of components.
 		{
 			path: '/login',
 			name: 'login',
@@ -68,14 +89,25 @@ export default new Router({
 		},
 		{
 			path: '/register',
-			name: 'Register',
+			name: 'register',
 			component: Register
 		},
 		{
 			path: '/dashboard',
-			name: 'Dashboard',
+			name: 'dashboard',
 			component: Dashboard
 		},
 		{ path: '*', component: Error_404 }
 	]
 });
+
+router.beforeEach((routeTo, routeFrom, next) => {
+	eventBus.$emit('progressBarState', true);
+	next();
+});
+
+router.afterEach(() => {
+	eventBus.$emit('progressBarState', false);
+});
+
+export default router;
