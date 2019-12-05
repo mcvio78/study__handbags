@@ -14,16 +14,17 @@ export const state = {
 
 export const mutations = {
 	SET_HANDBAGS(state, payload) {
-		// state.handbags[payload.subField] = payload.responseData;
+		//state.handbags[payload.subField] = payload.responseData;
 		state.handbags = { ...state.handbags, [payload.subField]: payload.responseData };
 	}
 };
 
 export const actions = {
-	fetchHandbags({ rootState, commit, getters }, subField) {
+	fetchHandbags({ rootState, commit, getters, dispatch }, subField) {
 		if (!getters.checkIfCollectionExists(subField)) {
-			HandbagsService.getHandbagService(subField)
+			return HandbagsService.getHandbagService(subField)
 				.then(response => {
+					//Todo remove user authentication here
 					if (rootState.user.user.name === 'Mauro') {
 						const payload = {
 							subField: subField,
@@ -33,10 +34,15 @@ export const actions = {
 					}
 				})
 				.catch(error => {
-					console.log('There was a problem fetching events: ', error.message);
+					const notification = {
+						type: error,
+						message: `There was a problem fetching collections: ${error.message}`
+					};
+					dispatch('notification/add', notification, { root: true });
 				});
 		}
 	}
+	//Todo when you POST/PATCH/DELETE it needs: SUCCESS and ERROR+THROW
 };
 
 export const getters = {
