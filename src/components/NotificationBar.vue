@@ -1,8 +1,14 @@
 <template>
 	<v-alert prominent type="error">
 		<v-row align="center">
-			<h2 class="pa-sm-2" :class="notification.type.isAxiosError ? 'white--text' : 'grey--text'">
-				{{ notification.message }}
+			<h2
+				class="pa-sm-2"
+				:class="[
+					notification.type.isAxiosError ? 'white--text' : 'grey--text',
+					this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'
+				]"
+			>
+				Error {{ notification.id }} : {{ notification.message }}
 			</h2>
 		</v-row>
 	</v-alert>

@@ -10,7 +10,7 @@ export const mutations = {
 	PUSH(state, notification) {
 		// *TodoDone* chech if object destructuring works instead
 		// state.notifications.push({ ...notification, id: nextId });
-		state.notifications = [...state.notifications, { ...notification, id: nextId }];
+		state.notifications = [...state.notifications, { ...notification, id: nextId++ }];
 	},
 	DELETE(state, notificationToRemove) {
 		state.notifications = state.notifications.filter(notification => notification.id !== notificationToRemove.id);
