@@ -1,8 +1,16 @@
 <template>
 	<div class="bagsList fill-height pink lighten-5">
-		<v-row no-gutters class="justify-center">
-			<h1>This is the {{ bagTypeUpperCase }} Collection</h1>
-			<h2>page</h2>
+		<v-row no-gutters>
+			<v-col class="text-center">
+				<p :class="[this.$vuetify.breakpoint.xs ? 'headline' : 'display-1']" class="mb-0 mt-2">
+					This is the {{ bagTypeUpperCase }} Collection<span
+						class="font-italic"
+						:class="[this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline']"
+					>
+						page</span
+					>
+				</p>
+			</v-col>
 		</v-row>
 
 		<v-container fluid class="text-center">
