@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Error_404 from './views/Error_404';
-import Register from './views/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import upperFirst from 'lodash/upperFirst';
@@ -60,26 +59,13 @@ const router = new Router({
 			}
 		},
 		{
-			//Todo try to filter inexistent dynamic route segments.
 			path: '/list/:bagType',
 			name: 'bags-list',
 			props: true,
 			// route level code-splitting
 			// this generates a separate chunk (list.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
-			component: () => import(/* webpackChunkName: "list" */ './views/BagsList.vue'),
-			beforeEnter(routeTo, routeFrom, next) {
-				if (!store.state.event.handbags.collection) {
-					store.dispatch('event/fetchHandbags', 'collections').then(() => {
-						if (!Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)) {
-							router.push({ name: 'home' });
-						}
-					});
-				}
-				store.dispatch('event/fetchHandbags', routeTo.params.bagType).then(() => {
-					next();
-				});
-			}
+			component: () => import(/* webpackChunkName: "list" */ './views/BagsList.vue')
 		},
 		//Todo lazy import for the rest of components.
 		{
@@ -90,7 +76,7 @@ const router = new Router({
 		{
 			path: '/register',
 			name: 'register',
-			component: Register
+			component: () => import(/* webpackChunkName: "register" */ './views/Register.vue')
 		},
 		{
 			path: '/dashboard',
