@@ -10,8 +10,8 @@ import { eventBus } from '././../main';
 export default {
 	data() {
 		return {
-			show: '',
-			query: '',
+			show: false,
+			query: false,
 			value: 0,
 			interval: 0
 		};
