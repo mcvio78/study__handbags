@@ -26,12 +26,13 @@
 import { mapState } from 'vuex';
 import BagModal from './../components/BagModal';
 import store from './../store/store';
+import route from './../router';
 
 function getCollection(routeTo, next) {
-	if (!store.state.event.handbags.collection) {
+	if (!store.state.event.handbags.collections) {
 		store.dispatch('event/fetchHandbags', 'collections').then(() => {
 			if (!Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)) {
-				this.$router.push({ name: 'home' });
+				route.push({ name: 'home' });
 			}
 		});
 	}
