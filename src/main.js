@@ -7,7 +7,7 @@ import 'firebase/auth';
 
 Vue.config.productionTip = false;
 
-import vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify'; //Vue.use(Vuetify)
 
 export const eventBus = new Vue();
 

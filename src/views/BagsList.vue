@@ -3,7 +3,7 @@
 		<v-row no-gutters>
 			<v-col class="text-center">
 				<p :class="[this.$vuetify.breakpoint.xs ? 'headline' : 'display-1']" class="mb-0 mt-2">
-					This is the {{ bagTypeUpperCase }} Collection<span
+					This is the {{ bagType | firstCapital }} Collection<span
 						class="font-italic"
 						:class="[this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline']"
 					>
@@ -27,6 +27,7 @@ import { mapState } from 'vuex';
 import BagModal from './../components/BagModal';
 import store from './../store/store';
 import route from './../router';
+import firstCapital from './../filters/firstCapital';
 
 function getCollection(routeTo, next) {
 	if (!store.state.event.handbags.collections) {
@@ -59,10 +60,13 @@ export default {
 		BagModal
 	},
 	computed: {
-		bagTypeUpperCase() {
-			return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
-		},
+		// bagTypeUpperCase() {
+		// 	return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
+		// },
 		...mapState({ handbags: state => state.event.handbags })
+	},
+	filters: {
+		firstCapital
 	}
 };
 </script>
