@@ -3,64 +3,49 @@
 		<v-row>
 			<v-col class="text-center pa-0" cols="12">
 				<!-- Todo manage pictures with CSS instead. -->
-				<picture>
-					<source
-						type="image/jpg"
-						media="(min-width: 1380px)"
-						:srcset="heroLarge + ' 1920w, ' + heroLargeHiDpi + ' 3840w'"
-					/>
 
-					<source
-						type="image/jpg"
-						media="(min-width: 990px)"
-						:srcset="heroMedium + ' 1380w, ' + heroMediumHiDpi + ' 2760w'"
-					/>
+				<div class="img">
+					<v-row dense class="fill-height align-center  pa-0 ma-0">
+						<v-col cols="12">
+							<v-card color="rgb(225,190,231, 0.65)" max-width="400" class="mx-auto">
+								<v-card-title class="headline justify-center">Subscribe or Sign in</v-card-title>
 
-					<source
-						type="image/jpg"
-						media="(min-width: 640px)"
-						:srcset="heroSmall + ' 990w, ' + heroSmallHiDpi + ' 1980w'"
-					/>
+								<v-card-actions class="justify-center pb-0">
+									<v-btn x-large color="primary" @click="toSubscribe">Sign up</v-btn>
+								</v-card-actions>
+								<v-card-subtitle class="pt-0">If you don't have an account yet.</v-card-subtitle>
 
-					<source
-						type="image/jpg"
-						media="(min-width: 530px)"
-						:srcset="heroSmaller + ' 640w, ' + heroSmallerHiDpi + ' 1280w'"
-					/>
-
-					<source type="image/jpg" :srcset="heroSmallest + ' 530w'" />
-					<!--TODO decide if:   + ' 530w, ' + heroSmallestHiDpi + ' 1060w'   is necessary or not.-->
-
-					<img
-						type="image/jpg"
-						:src="heroMediumFallback"
-						:srcset="heroSmall + ' 990w, ' + heroLarge + ' 1920w'"
-						:alt="myDescription"
-					/>
-				</picture>
+								<v-card-actions class="justify-center pb-0">
+									<v-btn x-large color="primary">Sign in</v-btn>
+								</v-card-actions>
+								<v-card-subtitle class="pt-0">Have an account?</v-card-subtitle>
+							</v-card>
+						</v-col>
+					</v-row>
+				</div>
 			</v-col>
 		</v-row>
 
 		<v-row class="justify-center">
-			<v-col cols="11" class="col-md-10">
-				<h1 class="display-1 mb-2">Philosophy:</h1>
-				<p>
+			<v-col cols="11" class="pa-0 col-md-10 text-xl-center">
+				<h1 class="display-1 mb-2 mt-4">Philosophy:</h1>
+				<p class="d-lg-inline-block">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos inventore itaque odio omnis optio rem
 					sapiente suscipit tenetur velit voluptate? Alias ducimus, eveniet in itaque nobis optio rem sit vero.
 				</p>
-				<p>
+				<p class="d-lg-inline-block">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos inventore itaque odio omnis optio rem
 					sapiente suscipit tenetur velit voluptate? Alias ducimus, eveniet in itaque nobis optio rem sit vero.
 				</p>
-				<p>
+				<p class="d-lg-inline-block">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos inventore itaque odio omnis optio rem
 					sapiente suscipit tenetur velit voluptate? Alias ducimus, eveniet in itaque nobis optio rem sit vero.
 				</p>
-				<p>
+				<p class="d-lg-inline-block">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos inventore itaque odio omnis optio rem
 					sapiente suscipit tenetur velit voluptate? Alias ducimus, eveniet in itaque nobis optio rem sit vero.
 				</p>
-				<p>
+				<p class="d-lg-inline-block">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos inventore itaque odio omnis optio rem
 					sapiente suscipit tenetur velit voluptate? Alias ducimus, eveniet in itaque nobis optio rem sit vero.
 				</p>
@@ -81,21 +66,85 @@
 export default {
 	name: 'Home',
 	data() {
-		return {
-			heroLarge: require('../assets/img/hero_large.jpg'),
-			heroLargeHiDpi: require('../assets/img/hero_large--hi-dpi.jpg'),
-			heroMedium: require('../assets/img/hero_medium.jpg'),
-			heroMediumHiDpi: require('../assets/img/hero_medium--hi-dpi.jpg'),
-			heroSmall: require('../assets/img/hero_small.jpg'),
-			heroSmallHiDpi: require('../assets/img/hero_small--hi-dpi.jpg'),
-			heroSmaller: require('../assets/img/hero_smaller.jpg'),
-			heroSmallerHiDpi: require('../assets/img/hero_smaller--hi-dpi.jpg'),
-			heroSmallest: require('../assets/img/hero_smallest.jpg'),
-			//Todo look if heroSmallestHiDpi is necessary.
-			// heroSmallestHiDpi: require('./../../public/img/hero_smallest--hi-dpi.jpg'),
-			heroMediumFallback: require('../assets/img/hero_medium--fallback.jpg'),
-			myDescription: 'An Image of a couple of Handbags.'
-		};
+		return {};
+	},
+	methods: {
+		toSubscribe() {
+			this.$router.push({ name: 'subscribe' });
+		}
 	}
 };
 </script>
+
+<style scoped lang="css">
+
+.img {
+	background-image: url('./../assets/img/hero_medium--fallback.jpg');
+	background-image: -webkit-image-set("./../assets/img/hero_small.jpg" 1x, "./../assets/img/hero_large.jpg" 2x);
+	background-image: image-set("./../assets/img/hero_small.jpg" 1x, "./../assets/img/hero_large.jpg" 2x);
+	background-size: cover;
+	background-position: center;
+	height: 654px;
+}
+
+@media (max-width: 530px) {
+	.img {
+		background-image: url('./../assets/img/hero_smallest.jpg');
+		background-image: -webkit-image-set('./../assets/img/hero_smallest.jpg' 1x, './../assets/img/hero_smallest--hi-dpi.jpg' 2x);
+		background-image: image-set('./../assets/img/hero_smallest.jpg' 1x, './../assets/img/hero_smallest--hi-dpi.jpg' 2x);
+		background-size: cover;
+		background-position: center;
+	}
+}
+
+@media (min-width: 530px) {
+	.img {
+		background-image: url('./../assets/img/hero_smaller.jpg');
+		background-image: -webkit-image-set('./../assets/img/hero_smaller.jpg' 1x, './../assets/img/hero_smaller--hi-dpi.jpg' 2x);
+		background-image: image-set('./../assets/img/hero_smaller.jpg' 1x, './../assets/img/hero_smaller--hi-dpi.jpg' 2x);
+		background-size: cover;
+		background-position: center;
+	}
+}
+
+@media (min-width: 640px) {
+	.img {
+		background-image: url('./../assets/img/hero_small.jpg');
+		background-image: -webkit-image-set('./../assets/img/hero_small.jpg' 1x, './../assets/img/hero_small--hi-dpi.jpg' 2x);
+		background-image: image-set('./../assets/img/hero_small.jpg' 1x, './../assets/img/hero_small--hi-dpi.jpg' 2x);
+		background-size: cover;
+		background-position: center;
+	}
+}
+
+@media (min-width: 990px) {
+	.img {
+		background-image: url('./../assets/img/hero_medium.jpg');
+		background-image: -webkit-image-set('./../assets/img/hero_medium.jpg' 1x, './../assets/img/hero_medium--hi-dpi.jpg' 2x);
+		background-image: image-set('./../assets/img/hero_medium.jpg' 1x, './../assets/img/hero_medium--hi-dpi.jpg' 2x);
+		background-size: cover;
+		background-position: center;
+	}
+}
+
+@media (min-width: 1380px) {
+	.img {
+		background-image: url('./../assets/img/hero_large.jpg');
+		background-image: -webkit-image-set('./../assets/img/hero_large.jpg' 1x, './../assets/img/hero_large--hi-dpi.jpg' 2x);
+		background-image: image-set('./../assets/img/hero_large.jpg' 1x, './../assets/img/hero_large--hi-dpi.jpg' 2x);
+		background-size: cover;
+		background-position: center;
+	}
+}
+
+@media (min-width: 1920px) {
+	.img {
+		background-image: url('./../assets/img/hero_large--hi-dpi.jpg');
+		background-image: -webkit-image-set('./../assets/img/hero_large--hi-dpi.jpg' 1x);
+		background-image: image-set('./../assets/img/hero_large--hi-dpi.jpg' 1x);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+	}
+}
+</style>

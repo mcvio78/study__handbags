@@ -37,8 +37,6 @@
 					</div>
 				</v-list>
 			</v-menu>
-
-			<v-btn color="primary">Login</v-btn>
 		</v-toolbar>
 		<v-btn v-scroll="onScroll" v-show="fab" fab fixed dark bottom right color="pink" @click="toTop">
 			<v-icon>mdi-home</v-icon>
