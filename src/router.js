@@ -3,7 +3,6 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Error_404 from './views/Error_404';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import { eventBus } from './main';
@@ -74,14 +73,9 @@ const router = new Router({
 			component: Login
 		},
 		{
-			path: '/register',
-			name: 'register',
-			component: () => import(/* webpackChunkName: "register" */ './views/Register.vue')
-		},
-		{
-			path: '/dashboard',
-			name: 'dashboard',
-			component: Dashboard
+			path: '/subscribe',
+			name: 'subscribe',
+			component: () => import(/* webpackChunkName: "subscribe" */ './views/Subscribe.vue')
 		},
 		{ path: '*', component: Error_404 }
 	]

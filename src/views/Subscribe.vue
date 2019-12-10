@@ -42,6 +42,7 @@
 import firebase from 'firebase/app';
 
 export default {
+	name: 'Subscribe',
 	data() {
 		return {
 			valid: true,
