@@ -1,15 +1,16 @@
 <template>
-	<v-alert prominent type="error">
-		<v-row align="center">
-			<h2
-				class="pa-sm-2"
-				:class="[
-					notification.type.isAxiosError ? 'white--text' : 'grey--text',
-					this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'
-				]"
-			>
-				Error {{ notification.id }} : {{ notification.message }}
-			</h2>
+	<v-alert prominent :type="notification.type">
+		<v-row v-if="!isError" class="pr-10">
+			<v-col>
+				<h1>Thanks {{ notification.name }}!</h1>
+			</v-col>
+		</v-row>
+		<v-row class="pr-6">
+			<v-col>
+				<h2 class="pa-sm-2" :class="[this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline']">
+					<span v-if="isError">Error {{ notification.id }} : </span>{{ notification.message }}
+				</h2>
+			</v-col>
 		</v-row>
 	</v-alert>
 </template>
@@ -29,6 +30,11 @@ export default {
 		return {
 			timeout: null
 		};
+	},
+	computed: {
+		isError() {
+			return this.notification.type === 'error';
+		}
 	},
 	mounted() {
 		this.timeout = setTimeout(() => this.remove(this.notification), 5000);
