@@ -3,9 +3,9 @@
 		<v-overlay :value="notifications.length ? (overlay = true) : overlay">
 			<notification-bar v-for="notification in notifications" :key="notification.id" :notification="notification" />
 			<div class="my-2">
-				<v-btn :disabled="notifications.length > 0" x-large @click="close">
+				<v-btn :disabled="notifications.length > 0" x-large @click="buttonErrOK">
 					<!-- Todo icons align to the center -->
-					<div v-if="typeButton">
+					<div v-if="lastNotifIsSuccess">
 						<p class="display-1 ma-auto"><v-icon large>mdi-check</v-icon> OK</p>
 					</div>
 
@@ -20,7 +20,7 @@
 
 <script>
 import NotificationBar from './NotificationBar';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
 	name: 'NotificationBox',
@@ -30,26 +30,31 @@ export default {
 	data() {
 		return {
 			overlay: false,
-			typeButton: null
+			lastNotifIsSuccess: null
 		};
 	},
 	watch: {
 		notifications() {
 			if (this.notifications.length) {
-				this.typeButton = this.notifications['0']['type'] === 'success';
+				this.lastNotifIsSuccess = this.notifications['0']['type'] === 'success';
+			} else {
+				this.resetTemporaryId();
 			}
 		}
 	},
-	computed: mapState('notification', ['notifications']),
+	computed: mapState('notification', ['notifications', 'temporaryId']),
 	methods: {
-		close() {
+		buttonErrOK() {
 			this.overlay = false;
-			if (this.$route.path === '/' && this.typeButton === false) {
+			if (this.lastNotifIsSuccess === false && this.$route.path === '/') {
 				this.$router.go();
+			} else if (this.lastNotifIsSuccess === false) {
+				//Todo add home button or remove this else if.
 			} else {
 				this.$router.push({ name: 'home' });
 			}
-		}
+		},
+		...mapActions('notification', ['resetTemporaryId'])
 	}
 };
 </script>
