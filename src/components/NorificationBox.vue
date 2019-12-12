@@ -44,7 +44,7 @@ export default {
 	methods: {
 		close() {
 			this.overlay = false;
-			if (this.$route.path === '/') {
+			if (this.$route.path === '/' && this.typeButton === false) {
 				this.$router.go();
 			} else {
 				this.$router.push({ name: 'home' });

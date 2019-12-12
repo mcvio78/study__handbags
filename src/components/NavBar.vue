@@ -76,13 +76,6 @@ export default {
 		toHome() {
 			this.$router.push({ name: 'home' });
 		}
-		//...mapActions('event', ['fetchHandbags'])
 	}
-	// created() {
-	// 	if(this.collections.length === 0){
-	// 		//this.$store.dispatch('event/fetchHandbags', 'collections');
-	// 		this.fetchHandbags('collections');
-	// 	}
-	// }
 };
 </script>
