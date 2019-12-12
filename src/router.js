@@ -77,6 +77,11 @@ const router = new Router({
 			name: 'subscribe',
 			component: () => import(/* webpackChunkName: "subscribe" */ './views/Subscribe.vue')
 		},
+		{
+			path: '/authentication',
+			name: 'authentication',
+			component: () => import(/* webpackChunkName: "authentication" */ './views/Authentication.vue')
+		},
 		{ path: '*', component: Error_404 }
 	]
 });

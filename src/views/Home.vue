@@ -16,7 +16,7 @@
 								<v-card-subtitle class="pt-0">If you don't have an account yet.</v-card-subtitle>
 
 								<v-card-actions class="justify-center pb-0">
-									<v-btn x-large color="primary">Sign in</v-btn>
+									<v-btn x-large color="primary" @click="toAuthentication">Sign in</v-btn>
 								</v-card-actions>
 								<v-card-subtitle class="pt-0">Have an account?</v-card-subtitle>
 							</v-card>
@@ -73,6 +73,9 @@ export default {
 	methods: {
 		toSubscribe() {
 			this.$router.push({ name: 'subscribe' });
+		},
+		toAuthentication() {
+			this.$router.push({ name: 'authentication' });
 		}
 	}
 };
