@@ -40,6 +40,7 @@
 
 <script>
 import firebase from 'firebase/app';
+import store from './../store/store';
 
 export default {
 	name: 'Subscribe',
@@ -74,6 +75,12 @@ export default {
 							})
 							.then(() => {
 								// console.log(data.user);
+								const notification = {
+									type: 'success',
+									name: this.name,
+									message: 'Your registratin has been successful!'
+								};
+								store.dispatch('notification/add', notification, { root: true });
 								this.$router.push({ name: 'home' });
 							});
 					})

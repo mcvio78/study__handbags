@@ -5,7 +5,7 @@
 				<!-- Todo manage pictures with CSS instead. -->
 
 				<div class="img">
-					<v-row dense class="fill-height align-center  pa-0 ma-0">
+					<v-row v-if="signCard" dense class="fill-height align-center  pa-0 ma-0">
 						<v-col cols="12">
 							<v-card color="rgb(225,190,231, 0.65)" max-width="400" class="mx-auto">
 								<v-card-title class="headline justify-center">Subscribe or Sign in</v-card-title>
@@ -27,7 +27,7 @@
 		</v-row>
 
 		<v-row class="justify-center">
-			<v-col cols="11" class="pa-0 col-md-10 text-xl-center">
+			<v-col cols="11" class="pa-0 col-md-10 col-lg-11 text-xl-center">
 				<h1 class="display-1 mb-2 mt-4">Philosophy:</h1>
 				<p class="d-lg-inline-block">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos inventore itaque odio omnis optio rem
@@ -66,7 +66,9 @@
 export default {
 	name: 'Home',
 	data() {
-		return {};
+		return {
+			signCard: true
+		};
 	},
 	methods: {
 		toSubscribe() {
