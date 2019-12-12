@@ -85,7 +85,14 @@ export default {
 							});
 					})
 					.catch(err => {
-						this.error = err.message;
+						//this.error = err.message;
+
+						const notification = {
+							type: 'error',
+							message: `There was a problem with your subscription: ${err.message}`
+						};
+						store.dispatch('notification/add', notification, { root: true });
+						this.$router.push({ name: 'home' });
 					});
 			}
 		},
