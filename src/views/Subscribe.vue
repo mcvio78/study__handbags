@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
 	name: 'Subscribe',
 	data() {
@@ -58,38 +60,14 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions('user', ['signUpAction']),
 		validate() {
 			if (this.$refs.form.validate()) {
 				// Will validate all inputs and return if they are all valid or not
 				// Registration Code
-				// firebase
-				// 	.auth()
-				// 	.createUserWithEmailAndPassword(this.email, this.password)
-				// 	.then(data => {
-				// 		data.user
-				// 			.updateProfile({
-				// 				displayName: this.name
-				// 			})
-				// 			.then(() => {
-				// 				// console.log(data.user);
-				// 				const notification = {
-				// 					type: 'success',
-				// 					name: this.name,
-				// 					message: 'Your registratin has been successful!'
-				// 				};
-				// 				store.dispatch('notification/add', notification, { root: true });
-				// 			});
-				// 	})
-				// 	.catch(err => {
-				// 		//this.error = err.message;
-				//
-				// 		const notification = {
-				// 			type: 'error',
-				// 			message: `There was a problem with your subscription: ${err.message}`
-				// 		};
-				// 		store.dispatch('notification/add', notification, { root: true });
-				// 		this.$router.push({ name: 'home' });
-				// 	});
+
+				const user = { email: this.email, password: this.password, name: this.name };
+				this.signUpAction(user);
 			}
 		},
 		reset() {

@@ -22,20 +22,39 @@ export const mutations = {
 };
 
 export const actions = {
-	signUpAction({ commit }, payload) {
+	signUpAction({ commit, dispatch }, payload) {
 		commit('SETSTATUS', 'loading');
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(payload.email, payload.password)
 			.then(response => {
-				alert('success');
 				commit('SETUSER', response.user.uid);
 				commit('SETSTATUS', 'success');
 				commit('SETERROR', 'null');
+				response.user
+					.updateProfile({
+						displayName: payload.name
+					})
+					.then(() => {
+						const notification = {
+							type: 'success',
+							name: payload.name,
+							message: 'Your registratin has been successful!'
+						};
+						dispatch('notification/add', notification, { root: true });
+					});
 			})
 			.catch(error => {
 				commit('SETSTATUS', 'failure');
 				commit('SETERROR', error.message);
+				return error;
+			})
+			.then(error => {
+				const notification = {
+					type: 'error',
+					message: `There was a problem with your subscription: ${error.message}`
+				};
+				dispatch('notification/add', notification, { root: true });
 			});
 	},
 	signInAction({ commit }, payload) {
@@ -53,4 +72,16 @@ export const actions = {
 			});
 	},
 	signOutAction() {}
+};
+
+export const getters = {
+	status(state) {
+		return state.status;
+	},
+	user(state) {
+		return state.user;
+	},
+	error(state) {
+		return state.error;
+	}
 };
