@@ -20,18 +20,15 @@ export const mutations = {
 };
 
 export const actions = {
-	fetchHandbags({ rootState, commit, getters, dispatch }, subField) {
+	fetchHandbags({ commit, getters, dispatch }, subField) {
 		if (!getters.checkIfCollectionExists(subField)) {
 			return HandbagsService.getHandbagService(subField)
 				.then(response => {
-					//Todo remove user authentication here
-					if (rootState.user.user.name === 'Mauro') {
-						const payload = {
-							subField: subField,
-							responseData: response.data
-						};
-						commit('SET_HANDBAGS', payload);
-					}
+					const payload = {
+						subField: subField,
+						responseData: response.data
+					};
+					commit('SET_HANDBAGS', payload);
 				})
 				.catch(error => {
 					const notification = {
