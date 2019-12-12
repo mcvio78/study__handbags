@@ -2,7 +2,7 @@
 	<v-row justify="center" class="fill-height align-center">
 		<v-col class="col-10 col-sm-7 col-md-6 col-lg-4">
 			<v-form ref="form" v-model="valid">
-				<v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
+				<v-text-field v-model="name" :counter="20" :rules="nameRules" label="Name" required></v-text-field>
 				<v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 				<v-text-field
 					:type="showPassword ? 'text' : 'password'"
@@ -39,16 +39,13 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import store from './../store/store';
-
 export default {
 	name: 'Subscribe',
 	data() {
 		return {
 			valid: true,
 			name: '',
-			nameRules: [v => !!v || 'Name is required', v => (v && v.length <= 10) || 'Name must be less than 10 characters'],
+			nameRules: [v => !!v || 'Name is required', v => (v && v.length <= 20) || 'Name must be less than 10 characters'],
 			email: '',
 			emailRules: [v => !!v || 'E-mail is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid'],
 			password: '',
@@ -65,35 +62,34 @@ export default {
 			if (this.$refs.form.validate()) {
 				// Will validate all inputs and return if they are all valid or not
 				// Registration Code
-				firebase
-					.auth()
-					.createUserWithEmailAndPassword(this.email, this.password)
-					.then(data => {
-						data.user
-							.updateProfile({
-								displayName: this.name
-							})
-							.then(() => {
-								// console.log(data.user);
-								const notification = {
-									type: 'success',
-									name: this.name,
-									message: 'Your registratin has been successful!'
-								};
-								store.dispatch('notification/add', notification, { root: true });
-								this.$router.push({ name: 'home' });
-							});
-					})
-					.catch(err => {
-						//this.error = err.message;
-
-						const notification = {
-							type: 'error',
-							message: `There was a problem with your subscription: ${err.message}`
-						};
-						store.dispatch('notification/add', notification, { root: true });
-						this.$router.push({ name: 'home' });
-					});
+				// firebase
+				// 	.auth()
+				// 	.createUserWithEmailAndPassword(this.email, this.password)
+				// 	.then(data => {
+				// 		data.user
+				// 			.updateProfile({
+				// 				displayName: this.name
+				// 			})
+				// 			.then(() => {
+				// 				// console.log(data.user);
+				// 				const notification = {
+				// 					type: 'success',
+				// 					name: this.name,
+				// 					message: 'Your registratin has been successful!'
+				// 				};
+				// 				store.dispatch('notification/add', notification, { root: true });
+				// 			});
+				// 	})
+				// 	.catch(err => {
+				// 		//this.error = err.message;
+				//
+				// 		const notification = {
+				// 			type: 'error',
+				// 			message: `There was a problem with your subscription: ${err.message}`
+				// 		};
+				// 		store.dispatch('notification/add', notification, { root: true });
+				// 		this.$router.push({ name: 'home' });
+				// 	});
 			}
 		},
 		reset() {
