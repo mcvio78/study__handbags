@@ -5,7 +5,7 @@
 				<!-- Todo manage pictures with CSS instead. -->
 
 				<div class="img">
-					<v-row v-if="signCard" dense class="fill-height align-center  pa-0 ma-0">
+					<v-row v-if="!userLogIn" dense class="fill-height align-center  pa-0 ma-0">
 						<v-col cols="12">
 							<v-card color="rgb(225,190,231, 0.65)" max-width="400" class="mx-auto">
 								<v-card-title class="headline justify-center">Subscribe or Sign in</v-card-title>
@@ -66,9 +66,12 @@
 export default {
 	name: 'Home',
 	data() {
-		return {
-			signCard: true
-		};
+		return {};
+	},
+	computed: {
+		userLogIn() {
+			return this.$store.getters['user/user'];
+		}
 	},
 	methods: {
 		toSubscribe() {
