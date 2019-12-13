@@ -44,12 +44,15 @@ export default {
 	},
 	computed: mapState('notification', ['notifications', 'temporaryId']),
 	methods: {
+		//Todo this has to be cleaner.
 		buttonErrOK() {
 			this.overlay = false;
 			if (this.lastNotifIsSuccess === false && this.$route.path === '/') {
 				this.$router.go();
 			} else if (this.lastNotifIsSuccess === false) {
 				//Todo add home button or remove this else if.
+			} else if (this.lastNotifIsSuccess === true && this.$route.path === '/') {
+				alert('complete this');
 			} else {
 				this.$router.push({ name: 'home' });
 			}

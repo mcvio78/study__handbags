@@ -82,7 +82,7 @@ export const actions = {
 				dispatch('notification/add', notification, { root: true });
 			});
 	},
-	signOutAction({ commit }) {
+	signOutAction({ commit, dispatch }) {
 		firebase
 			.auth()
 			.signOut()
@@ -91,9 +91,21 @@ export const actions = {
 				commit('SET_STATUS', 'success');
 				commit('SET_ERROR', null);
 			})
+			.then(() => {
+				const notification = {
+					type: 'success',
+					message: 'You have successfully logged out!'
+				};
+				dispatch('notification/add', notification, { root: true });
+			})
 			.catch(error => {
 				commit('SET_STATUS', 'failure');
 				commit('SET_ERROR', error.message);
+				const notification = {
+					type: 'error',
+					message: `There was a problem with log out: ${error.message}`
+				};
+				dispatch('notification/add', notification, { root: true });
 			});
 	}
 };
