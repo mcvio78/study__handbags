@@ -30,8 +30,7 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import store from './../store/store';
+import { mapActions } from 'vuex';
 
 export default {
 	name: 'Authentication',
@@ -49,27 +48,12 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions('user', ['signInAction']),
+
 		validate() {
 			if (this.$refs.form.validate()) {
-				firebase
-					.auth()
-					.signInWithEmailAndPassword(this.email, this.password)
-					.then(() => {
-						// console.log(data.user);
-						const notification = {
-							type: 'success',
-							message: 'Authentication has been successful!'
-						};
-						store.dispatch('notification/add', notification, { root: true });
-					})
-					.catch(err => {
-						const notification = {
-							type: 'error',
-							message: `There was a problem with authentication: ${err.message}`
-						};
-						store.dispatch('notification/add', notification, { root: true });
-						// this.$router.push({ name: 'home' });
-					});
+				const userSignIn = { email: this.email, password: this.password };
+				this.signInAction(userSignIn);
 			}
 		},
 		reset() {

@@ -57,7 +57,7 @@ export const actions = {
 				dispatch('notification/add', notification, { root: true });
 			});
 	},
-	signInAction({ commit }, payload) {
+	signInAction({ commit, dispatch }, payload) {
 		firebase
 			.auth()
 			.signInWithEmailAndPassword(payload.email, payload.password)
@@ -66,9 +66,24 @@ export const actions = {
 				commit('SETSTATUS', 'success');
 				commit('SETERROR', 'null');
 			})
+			.then(() => {
+				const notification = {
+					type: 'success',
+					message: 'Authentication has been successful!'
+				};
+				dispatch('notification/add', notification, { root: true });
+			})
 			.catch(error => {
 				commit('SETSTATUS', 'failure');
 				commit('SETERROR', error.message);
+				return error;
+			})
+			.then(err => {
+				const notification = {
+					type: 'error',
+					message: `There was a problem with authentication: ${err.message}`
+				};
+				dispatch('notification/add', notification, { root: true });
 			});
 	},
 	signOutAction() {}

@@ -66,8 +66,8 @@ export default {
 				// Will validate all inputs and return if they are all valid or not
 				// Registration Code
 
-				const user = { email: this.email, password: this.password, name: this.name };
-				this.signUpAction(user);
+				const userSignUp = { email: this.email, password: this.password, name: this.name };
+				this.signUpAction(userSignUp);
 			}
 		},
 		reset() {

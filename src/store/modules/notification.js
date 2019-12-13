@@ -16,7 +16,7 @@ export const mutations = {
 	DELETE(state, notificationToRemove) {
 		state.notifications = state.notifications.filter(notification => notification.id !== notificationToRemove.id);
 	},
-	RESETNOTIFICATIONSID(state) {
+	RESET_NOTIFICATIONS_ID(state) {
 		state.temporaryId = 1;
 	}
 };
@@ -29,6 +29,6 @@ export const actions = {
 		commit('DELETE', notificationToRemove);
 	},
 	resetTemporaryId({ commit }) {
-		commit('RESETNOTIFICATIONSID');
+		commit('RESET_NOTIFICATIONS_ID');
 	}
 };
