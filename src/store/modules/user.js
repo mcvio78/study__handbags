@@ -7,30 +7,30 @@ export const state = {
 };
 
 export const mutations = {
-	SETUSER(state, payload) {
+	SET_USER(state, payload) {
 		state.user = payload;
 	},
-	REMOVEUSER(state) {
+	REMOVE_USER(state) {
 		state.user = null;
 	},
-	SETSTATUS(state, payload) {
+	SET_STATUS(state, payload) {
 		state.status = payload;
 	},
-	SETERROR(state, payload) {
+	SET_ERROR(state, payload) {
 		state.error = payload;
 	}
 };
 
 export const actions = {
 	signUpAction({ commit, dispatch }, payload) {
-		commit('SETSTATUS', 'loading');
+		commit('SET_STATUS', 'loading');
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(payload.email, payload.password)
 			.then(response => {
-				commit('SETUSER', response.user.uid);
-				commit('SETSTATUS', 'success');
-				commit('SETERROR', 'null');
+				commit('SET_USER', response.user.uid);
+				commit('SET_STATUS', 'success');
+				commit('SET_ERROR', 'null');
 				response.user
 					.updateProfile({
 						displayName: payload.name
@@ -45,11 +45,8 @@ export const actions = {
 					});
 			})
 			.catch(error => {
-				commit('SETSTATUS', 'failure');
-				commit('SETERROR', error.message);
-				return error;
-			})
-			.then(error => {
+				commit('SET_STATUS', 'failure');
+				commit('SET_ERROR', error.message);
 				const notification = {
 					type: 'error',
 					message: `There was a problem with your subscription: ${error.message}`
@@ -62,31 +59,43 @@ export const actions = {
 			.auth()
 			.signInWithEmailAndPassword(payload.email, payload.password)
 			.then(response => {
-				commit('SETUSER', response.user.uid);
-				commit('SETSTATUS', 'success');
-				commit('SETERROR', 'null');
+				commit('SET_USER', response.user.uid);
+				commit('SET_STATUS', 'success');
+				commit('SET_ERROR', 'null');
+				return response.user.displayName;
 			})
-			.then(() => {
+			.then(displayName => {
 				const notification = {
 					type: 'success',
+					name: displayName,
 					message: 'Authentication has been successful!'
 				};
 				dispatch('notification/add', notification, { root: true });
 			})
 			.catch(error => {
-				commit('SETSTATUS', 'failure');
-				commit('SETERROR', error.message);
-				return error;
-			})
-			.then(err => {
+				commit('SET_STATUS', 'failure');
+				commit('SET_ERROR', error.message);
 				const notification = {
 					type: 'error',
-					message: `There was a problem with authentication: ${err.message}`
+					message: `There was a problem with authentication: ${error.message}`
 				};
 				dispatch('notification/add', notification, { root: true });
 			});
 	},
-	signOutAction() {}
+	signOutAction({ commit }) {
+		firebase
+			.auth()
+			.signOut()
+			.then(() => {
+				commit('SET_USER', null);
+				commit('SET_STATUS', 'success');
+				commit('SET_ERROR', null);
+			})
+			.catch(error => {
+				commit('SET_STATUS', 'failure');
+				commit('SET_ERROR', error.message);
+			});
+	}
 };
 
 export const getters = {

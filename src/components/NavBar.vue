@@ -37,6 +37,23 @@
 					</div>
 				</v-list>
 			</v-menu>
+
+			<v-menu v-if="userLogIn" offset-y>
+				<template v-slot:activator="{ on }">
+					<v-btn text icon large class="pa-0" v-on="on">
+						<div style="position: absolute">
+							<p class="white--text mt-0" style="font-size: .7rem; font-weight: bold">1</p>
+						</div>
+						<v-icon color="grey">mdi-cart-outline</v-icon>
+					</v-btn>
+				</template>
+
+				<v-list class="text-center py-sm-2 ma-sm-0">
+					<div>
+						<v-btn @click="logoutFirebase">Logout</v-btn>
+					</div>
+				</v-list>
+			</v-menu>
 		</v-toolbar>
 		<v-btn v-scroll="onScroll" v-show="fab" fab fixed dark bottom right color="pink" @click="toTop">
 			<v-icon>mdi-home</v-icon>
@@ -45,7 +62,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
 	name: 'NavBar.vue',
@@ -59,7 +76,11 @@ export default {
 		params() {
 			return this.$route.params.bagType;
 		},
-		...mapState({ collections: state => state.event.handbags.collections })
+		userLogIn() {
+			return this.user;
+		},
+		...mapState({ collections: state => state.event.handbags.collections }),
+		...mapGetters('user', ['user'])
 	},
 	methods: {
 		onScroll(e) {
@@ -75,6 +96,9 @@ export default {
 		},
 		toHome() {
 			this.$router.push({ name: 'home' });
+		},
+		logoutFirebase() {
+			this.$store.dispatch('user/signOutAction');
 		}
 	}
 };
