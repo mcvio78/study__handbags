@@ -11,13 +11,6 @@ import vuetify from './plugins/vuetify'; //Vue.use(Vuetify)
 
 export const eventBus = new Vue();
 
-new Vue({
-	router,
-	store,
-	vuetify,
-	render: h => h(App)
-}).$mount('#app');
-
 const firebaseConfig = {
 	apiKey: process.env.VUE_APP_API_KEY,
 	authDomain: process.env.VUE_APP_AUTH_DOMAIN,
@@ -30,3 +23,16 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+firebase.auth().onAuthStateChanged(user => {
+	if (user) {
+		const payload = { userUid: user.uid };
+		store.dispatch('user/keepLogged', payload);
+	}
+	new Vue({
+		router,
+		store,
+		vuetify,
+		render: h => h(App)
+	}).$mount('#app');
+});

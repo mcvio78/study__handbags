@@ -107,6 +107,12 @@ export const actions = {
 				};
 				dispatch('notification/add', notification, { root: true });
 			});
+	},
+
+	keepLogged({ commit }, payload) {
+		commit('SET_USER', payload.userUid);
+		commit('SET_STATUS', 'success');
+		commit('SET_ERROR', 'null');
 	}
 };
 
