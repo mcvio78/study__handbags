@@ -8,7 +8,7 @@
 
 			<v-spacer></v-spacer>
 
-			<v-btn @click="toHome" v-if="main">Home</v-btn>
+			<v-btn @click="toHome" v-if="noHomePath">Home</v-btn>
 
 			<v-menu offset-y>
 				<template v-slot:activator="{ on }">
@@ -41,7 +41,7 @@
 				</v-list>
 			</v-menu>
 
-			<v-menu v-if="userLogIn" offset-y>
+			<v-menu v-if="userLogged" offset-y>
 				<template v-slot:activator="{ on }">
 					<v-btn text icon large class="pa-0" v-on="on">
 						<div style="position: absolute">
@@ -52,9 +52,15 @@
 				</template>
 
 				<v-list class="text-center py-sm-2 ma-sm-0">
-					<div>
-						<v-btn @click="logoutFirebase">Logout</v-btn>
-					</div>
+					<v-list-item-title>Username: </v-list-item-title>
+					<v-list-item-subtitle>
+						<span class="overline">{{ user }}</span>
+					</v-list-item-subtitle>
+					<v-list-item>
+						<div>
+							<v-btn @click="logoutFirebase">Logout</v-btn>
+						</div>
+					</v-list-item>
 				</v-list>
 			</v-menu>
 		</v-toolbar>
@@ -74,13 +80,13 @@ export default {
 		fab: false
 	}),
 	computed: {
-		main() {
-			return this.$route.path !== '/';
+		noHomePath() {
+			return this.$route.name !== 'home';
 		},
 		params() {
 			return this.$route.params.bagType;
 		},
-		userLogIn() {
+		userLogged() {
 			return this.user;
 		},
 		...mapState({ collections: state => state.event.handbags.collections }),

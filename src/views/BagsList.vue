@@ -29,27 +29,8 @@ import store from './../store/store';
 import route from './../router';
 import firstCapital from './../filters/firstCapital';
 
-function getCollection(routeTo, next) {
-	if (!store.state.event.handbags.collections) {
-		store.dispatch('event/fetchHandbags', 'collections').then(() => {
-			if (!Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)) {
-				route.push({ name: 'home' });
-			}
-		});
-	}
-	store.dispatch('event/fetchHandbags', routeTo.params.bagType).then(() => {
-		next();
-	});
-}
-
 export default {
 	name: 'BagsList',
-	beforeRouteEnter(routeTo, routeFrom, next) {
-		getCollection(routeTo, next);
-	},
-	beforeRouteUpdate(routeTo, routeFrom, next) {
-		getCollection(routeTo, next);
-	},
 	props: {
 		bagType: {
 			type: String,
@@ -63,10 +44,32 @@ export default {
 		// bagTypeUpperCase() {
 		// 	return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
 		// },
-		...mapState({ handbags: state => state.event.handbags })
+		...mapState('event', ['handbags'])
 	},
 	filters: {
 		firstCapital
+	},
+	beforeRouteEnter(routeTo, routeFrom, next) {
+		if (store.state.event.handbags.collections) {
+			// already injected
+			next(); // no need to wait
+		} else {
+			store.watch(
+				// watch by Vuex
+				state => state.event.handbags.collections, // specifies the state to watch
+				isInjected => {
+					if (isInjected) {
+						next();
+						if (!Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)) {
+							route.push({ name: 'home' });
+						}
+					}
+				}
+			);
+		}
+	},
+	created() {
+		store.dispatch('event/fetchHandbags', this.bagType);
 	}
 };
 </script>
