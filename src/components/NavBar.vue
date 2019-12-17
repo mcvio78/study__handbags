@@ -1,115 +1,37 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 	<div>
 		<v-toolbar color="purple darken-1" dark>
-			<v-toolbar-title class="headline">
-				<span class="font-weight-bold">ZH</span>
-				<span class="font-weight-thin grey--text">andbags</span>
-			</v-toolbar-title>
+			<NavbarTitle />
 
 			<v-spacer></v-spacer>
 
-			<v-btn @click="toHome" v-if="noHomePath">Home</v-btn>
+			<NavBarHomeButton />
 
-			<v-menu offset-y>
-				<template v-slot:activator="{ on }">
-					<v-btn color="primary" dark v-on="on">Handbags</v-btn>
-				</template>
+			<NavBarMenu />
 
-				<v-list class="text-center py-sm-2 ma-sm-0">
-					<div class="d-inline">
-						<p class="black--text headline px-1 px-sm-0 mb-0 mb-sm-2">Select your Bag</p>
-					</div>
-
-					<div class="d-inline">
-						<p><small>Our collection</small></p>
-					</div>
-
-					<!--TODO bad resizing when it returns to home page. -->
-					<div v-for="(bagType, index) in collections" :key="index" class="d-block d-sm-inline my-2">
-						<v-btn
-							v-if="bagType !== params"
-							color="deep-purple lighten-3"
-							class="ma-sm-1 small"
-							:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
-							@click="toBagsList(bagType)"
-							>{{ bagType }}</v-btn
-						>
-					</div>
-					<div v-if="!collections" class="px-2">
-						<p class="red--text">We are sorry! There was a problem fetching Collections.</p>
-					</div>
-				</v-list>
-			</v-menu>
-
-			<v-menu v-if="userLogged" offset-y>
-				<template v-slot:activator="{ on }">
-					<v-btn text icon large class="pa-0" v-on="on">
-						<div style="position: absolute">
-							<p class="white--text mt-0" style="font-size: .7rem; font-weight: bold">1</p>
-						</div>
-						<v-icon color="grey">mdi-cart-outline</v-icon>
-					</v-btn>
-				</template>
-
-				<v-list class="text-center py-sm-2 ma-sm-0">
-					<v-list-item-title>Username: </v-list-item-title>
-					<v-list-item-subtitle>
-						<span class="overline">{{ user }}</span>
-					</v-list-item-subtitle>
-					<v-list-item>
-						<div>
-							<v-btn @click="logoutFirebase">Logout</v-btn>
-						</div>
-					</v-list-item>
-				</v-list>
-			</v-menu>
+			<NavBarLogButton />
 		</v-toolbar>
-		<v-btn v-scroll="onScroll" v-show="fab" fab fixed dark bottom right color="pink" @click="toTop">
-			<v-icon>mdi-home</v-icon>
-		</v-btn>
+
+		<NavBarScroll />
 	</div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
 import store from './../store/store';
+import NavbarTitle from './NavbarTitle';
+import NavBarHomeButton from './NavBarHomeButton';
+import NavBarMenu from './NavBarMenu';
+import NavBarLogButton from './NavBarLogButton';
+import NavBarScroll from './NavBarScroll';
 
 export default {
-	name: 'NavBar.vue',
-	data: () => ({
-		fab: false
-	}),
-	computed: {
-		noHomePath() {
-			return this.$route.name !== 'home';
-		},
-		params() {
-			return this.$route.params.bagType;
-		},
-		userLogged() {
-			return this.user;
-		},
-		...mapState({ collections: state => state.event.handbags.collections }),
-		...mapGetters('user', ['user'])
-	},
-	methods: {
-		onScroll(e) {
-			if (typeof window === 'undefined') return;
-			const top = window.pageYOffset || e.target.scrollTop || 0;
-			this.fab = top > 200;
-		},
-		toTop() {
-			return this.$vuetify.goTo(0);
-		},
-		toBagsList(bagType) {
-			this.$router.push({ name: 'bags-list', params: { bagType: bagType } });
-		},
-		toHome() {
-			this.$router.push({ name: 'home' });
-		},
-		logoutFirebase() {
-			this.$store.dispatch('user/signOutAction');
-		}
+	name: 'NavBar',
+	components: {
+		NavbarTitle,
+		NavBarHomeButton,
+		NavBarMenu,
+		NavBarLogButton,
+		NavBarScroll
 	},
 	created() {
 		if (Object.keys(store.state.event.handbags).length === 0) {
