@@ -35,6 +35,9 @@
 							>{{ bagType }}</v-btn
 						>
 					</div>
+					<div v-if="!collections" class="px-2">
+						<p class="red--text">We are sorry! There was a problem fetching Collections.</p>
+					</div>
 				</v-list>
 			</v-menu>
 
@@ -63,6 +66,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import store from './../store/store';
 
 export default {
 	name: 'NavBar.vue',
@@ -99,6 +103,11 @@ export default {
 		},
 		logoutFirebase() {
 			this.$store.dispatch('user/signOutAction');
+		}
+	},
+	created() {
+		if (Object.keys(store.state.event.handbags).length === 0) {
+			store.dispatch('event/fetchHandbags', 'collections');
 		}
 	}
 };
