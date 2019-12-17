@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Error_404 from './views/Error_404';
-import Login from './components/Login';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import { eventBus } from './main';
@@ -50,12 +49,7 @@ const router = new Router({
 		{
 			path: '/',
 			name: 'home',
-			component: Home,
-			beforeEnter(routeTo, routeFrom, next) {
-				store.dispatch('event/fetchHandbags', 'collections').then(() => {
-					next();
-				});
-			}
+			component: Home
 		},
 		{
 			path: '/list/:bagType',
@@ -68,19 +62,28 @@ const router = new Router({
 		},
 		//Todo lazy import for the rest of components.
 		{
-			path: '/login',
-			name: 'login',
-			component: Login
-		},
-		{
 			path: '/subscribe',
 			name: 'subscribe',
-			component: () => import(/* webpackChunkName: "subscribe" */ './views/Subscribe.vue')
+			component: () => import(/* webpackChunkName: "subscribe" */ './views/Subscribe.vue'),
+			beforeEnter: (to, from, next) => {
+				if (store.state.user.user === null) {
+					next();
+				} else {
+					next({ name: 'home' });
+				}
+			}
 		},
 		{
 			path: '/authentication',
 			name: 'authentication',
-			component: () => import(/* webpackChunkName: "authentication" */ './views/Authentication.vue')
+			component: () => import(/* webpackChunkName: "authentication" */ './views/Authentication.vue'),
+			beforeEnter: (to, from, next) => {
+				if (store.state.user.user === null) {
+					next();
+				} else {
+					next({ name: 'home' });
+				}
+			}
 		},
 		{ path: '*', component: Error_404 }
 	]
