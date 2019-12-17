@@ -2,7 +2,7 @@
 	<v-app>
 		<NavBar />
 		<ProgressBar />
-		<notification-box />
+		<notification-box v-if="eventStatus" />
 		<v-content>
 			<router-view :key="$route.fullPath" />
 		</v-content>
@@ -13,12 +13,32 @@
 import NavBar from './components/NavBar';
 import NotificationBox from './components/NorificationBox';
 import ProgressBar from './components/ProgressBar';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'App',
 	components: { NavBar, NotificationBox, ProgressBar },
 	data() {
-		return {};
+		return {
+			isEditing: true
+		};
+	},
+	computed: mapState('event', ['eventStatus']),
+
+	//Prevent browser refresh, URL changes and route navigation.
+	methods: {
+		preventNav(event) {
+			if (!this.isEditing) return;
+			event.preventDefault();
+			event.returnValue = '';
+		}
+	},
+	beforeMount() {
+		window.addEventListener('beforeunload', this.preventNav);
+	},
+
+	beforeDestroy() {
+		window.removeEventListener('beforeunload', this.preventNav);
 	}
 };
 </script>
