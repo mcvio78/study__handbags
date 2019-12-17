@@ -20,7 +20,7 @@ export default {
 	components: { NavBar, NotificationBox, ProgressBar },
 	data() {
 		return {
-			isEditing: true
+			isEditing: false
 		};
 	},
 	computed: mapState('event', ['eventStatus']),

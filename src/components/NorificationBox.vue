@@ -3,15 +3,20 @@
 		<v-overlay :value="notifications.length ? (overlay = true) : overlay">
 			<notification-bar v-for="notification in notifications" :key="notification.id" :notification="notification" />
 			<div class="my-2">
-				<v-btn :disabled="notifications.length > 0" x-large @click="buttonErrOK">
-					<!-- Todo icons align to the center -->
-					<div v-if="lastNotifIsSuccess">
-						<p class="display-1 ma-auto"><v-icon large>mdi-check</v-icon> OK</p>
-					</div>
+				<!---------------------------------------------------------------------------------------------Buttons-->
+				<v-btn v-if="closeButton" x-large :disabled="notifications.length > 0" @click="closeOverlay">
+					<p class="display-1 ma-auto">
+						<v-icon large>{{ !signInUpView ? 'mdi-close' : 'mdi-account-alert' }}</v-icon
+						>{{ !signInUpView ? 'Close' : 'Try Again' }}
+					</p>
+				</v-btn>
 
-					<div v-else>
-						<p class="display-1 ma-auto"><v-icon large>mdi-refresh</v-icon> Try again</p>
-					</div>
+				<v-btn v-if="refreshButton" x-large :disabled="notifications.length > 0" @click="refreshPage">
+					<p class="display-1 ma-auto"><v-icon large>mdi-refresh</v-icon> Try again</p>
+				</v-btn>
+
+				<v-btn v-if="okButton" x-large :disabled="notifications.length > 0" @click="closeOverlay">
+					<p class="display-1 ma-auto"><v-icon large>mdi-check</v-icon> OK</p>
 				</v-btn>
 			</div>
 		</v-overlay>
@@ -30,34 +35,61 @@ export default {
 	data() {
 		return {
 			overlay: false,
-			lastNotifIsSuccess: null
+			refreshButton: false,
+			closeButton: false,
+			okButton: true
 		};
 	},
 	watch: {
 		notifications() {
-			if (this.notifications.length) {
-				this.lastNotifIsSuccess = this.notifications['0']['type'] === 'success';
-			} else {
+			if (this.notifications.length === 0) {
 				this.resetTemporaryId();
 			}
 		}
 	},
-	computed: mapState('notification', ['notifications', 'temporaryId']),
+	computed: {
+		...mapState('notification', ['notifications', 'temporaryId']),
+		...mapState('user', ['user', 'status']),
+		...mapState('event', ['eventStatus']),
+		signInUpView() {
+			return this.$route.path === '/subscribe' || this.$route.path === '/authentication';
+		},
+		currentPath() {
+			return this.$route.path;
+		}
+	},
 	methods: {
-		//Todo this has to be cleaner.
-		buttonErrOK() {
-			this.overlay = false;
-			if (this.lastNotifIsSuccess === false && this.$route.path === '/') {
-				this.$router.go();
-			} else if (this.lastNotifIsSuccess === false) {
-				//Todo add home button or remove this else if.
-			} else if (this.lastNotifIsSuccess === true && this.$route.path === '/') {
-				alert('complete this');
-			} else {
-				this.$router.push({ name: 'home' });
+		...mapActions('notification', ['resetTemporaryId']),
+		OverlayButtons(currentPath, currentEventStatus, currentUser, currentUserStatus) {
+			if (currentEventStatus === 'failure') {
+				this.closeButton = true;
+			}
+			if ((currentPath === '/' || currentPath === '/list/') && currentEventStatus === 'failure') {
+				this.refreshButton = true;
+			}
+			if (currentUser && currentUserStatus === 'Success') {
+				this.okButton = true;
 			}
 		},
-		...mapActions('notification', ['resetTemporaryId'])
+		resetFields() {
+			this.refreshButton = false;
+			this.closeButton = false;
+			this.okButton = false;
+		},
+		refreshPage() {
+			this.resetFields();
+			this.$router.go();
+		},
+		closeOverlay() {
+			this.resetFields();
+			if (this.status === 'success' && this.signInUpView) {
+				this.$router.push({ name: 'home' });
+			}
+			this.overlay = false;
+		}
+	},
+	created() {
+		this.OverlayButtons(this.currentPath, this.eventStatus, this.user, this.status);
 	}
 };
 </script>

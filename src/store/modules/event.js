@@ -38,7 +38,7 @@ export const actions = {
 					};
 					commit('SET_HANDBAGS', payload);
 					commit('SET_STATUS', 'success');
-					commit('SET_ERROR', 'null');
+					commit('SET_ERROR', null);
 				})
 				.catch(error => {
 					commit('SET_STATUS', 'failure');
