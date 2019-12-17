@@ -3,7 +3,9 @@ import firebase from 'firebase/app';
 export const namespaced = true;
 
 export const state = {
-	user: null
+	user: null,
+	status: null,
+	error: null
 };
 
 export const mutations = {
@@ -117,13 +119,13 @@ export const actions = {
 };
 
 export const getters = {
-	status(state) {
+	status: state => {
 		return state.status;
 	},
-	user(state) {
+	user: state => {
 		return state.user;
 	},
-	error(state) {
+	error: state => {
 		return state.error;
 	}
 };
