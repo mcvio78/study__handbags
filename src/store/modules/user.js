@@ -20,6 +20,10 @@ export const mutations = {
 	},
 	SET_ERROR(state, payload) {
 		state.error = payload;
+	},
+	RESET_USER_STATUS_AND_ERROR(state) {
+		state.status = null;
+		state.error = null;
 	}
 };
 
@@ -110,7 +114,9 @@ export const actions = {
 				dispatch('notification/add', notification, { root: true });
 			});
 	},
-
+	resetUserStatusAndError({ commit }) {
+		commit('RESET_USER_STATUS_AND_ERROR');
+	},
 	keepLogged({ commit }, payload) {
 		commit('SET_USER', payload.userUid);
 		commit('SET_STATUS', 'success');

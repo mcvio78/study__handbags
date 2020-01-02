@@ -4,18 +4,27 @@
 			<notification-bar v-for="notification in notifications" :key="notification.id" :notification="notification" />
 			<div class="my-2">
 				<!---------------------------------------------------------------------------------------------OverlayButtons-->
-				<v-btn v-if="closeButton" x-large :disabled="notifications.length > 0" @click="closeOverlay">
-					<p class="display-1 ma-auto">
-						<v-icon large>{{ !signInUpView ? 'mdi-close' : 'mdi-account-alert' }}</v-icon
-						>{{ !signInUpView ? 'Close' : 'Try Again' }}
-					</p>
+
+				<v-btn error class="ma-1" v-if="closeButton" x-large :disabled="notifications.length > 0" @click="closeOverlay">
+					<!--					<p class="display-1 ma-auto">-->
+					<!--						<v-icon large>{{ !signInUpView ? 'mdi-close' : 'mdi-account-alert' }}</v-icon-->
+					<!--						>{{ !signInUpView ? 'Close' : 'Try Again' }}-->
+					<!--					</p>-->
+					<p class="display-1 ma-auto"><v-icon large>mdi-close</v-icon> Close</p>
 				</v-btn>
 
-				<v-btn v-if="refreshButton" x-large :disabled="notifications.length > 0" @click="refreshPage">
+				<v-btn class="ma-1" v-if="refreshButton" x-large :disabled="notifications.length > 0" @click="refreshPage">
 					<p class="display-1 ma-auto"><v-icon large>mdi-refresh</v-icon> Try again</p>
 				</v-btn>
 
-				<v-btn v-if="okButton" x-large :disabled="notifications.length > 0" @click="closeOverlay">
+				<v-btn
+					color="success"
+					class="ma-1"
+					v-if="okButton"
+					x-large
+					:disabled="notifications.length > 0"
+					@click="closeOverlay"
+				>
 					<p class="display-1 ma-auto"><v-icon large>mdi-check</v-icon> OK</p>
 				</v-btn>
 			</div>
@@ -60,15 +69,21 @@ export default {
 	},
 	methods: {
 		...mapActions('notification', ['resetTemporaryId']),
+		...mapActions('user', ['resetUserStatusAndError']),
 		OverlayButtons(currentPath, currentEventStatus, currentUser, currentUserStatus) {
 			if (currentEventStatus === 'failure' || (currentUserStatus === 'failure' && this.signInUpView)) {
 				this.closeButton = true;
 			}
-			if ((currentPath === '/' || currentPath === '/list/') && currentEventStatus === 'failure') {
+			if (currentEventStatus === 'failure') {
 				this.refreshButton = true;
 			}
-			if ((currentUser && currentUserStatus === 'success') || (!currentUser && currentUserStatus === 'success')) {
+			if (
+				(currentUser !== null && currentUserStatus === 'success' && this.signInUpView) ||
+				(currentUser === null && currentUserStatus === 'success' && !this.signInUpView)
+			) {
 				this.okButton = true;
+				this.refreshButton = false;
+				this.closeButton = false;
 			}
 		},
 		resetFields() {
@@ -86,9 +101,10 @@ export default {
 			if (this.status === 'success' && this.signInUpView) {
 				this.$router.push({ name: 'home' });
 			}
+			this.resetUserStatusAndError();
 		}
 	},
-	created() {
+	beforeUpdate() {
 		this.OverlayButtons(this.currentPath, this.eventStatus, this.user, this.status);
 	}
 };
