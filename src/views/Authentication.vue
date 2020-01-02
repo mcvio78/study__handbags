@@ -31,6 +31,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { eventBus } from '../main';
 
 export default {
 	name: 'Authentication',
@@ -59,6 +60,9 @@ export default {
 		reset() {
 			this.$refs.form.reset();
 		}
+	},
+	mounted() {
+		eventBus.$emit('progressBarState', false);
 	}
 };
 </script>

@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { eventBus } from '../main';
+
 export default {
 	name: 'Home',
 	data() {
@@ -80,6 +82,9 @@ export default {
 		toAuthentication() {
 			this.$router.push({ name: 'authentication' });
 		}
+	},
+	mounted() {
+		eventBus.$emit('progressBarState', false);
 	}
 };
 </script>

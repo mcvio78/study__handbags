@@ -40,6 +40,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { eventBus } from '../main';
 
 export default {
 	name: 'Subscribe',
@@ -62,6 +63,7 @@ export default {
 	methods: {
 		...mapActions('user', ['signUpAction']),
 		validate() {
+			//Todo check if email already exists or not.
 			if (this.$refs.form.validate()) {
 				// Will validate all inputs and return if they are all valid or not
 				// Registration Code
@@ -73,6 +75,9 @@ export default {
 		reset() {
 			this.$refs.form.reset();
 		}
+	},
+	mounted() {
+		eventBus.$emit('progressBarState', false);
 	}
 };
 </script>

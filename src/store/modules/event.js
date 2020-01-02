@@ -1,10 +1,9 @@
 import HandbagsService from '../../services/HandbagsService';
 
 export const namespaced = true;
-
 export const state = {
 	handbags: {
-		//collections: {},
+		// collections: {},
 		// patrizia: {},
 		// olivia: {},
 		// melania: {},
@@ -18,11 +17,13 @@ export const mutations = {
 	SET_HANDBAGS(state, payload) {
 		//state.handbags[payload.subField] = payload.responseData;
 		state.handbags = { ...state.handbags, [payload.subField]: payload.responseData };
+		//state.handbags[payload.subField] = { ...payload.responseData };
+		//Vue.set(state.handbags, payload.subField, payload.responseData);
 	},
-	SET_STATUS(state, payload) {
+	SET_EVENT_STATUS(state, payload) {
 		state.eventStatus = payload;
 	},
-	SET_ERROR(state, payload) {
+	SET_EVENT_ERROR(state, payload) {
 		state.eventError = payload;
 	}
 };
@@ -37,12 +38,12 @@ export const actions = {
 						responseData: response.data
 					};
 					commit('SET_HANDBAGS', payload);
-					commit('SET_STATUS', 'success');
-					commit('SET_ERROR', null);
+					commit('SET_EVENT_STATUS', 'success');
+					commit('SET_EVENT_ERROR', null);
 				})
 				.catch(error => {
-					commit('SET_STATUS', 'failure');
-					commit('SET_ERROR', error.message);
+					commit('SET_EVENT_STATUS', 'failure');
+					commit('SET_EVENT_ERROR', error.message);
 					const notification = {
 						type: 'error',
 						message: `There was a problem fetching collections: ${error.message}`
