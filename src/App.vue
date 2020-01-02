@@ -20,7 +20,7 @@ export default {
 	components: { NavBar, NotificationBox, ProgressBar },
 	data() {
 		return {
-			isEditing: false
+			isEditing: false //Todo decide if true or false.
 		};
 	},
 	computed: mapState('event', ['eventStatus']),
