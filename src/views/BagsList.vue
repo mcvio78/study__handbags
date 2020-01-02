@@ -26,8 +26,8 @@
 import { mapState } from 'vuex';
 import BagModal from './../components/BagModal';
 import store from './../store/store';
-import route from './../router';
 import firstCapital from './../filters/firstCapital';
+import { eventBus } from '../main';
 
 export default {
 	name: 'BagsList',
@@ -50,26 +50,24 @@ export default {
 		firstCapital
 	},
 	beforeRouteEnter(routeTo, routeFrom, next) {
-		if (store.state.event.handbags.collections) {
-			// already injected
-			next(); // no need to wait
+		if (
+			store.state.event.handbags.collections &&
+			Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)
+		) {
+			next();
+		} else if (
+			store.state.event.handbags.collections &&
+			!Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)
+		) {
+			next({ name: 'not-found', params: { resource: routeTo.params.bagType } });
 		} else {
-			store.watch(
-				// watch by Vuex
-				state => state.event.handbags.collections, // specifies the state to watch
-				isInjected => {
-					if (isInjected) {
-						next();
-						if (!Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)) {
-							route.push({ name: 'home' });
-						}
-					}
-				}
-			);
+			next();
 		}
 	},
 	created() {
-		store.dispatch('event/fetchHandbags', this.bagType);
+		store.dispatch('event/fetchHandbags', this.bagType).then(() => {
+			eventBus.$emit('progressBarState', false);
+		});
 	}
 };
 </script>

@@ -85,17 +85,29 @@ const router = new Router({
 				}
 			}
 		},
+		{
+			path: '/not-found',
+			name: 'not-found',
+			props: true,
+			component: () => import(/* webpackChunkName: "not-found" */ './views/NotFound.vue')
+		},
 		{ path: '*', component: Error_404 }
 	]
 });
 
 router.beforeEach((routeTo, routeFrom, next) => {
 	eventBus.$emit('progressBarState', true);
-	next();
+	if (store.state.event.handbags.collections) {
+		next();
+	} else {
+		store.dispatch('event/fetchHandbags', 'collections').then(() => {
+			next();
+		});
+	}
 });
 
-router.afterEach(() => {
-	eventBus.$emit('progressBarState', false);
-});
+// router.afterEach(() => {
+// 	eventBus.$emit('progressBarState', false);
+// });
 
 export default router;
