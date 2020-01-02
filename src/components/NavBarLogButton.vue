@@ -1,5 +1,5 @@
 <template>
-	<v-menu v-if="userLogged" offset-y>
+	<v-menu offset-y>
 		<template v-slot:activator="{ on }">
 			<v-btn text icon large class="pa-0" v-on="on">
 				<div style="position: absolute">

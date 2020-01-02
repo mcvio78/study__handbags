@@ -1,15 +1,16 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
 	<div>
 		<v-toolbar color="purple darken-1" dark>
 			<NavbarTitle />
 
 			<v-spacer></v-spacer>
 
-			<NavBarHomeButton />
+			<!-- Todo NavBarHomeButton shows when refresh. -->
+			<NavBarHomeButton v-if="noHomePath" />
 
 			<NavBarMenu />
 
-			<NavBarLogButton />
+			<NavBarLogButton v-if="userLogged" />
 		</v-toolbar>
 
 		<NavBarScroll />
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-import store from './../store/store';
+import { mapGetters } from 'vuex';
 import NavbarTitle from './NavbarTitle';
 import NavBarHomeButton from './NavBarHomeButton';
 import NavBarMenu from './NavBarMenu';
@@ -33,9 +34,13 @@ export default {
 		NavBarLogButton,
 		NavBarScroll
 	},
-	created() {
-		if (Object.keys(store.state.event.handbags).length === 0) {
-			store.dispatch('event/fetchHandbags', 'collections');
+	computed: {
+		...mapGetters('user', ['user']),
+		userLogged() {
+			return this.user;
+		},
+		noHomePath() {
+			return this.$route.name !== 'home';
 		}
 	}
 };
