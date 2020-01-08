@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
 	name: 'Error_404',
 	data() {
@@ -22,8 +23,10 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions('notification', ['resetTemporaryId']),
 		returnHome() {
 			this.$router.push({ name: 'home' });
+			this.resetTemporaryId();
 		}
 	}
 };

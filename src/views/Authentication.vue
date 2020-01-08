@@ -23,6 +23,7 @@
 					<v-btn color="error" class="mr-4" @click="reset">
 						Reset Form
 					</v-btn>
+					<v-switch v-model="staySigned" label="Stay Signed"></v-switch>
 				</v-card-actions>
 			</v-form>
 		</v-col>
@@ -31,7 +32,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { eventBus } from '../main';
 
 export default {
 	name: 'Authentication',
@@ -45,7 +45,8 @@ export default {
 				v => !!v || 'Password is required',
 				v => (v && v.length >= 8) || 'Password must be at least 8 characters'
 			],
-			showPassword: false
+			showPassword: false,
+			staySigned: false
 		};
 	},
 	methods: {
@@ -60,9 +61,6 @@ export default {
 		reset() {
 			this.$refs.form.reset();
 		}
-	},
-	mounted() {
-		eventBus.$emit('progressBarState', false);
 	}
 };
 </script>

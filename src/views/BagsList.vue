@@ -27,7 +27,6 @@ import { mapState } from 'vuex';
 import BagModal from './../components/BagModal';
 import store from './../store/store';
 import firstCapital from './../filters/firstCapital';
-import { eventBus } from '../main';
 
 export default {
 	name: 'BagsList',
@@ -65,9 +64,7 @@ export default {
 		}
 	},
 	created() {
-		store.dispatch('event/fetchHandbags', this.bagType).then(() => {
-			eventBus.$emit('progressBarState', false);
-		});
+		store.dispatch('event/fetchHandbags', this.bagType).then(() => {});
 	}
 };
 </script>

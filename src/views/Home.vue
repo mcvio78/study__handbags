@@ -12,7 +12,6 @@
 import HomeText from './../components/HomeText';
 import HomeFooter from './../components/HomeFooter';
 import HomeBackground from './../components/HomeBackgroundImage';
-import { eventBus } from '../main';
 
 export default {
 	name: 'Home',
@@ -23,9 +22,6 @@ export default {
 	},
 	data() {
 		return {};
-	},
-	mounted() {
-		eventBus.$emit('progressBarState', false);
 	}
 };
 </script>

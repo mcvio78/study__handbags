@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { eventBus } from '../main';
+import { mapActions } from 'vuex';
 
 export default {
 	name: 'NotFound',
@@ -35,12 +35,11 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions('notification', ['resetTemporaryId']),
 		returnHome() {
 			this.$router.push({ name: 'home' });
+			this.resetTemporaryId();
 		}
-	},
-	mounted() {
-		eventBus.$emit('progressBarState', false);
 	},
 	beforeDestroy() {
 		this.inexistentResource = null;

@@ -1,11 +1,12 @@
 <template>
 	<div style="min-height: 4px; background-color: #E1BEE7">
-		<v-progress-linear v-model="value" :active="show" :indeterminate="query" :query="true"> </v-progress-linear>
+		<v-progress-linear v-model="value" :active="isLoading" :indeterminate="isLoading" :query="true">
+		</v-progress-linear>
 	</div>
 </template>
 
 <script>
-import { eventBus } from '././../main';
+import { mapGetters } from 'vuex';
 
 export default {
 	data() {
@@ -16,11 +17,12 @@ export default {
 			interval: 0
 		};
 	},
-	mounted() {
-		eventBus.$on('progressBarState', state => {
-			this.show = state;
-			this.query = state;
-		});
+	computed: {
+		...mapGetters('user', ['status']),
+		...mapGetters('event', ['eventStatus']),
+		isLoading() {
+			return this.status === 'loading' || this.eventStatus === 'loading';
+		}
 	}
 };
 </script>

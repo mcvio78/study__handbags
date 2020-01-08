@@ -31,6 +31,7 @@ export const mutations = {
 export const actions = {
 	fetchHandbags({ commit, getters, dispatch }, subField) {
 		if (!getters.checkIfCollectionExists(subField)) {
+			commit('SET_EVENT_STATUS', 'loading');
 			return HandbagsService.getHandbagService(subField)
 				.then(response => {
 					const payload = {
@@ -51,8 +52,10 @@ export const actions = {
 					dispatch('notification/add', notification, { root: true });
 				});
 		}
+	},
+	setEventStatus({ commit }, payload) {
+		commit('SET_EVENT_STATUS', payload);
 	}
-	//Todo when you POST/PATCH/DELETE it needs: SUCCESS and ERROR+THROW
 };
 
 export const getters = {
