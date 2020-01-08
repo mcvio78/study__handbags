@@ -3,13 +3,8 @@
 		<v-overlay :value="notifications.length ? (overlay = true) : overlay">
 			<notification-bar v-for="notification in notifications" :key="notification.id" :notification="notification" />
 			<div class="my-2">
-				<!---------------------------------------------------------------------------------------------OverlayButtons-->
-
+				<!--------------------------------------------------------------------------------------------OVERLAY BUTTONS-->
 				<v-btn error class="ma-1" v-if="closeButton" x-large :disabled="notifications.length > 0" @click="closeOverlay">
-					<!--					<p class="display-1 ma-auto">-->
-					<!--						<v-icon large>{{ !signInUpView ? 'mdi-close' : 'mdi-account-alert' }}</v-icon-->
-					<!--						>{{ !signInUpView ? 'Close' : 'Try Again' }}-->
-					<!--					</p>-->
 					<p class="display-1 ma-auto"><v-icon large>mdi-close</v-icon> Close</p>
 				</v-btn>
 
@@ -49,13 +44,6 @@ export default {
 			okButton: false
 		};
 	},
-	watch: {
-		notifications() {
-			if (this.notifications.length === 0) {
-				this.resetTemporaryId();
-			}
-		}
-	},
 	computed: {
 		...mapState('notification', ['notifications', 'temporaryId']),
 		...mapState('user', ['user', 'status']),
@@ -90,6 +78,7 @@ export default {
 			this.refreshButton = false;
 			this.closeButton = false;
 			this.okButton = false;
+			this.resetTemporaryId();
 		},
 		refreshPage() {
 			this.resetFields();
@@ -101,10 +90,9 @@ export default {
 			if (this.status === 'success' && this.signInUpView) {
 				this.$router.push({ name: 'home' });
 			}
-			this.resetUserStatusAndError();
 		}
 	},
-	beforeUpdate() {
+	updated() {
 		this.OverlayButtons(this.currentPath, this.eventStatus, this.user, this.status);
 	}
 };
