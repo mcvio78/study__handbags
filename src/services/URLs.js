@@ -14,10 +14,12 @@ const urlServer = `${httpProtocol}${serverDomain}`;
 /********************************************************
  * URLs Backend
  */
-const dataFile = env[NODE_ENV].url.backEnd.dataFile;
-const pathData = env[NODE_ENV].url.backEnd.pathData;
+const handbagsData = env[NODE_ENV].url.backEnd.handbagsData;
+const handbagsPath = env[NODE_ENV].url.backEnd.handbagsPath;
+const usersData = env[NODE_ENV].url.backEnd.usersData;
+const usersPath = env[NODE_ENV].url.backEnd.usersPath;
 const baseURLServer = env[NODE_ENV].url.backEnd.baseURLServer;
 //
-const pathDataServer = `${baseURLServer}${dataFile}`;
+const pathDataServer = `${baseURLServer}${handbagsData}`;
 
-export { dataFile, pathData, baseURLServer, urlApp, urlServer, pathDataServer };
+export { handbagsData, handbagsPath, usersData, usersPath, baseURLServer, urlApp, urlServer, pathDataServer };

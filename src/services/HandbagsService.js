@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { baseURLServer, dataFile, pathData } from './URLs.js';
+import { baseURLServer, handbagsPath, usersPath } from './URLs.js';
 
 const apiClient = axios.create({
 	baseURL: baseURLServer,
@@ -12,10 +12,10 @@ const apiClient = axios.create({
 });
 
 export default {
-	getHandbagsService() {
-		return apiClient.get(`${dataFile}`);
-	},
 	getHandbagService(id) {
-		return apiClient.get(`${pathData}${id}.json`);
+		return apiClient.get(`${handbagsPath}${id}.json`);
+	},
+	putHandbagService(token, userUid, payload) {
+		return apiClient.put(`${usersPath}${userUid}/profile.json?auth=${token}`, payload);
 	}
 };
