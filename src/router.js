@@ -4,7 +4,6 @@ import Home from './views/Home.vue';
 import Error_404 from './views/Error_404';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import { eventBus } from './main';
 import store from './store/store';
 //
 const requireComponent = require.context(
@@ -96,18 +95,23 @@ const router = new Router({
 });
 
 router.beforeEach((routeTo, routeFrom, next) => {
-	eventBus.$emit('progressBarState', true);
-	if (store.state.event.handbags.collections) {
-		next();
-	} else {
-		store.dispatch('event/fetchHandbags', 'collections').then(() => {
+	store.dispatch('event/setEventStatus', 'loading');
+	if (window.navigator.onLine) {
+		if (store.state.event.handbags.collections) {
 			next();
-		});
+		} else {
+			store.dispatch('event/fetchHandbags', 'collections').then(() => {
+				next();
+			});
+		}
+	} else {
+		alert('You are offline!');
+		next(false);
 	}
 });
 
-// router.afterEach(() => {
-// 	eventBus.$emit('progressBarState', false);
-// });
+router.afterEach(() => {
+	store.dispatch('event/setEventStatus', 'success');
+});
 
 export default router;
