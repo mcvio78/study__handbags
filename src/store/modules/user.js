@@ -1,11 +1,13 @@
 import firebase from 'firebase/app';
+import HandbagsService from './../../services/HandbagsService';
 
 export const namespaced = true;
 
 export const state = {
-	user: null,
+	user: null, //Todo is user.uid necessary and secure?
 	status: null,
-	error: null
+	error: null,
+	username: null
 };
 
 export const mutations = {
@@ -21,59 +23,105 @@ export const mutations = {
 	SET_ERROR(state, payload) {
 		state.error = payload;
 	},
-	RESET_USER_STATUS_AND_ERROR(state) {
-		state.status = null;
-		state.error = null;
+	SET_USERNAME(state, payload) {
+		state.username = payload;
 	}
 };
 
 export const actions = {
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////SUBSCRIPTION
 	signUpAction({ commit, dispatch }, payload) {
 		commit('SET_STATUS', 'loading');
-		firebase
-			.auth()
-			.createUserWithEmailAndPassword(payload.email, payload.password)
-			.then(response => {
-				commit('SET_USER', response.user.uid);
+
+		function PersistenceLocal() {
+			return firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password);
+		}
+
+		function PersistenceSession() {
+			return firebase
+				.auth()
+				.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+				.then(() => firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password));
+		}
+
+		function firebasePersistence() {
+			if (payload.staySigned) {
+				return PersistenceLocal();
+			} else {
+				return PersistenceSession();
+			}
+		}
+
+		firebasePersistence()
+			.then(response => response.user.updateProfile({ displayName: payload.name }))
+			.then(() => firebase.auth().currentUser.getIdToken(/* forceRefresh */ true))
+			.then(idToken =>
+				HandbagsService.putHandbagService(idToken, firebase.auth().currentUser.uid, {
+					name: payload.name,
+					email: payload.email
+				})
+			)
+			.then(() => {
+				commit('SET_USER', firebase.auth().currentUser.uid);
 				commit('SET_STATUS', 'success');
-				commit('SET_ERROR', 'null');
-				response.user
-					.updateProfile({
-						displayName: payload.name
-					})
-					.then(() => {
-						const notification = {
-							type: 'success',
-							name: payload.name,
-							message: 'Your registratin has been successful!'
-						};
-						dispatch('notification/add', notification, { root: true });
-					});
+				commit('SET_ERROR', null);
+				commit('SET_USERNAME', firebase.auth().currentUser.displayName);
+			})
+			.then(() => {
+				const notification = {
+					type: 'success',
+					name: firebase.auth().currentUser.displayName,
+					message: 'Your registration has been successful!'
+				};
+				dispatch('notification/add', notification, { root: true });
 			})
 			.catch(error => {
 				commit('SET_STATUS', 'failure');
 				commit('SET_ERROR', error.message);
+
 				const notification = {
 					type: 'error',
 					message: `There was a problem with your subscription: ${error.message}`
 				};
 				dispatch('notification/add', notification, { root: true });
+				throw error;
 			});
 	},
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////AUTHENTICATION
 	signInAction({ commit, dispatch }, payload) {
-		firebase
-			.auth()
-			.signInWithEmailAndPassword(payload.email, payload.password)
-			.then(response => {
-				commit('SET_USER', response.user.uid);
+		commit('SET_STATUS', 'loading');
+
+		function PersistenceLocal() {
+			return firebase.auth().signInWithEmailAndPassword(payload.email, payload.password);
+		}
+
+		function PersistenceSession() {
+			return firebase
+				.auth()
+				.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+				.then(() => firebase.auth().signInWithEmailAndPassword(payload.email, payload.password));
+		}
+
+		function firebasePersistence() {
+			if (payload.staySigned) {
+				return PersistenceLocal();
+			} else {
+				return PersistenceSession();
+			}
+		}
+
+		firebasePersistence()
+			.then(() => {
+				commit('SET_USER', firebase.auth().currentUser.uid);
 				commit('SET_STATUS', 'success');
-				commit('SET_ERROR', 'null');
-				return response.user.displayName;
+				commit('SET_ERROR', null);
+				commit('SET_USERNAME', firebase.auth().currentUser.displayName);
 			})
-			.then(displayName => {
+			.then(() => {
 				const notification = {
 					type: 'success',
-					name: displayName,
+					name: firebase.auth().currentUser.displayName,
 					message: 'Authentication has been successful!'
 				};
 				dispatch('notification/add', notification, { root: true });
@@ -81,14 +129,18 @@ export const actions = {
 			.catch(error => {
 				commit('SET_STATUS', 'failure');
 				commit('SET_ERROR', error.message);
+
 				const notification = {
 					type: 'error',
-					message: `There was a problem with authentication: ${error.message}`
+					message: `'There was a problem with your Authentication: '${error.message}`
 				};
 				dispatch('notification/add', notification, { root: true });
 			});
 	},
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////SIGN OUT
 	signOutAction({ commit, dispatch }) {
+		commit('SET_STATUS', 'loading');
 		firebase
 			.auth()
 			.signOut()
@@ -96,6 +148,7 @@ export const actions = {
 				commit('SET_USER', null);
 				commit('SET_STATUS', 'success');
 				commit('SET_ERROR', null);
+				commit('SET_USERNAME', null);
 			})
 			.then(() => {
 				const notification = {
@@ -114,13 +167,13 @@ export const actions = {
 				dispatch('notification/add', notification, { root: true });
 			});
 	},
-	resetUserStatusAndError({ commit }) {
-		commit('RESET_USER_STATUS_AND_ERROR');
-	},
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////KEEP ME LOGGED IN
 	keepLogged({ commit }, payload) {
 		commit('SET_USER', payload.userUid);
 		commit('SET_STATUS', 'success');
-		commit('SET_ERROR', 'null');
+		commit('SET_ERROR', null);
+		commit('SET_USERNAME', payload.userName);
 	}
 };
 
@@ -133,5 +186,8 @@ export const getters = {
 	},
 	error: state => {
 		return state.error;
+	},
+	username: state => {
+		return state.username;
 	}
 };

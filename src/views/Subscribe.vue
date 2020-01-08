@@ -32,6 +32,8 @@
 					<v-btn color="error" class="mr-4" @click="reset">
 						Reset Form
 					</v-btn>
+
+					<v-switch v-model="staySigned" label="Stay Signed"></v-switch>
 				</v-card-actions>
 			</v-form>
 		</v-col>
@@ -40,7 +42,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { eventBus } from '../main';
 
 export default {
 	name: 'Subscribe',
@@ -57,7 +58,8 @@ export default {
 				v => (v && v.length >= 8) || 'Password must be at least 8 characters'
 			],
 			checkbox: false,
-			showPassword: false
+			showPassword: false,
+			staySigned: false
 		};
 	},
 	methods: {
@@ -68,16 +70,13 @@ export default {
 				// Will validate all inputs and return if they are all valid or not
 				// Registration Code
 
-				const userSignUp = { email: this.email, password: this.password, name: this.name };
+				const userSignUp = { email: this.email, password: this.password, name: this.name, staySigned: this.staySigned };
 				this.signUpAction(userSignUp);
 			}
 		},
 		reset() {
 			this.$refs.form.reset();
 		}
-	},
-	mounted() {
-		eventBus.$emit('progressBarState', false);
 	}
 };
 </script>
