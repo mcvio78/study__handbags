@@ -59,7 +59,9 @@ export default {
 			this.dialog = false;
 		},
 		toCart() {
-			this.addToCart({ first_item: this.idBag }).then(() => {});
+			this.addToCart({ first_item: this.idBag }).then(() => {
+				this.dialog = false;
+			});
 		}
 	},
 	mounted() {
