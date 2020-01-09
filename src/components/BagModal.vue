@@ -21,14 +21,14 @@
 					color="red darken-1"
 					:class="this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'"
 					text
-					@click="dialog = false"
+					@click="closeModal"
 					>Close</v-btn
 				>
 				<v-btn
 					color="green darken-1"
 					:class="this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'"
 					text
-					@click="dialog = false"
+					@click="toCart"
 					>To Cart</v-btn
 				>
 			</v-card-actions>
@@ -38,24 +38,34 @@
 
 <script>
 import { eventBus } from './../main';
+import { mapActions } from 'vuex';
 
 export default {
 	data() {
 		return {
 			dialog: false,
 			bagModel: {},
+			idBag: null,
 			alt: 'An Image of Handbag.'
 		};
 	},
 	methods: {
+		...mapActions('cart', ['addToCart']),
 		setHandbagModal(handbag) {
-			this.bagModel = handbag;
+			this.bagModel = handbag.objBag;
 			this.dialog = true;
+		},
+		closeModal() {
+			this.dialog = false;
+		},
+		toCart() {
+			this.addToCart({ first_item: this.idBag }).then(() => {});
 		}
 	},
 	mounted() {
 		eventBus.$on('modalTrueAndBag', handbag => {
 			this.setHandbagModal(handbag);
+			this.idBag = handbag.idBag;
 		});
 	}
 };

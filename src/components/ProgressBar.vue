@@ -20,8 +20,9 @@ export default {
 	computed: {
 		...mapGetters('user', ['status']),
 		...mapGetters('event', ['eventStatus']),
+		...mapGetters('cart', ['cartStatus']),
 		isLoading() {
-			return this.status === 'loading' || this.eventStatus === 'loading';
+			return this.status === 'loading' || this.eventStatus === 'loading' || this.cartStatus === 'loading';
 		}
 	}
 };

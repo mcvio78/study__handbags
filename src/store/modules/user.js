@@ -56,7 +56,7 @@ export const actions = {
 			.then(response => response.user.updateProfile({ displayName: payload.name }))
 			.then(() => firebase.auth().currentUser.getIdToken(/* forceRefresh */ true))
 			.then(idToken =>
-				HandbagsService.putHandbagService(idToken, firebase.auth().currentUser.uid, {
+				HandbagsService.putUserProfileService(idToken, firebase.auth().currentUser.uid, {
 					name: payload.name,
 					email: payload.email
 				})

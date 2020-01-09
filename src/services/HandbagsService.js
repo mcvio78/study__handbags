@@ -15,7 +15,10 @@ export default {
 	getHandbagService(id) {
 		return apiClient.get(`${handbagsPath}${id}.json`);
 	},
-	putHandbagService(token, userUid, payload) {
+	putUserProfileService(token, userUid, payload) {
 		return apiClient.put(`${usersPath}${userUid}/profile.json?auth=${token}`, payload);
+	},
+	addToCartService(token, userUid, payload) {
+		return apiClient.patch(`${usersPath}${userUid}/cart.json?auth=${token}`, payload);
 	}
 };
