@@ -54,7 +54,7 @@ export default {
 
 		validate() {
 			if (this.$refs.form.validate()) {
-				const userSignIn = { email: this.email, password: this.password };
+				const userSignIn = { email: this.email, password: this.password, staySigned: this.staySigned };
 				this.signInAction(userSignIn);
 			}
 		},
