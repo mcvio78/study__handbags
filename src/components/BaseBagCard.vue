@@ -52,6 +52,10 @@ import { eventBus } from './../main';
 export default {
 	name: 'BagCard',
 	props: {
+		idBag: {
+			type: String,
+			required: true
+		},
 		handbag: {
 			type: Object,
 			required: true
@@ -64,7 +68,7 @@ export default {
 	},
 	methods: {
 		modalBag() {
-			const handbag = this.handbag;
+			const handbag = { objBag: this.handbag, idBag: this.idBag };
 			eventBus.$emit('modalTrueAndBag', handbag);
 		}
 	}

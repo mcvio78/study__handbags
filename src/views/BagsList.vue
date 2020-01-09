@@ -15,7 +15,12 @@
 
 		<v-container fluid class="text-center">
 			<v-row no-gutters class="justify-center">
-				<BaseBagCard v-for="handbag in handbags[bagType]" :key="handbag.id" :handbag="handbag"></BaseBagCard>
+				<BaseBagCard
+					v-for="(handbag, index) in handbags[bagType]"
+					:key="index"
+					:handbag="handbag"
+					:idBag="index"
+				></BaseBagCard>
 			</v-row>
 		</v-container>
 		<BagModal></BagModal>
