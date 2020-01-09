@@ -70,6 +70,7 @@ export const actions = {
 			.then(() => {
 				const notification = {
 					type: 'success',
+					field: 'user',
 					name: firebase.auth().currentUser.displayName,
 					message: 'Your registration has been successful!'
 				};
@@ -81,6 +82,7 @@ export const actions = {
 
 				const notification = {
 					type: 'error',
+					field: 'user',
 					message: `There was a problem with your subscription: ${error.message}`
 				};
 				dispatch('notification/add', notification, { root: true });
@@ -121,6 +123,7 @@ export const actions = {
 			.then(() => {
 				const notification = {
 					type: 'success',
+					field: 'user',
 					name: firebase.auth().currentUser.displayName,
 					message: 'Authentication has been successful!'
 				};
@@ -132,6 +135,7 @@ export const actions = {
 
 				const notification = {
 					type: 'error',
+					field: 'user',
 					message: `'There was a problem with your Authentication: '${error.message}`
 				};
 				dispatch('notification/add', notification, { root: true });
@@ -153,6 +157,7 @@ export const actions = {
 			.then(() => {
 				const notification = {
 					type: 'success',
+					field: 'user',
 					message: 'You have successfully logged out!'
 				};
 				dispatch('notification/add', notification, { root: true });
@@ -162,6 +167,7 @@ export const actions = {
 				commit('SET_ERROR', error.message);
 				const notification = {
 					type: 'error',
+					field: 'user',
 					message: `There was a problem with log out: ${error.message}`
 				};
 				dispatch('notification/add', notification, { root: true });

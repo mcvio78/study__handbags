@@ -47,6 +47,7 @@ export const actions = {
 					commit('SET_EVENT_ERROR', error.message);
 					const notification = {
 						type: 'error',
+						field: 'handbags',
 						message: `There was a problem fetching collections: ${error.message}`
 					};
 					dispatch('notification/add', notification, { root: true });

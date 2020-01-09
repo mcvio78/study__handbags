@@ -45,6 +45,7 @@ export const actions = {
 						.then(() => {
 							const notification = {
 								type: 'success',
+								field: 'cart',
 								name: firebase.auth().currentUser.displayName,
 								message: 'The item has been added to your cart.'
 							};
@@ -56,6 +57,7 @@ export const actions = {
 
 							const notification = {
 								type: 'error',
+								field: 'cart',
 								message: `'There was a problem add item to cart: '${error.message}`
 							};
 							dispatch('notification/add', notification, { root: true });

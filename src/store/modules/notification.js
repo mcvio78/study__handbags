@@ -2,22 +2,52 @@ export const namespaced = true;
 
 export const state = {
 	notifications: [],
-	temporaryId: 1
+	temporaryId: 1,
+	closeButton: false,
+	refreshButton: false,
+	okButton: false
 };
 
 // let nextId = 1;
 
 export const mutations = {
 	PUSH(state, notification) {
-		// *TodoDone* chech if object destructuring works instead
-		// state.notifications.push({ ...notification, id: nextId });
 		state.notifications = [...state.notifications, { ...notification, id: state.temporaryId++ }];
+
+		switch (`${notification.type}${notification.field}`) {
+			case 'errorhandbags':
+				state.closeButton = true;
+				state.refreshButton = true;
+				break;
+
+			case 'erroruser':
+				state.closeButton = true;
+				break;
+
+			case 'successuser':
+				state.okButton = true;
+				break;
+
+			case 'successcart':
+				state.okButton = true;
+				break;
+
+			case 'errorcart':
+				state.closeButton = true;
+				break;
+
+			default:
+				break;
+		}
 	},
 	DELETE(state, notificationToRemove) {
 		state.notifications = state.notifications.filter(notification => notification.id !== notificationToRemove.id);
 	},
-	RESET_TEMPORARY_ID(state) {
+	RESET_BUTTONS_AND_TEMP_ID(state) {
 		state.temporaryId = 1;
+		state.closeButton = false;
+		state.refreshButton = false;
+		state.okButton = false;
 	}
 };
 
@@ -28,7 +58,22 @@ export const actions = {
 	remove({ commit }, notificationToRemove) {
 		commit('DELETE', notificationToRemove);
 	},
-	resetTemporaryId({ commit }) {
-		commit('RESET_TEMPORARY_ID');
+	resetButtonsAndTempId({ commit }) {
+		commit('RESET_BUTTONS_AND_TEMP_ID');
+	}
+};
+
+export const getters = {
+	notifications: state => {
+		return state.notifications;
+	},
+	closeButton: state => {
+		return state.closeButton;
+	},
+	refreshButton: state => {
+		return state.refreshButton;
+	},
+	okButton: state => {
+		return state.okButton;
 	}
 };

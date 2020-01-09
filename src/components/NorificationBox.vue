@@ -29,7 +29,8 @@
 
 <script>
 import NotificationBar from './NotificationBar';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
 	name: 'NotificationBox',
@@ -38,62 +39,29 @@ export default {
 	},
 	data() {
 		return {
-			overlay: false,
-			refreshButton: false,
-			closeButton: false,
-			okButton: false
+			overlay: false
 		};
 	},
 	computed: {
-		...mapState('notification', ['notifications', 'temporaryId']),
-		...mapState('user', ['user', 'status']),
-		...mapState('event', ['eventStatus']),
+		...mapGetters('notification', ['closeButton', 'refreshButton', 'okButton', 'notifications']),
+		...mapGetters('user', ['status']),
 		signInUpView() {
 			return this.$route.path === '/subscribe' || this.$route.path === '/authentication';
-		},
-		currentPath() {
-			return this.$route.path;
 		}
 	},
 	methods: {
-		...mapActions('notification', ['resetTemporaryId']),
-		...mapActions('user', ['resetUserStatusAndError']),
-		OverlayButtons(currentPath, currentEventStatus, currentUser, currentUserStatus) {
-			if (currentEventStatus === 'failure' || (currentUserStatus === 'failure' && this.signInUpView)) {
-				this.closeButton = true;
-			}
-			if (currentEventStatus === 'failure') {
-				this.refreshButton = true;
-			}
-			if (
-				(currentUser !== null && currentUserStatus === 'success' && this.signInUpView) ||
-				(currentUser === null && currentUserStatus === 'success' && !this.signInUpView)
-			) {
-				this.okButton = true;
-				this.refreshButton = false;
-				this.closeButton = false;
-			}
-		},
-		resetFields() {
-			this.refreshButton = false;
-			this.closeButton = false;
-			this.okButton = false;
-			this.resetTemporaryId();
-		},
+		...mapActions('notification', ['resetButtonsAndTempId']),
 		refreshPage() {
-			this.resetFields();
+			//this.resetButtonsAndTempId();// Todo is this necessary?
 			this.$router.go();
 		},
 		closeOverlay() {
-			this.resetFields();
+			this.resetButtonsAndTempId();
 			this.overlay = false;
 			if (this.status === 'success' && this.signInUpView) {
 				this.$router.push({ name: 'home' });
 			}
 		}
-	},
-	updated() {
-		this.OverlayButtons(this.currentPath, this.eventStatus, this.user, this.status);
 	}
 };
 </script>
