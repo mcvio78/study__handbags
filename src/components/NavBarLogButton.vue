@@ -10,15 +10,13 @@
 		</template>
 
 		<v-list class="text-center py-sm-2 ma-sm-0">
-			<v-list-item-title>Username: </v-list-item-title>
-			<v-list-item-subtitle>
-				<span class="overline">{{ user }}</span>
-			</v-list-item-subtitle>
+			<v-list-item-title class="title">Username: {{ username }}</v-list-item-title>
 			<v-list-item>
-				<div>
-					<v-btn @click="logoutFirebase">Logout</v-btn>
-				</div>
+				<v-btn @click="logoutFirebase">Logout</v-btn>
 			</v-list-item>
+			<v-list-item-subtitle>
+				<p class="subtitle-1">{{ cart }}</p>
+			</v-list-item-subtitle>
 		</v-list>
 	</v-menu>
 </template>
@@ -33,9 +31,10 @@ export default {
 	}),
 	computed: {
 		userLogged() {
-			return this.user;
+			return this.user; //Todo Do you need it?
 		},
-		...mapGetters('user', ['user'])
+		...mapGetters('user', ['user', 'username']),
+		...mapGetters('cart', ['cart'])
 	},
 	methods: {
 		logoutFirebase() {
