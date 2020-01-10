@@ -47,8 +47,6 @@
 </template>
 
 <script>
-import { eventBus } from './../main';
-
 export default {
 	name: 'BagCard',
 	props: {
@@ -68,8 +66,8 @@ export default {
 	},
 	methods: {
 		modalBag() {
-			const handbag = { objBag: this.handbag, idBag: this.idBag };
-			eventBus.$emit('modalTrueAndBag', handbag);
+			const handbagTypeAndId = { ...this.handbag, idBag: this.idBag, openModal: true };
+			this.$emit('handBagToModal', handbagTypeAndId);
 		}
 	}
 };

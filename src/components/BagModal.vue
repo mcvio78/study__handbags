@@ -37,10 +37,15 @@
 </template>
 
 <script>
-import { eventBus } from './../main';
 import { mapActions } from 'vuex';
 
 export default {
+	props: {
+		handbagTypeAndId: {
+			type: Object,
+			required: true
+		}
+	},
 	data() {
 		return {
 			dialog: false,
@@ -51,10 +56,6 @@ export default {
 	},
 	methods: {
 		...mapActions('cart', ['addToCart']),
-		setHandbagModal(handbag) {
-			this.bagModel = handbag.objBag;
-			this.dialog = true;
-		},
 		closeModal() {
 			this.dialog = false;
 		},
@@ -64,11 +65,17 @@ export default {
 			});
 		}
 	},
-	mounted() {
-		eventBus.$on('modalTrueAndBag', handbag => {
-			this.setHandbagModal(handbag);
-			this.idBag = handbag.idBag;
-		});
+	watch: {
+		handbagTypeAndId: {
+			// the callback will be called immediately after the start of the observation
+			immediate: true,
+			handler() {
+				// do your stuff
+				this.bagModel = this.handbagTypeAndId;
+				this.idBag = this.handbagTypeAndId.idBag;
+				this.dialog = this.handbagTypeAndId.openModal;
+			}
+		}
 	}
 };
 </script>

@@ -9,8 +9,6 @@ Vue.config.productionTip = false;
 
 import vuetify from './plugins/vuetify'; //Vue.use(Vuetify)
 
-export const eventBus = new Vue();
-
 const firebaseConfig = {
 	apiKey: process.env.VUE_APP_API_KEY,
 	authDomain: process.env.VUE_APP_AUTH_DOMAIN,

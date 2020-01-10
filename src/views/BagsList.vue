@@ -16,6 +16,7 @@
 		<v-container fluid class="text-center">
 			<v-row no-gutters class="justify-center">
 				<BaseBagCard
+					@handBagToModal="handBagToModal"
 					v-for="(handbag, index) in handbags[bagType]"
 					:key="index"
 					:handbag="handbag"
@@ -23,7 +24,7 @@
 				></BaseBagCard>
 			</v-row>
 		</v-container>
-		<BagModal></BagModal>
+		<BagModal :handbagTypeAndId="handBagReceivedToModal" />
 	</div>
 </template>
 
@@ -44,11 +45,21 @@ export default {
 	components: {
 		BagModal
 	},
+	data() {
+		return {
+			handBagReceivedToModal: {}
+		};
+	},
 	computed: {
 		// bagTypeUpperCase() {
 		// 	return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
 		// },
 		...mapState('event', ['handbags'])
+	},
+	methods: {
+		handBagToModal(handbagTypeAndId) {
+			this.handBagReceivedToModal = handbagTypeAndId;
+		}
 	},
 	filters: {
 		firstCapital
