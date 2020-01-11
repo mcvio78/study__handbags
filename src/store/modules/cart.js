@@ -37,7 +37,6 @@ export const actions = {
 						.currentUser.getIdToken(/* forceRefresh */ true)
 						.then(idToken => HandbagsService.addToCartService(idToken, firebase.auth().currentUser.uid, payload))
 						.then(response => {
-							console.log('response: ', response);
 							commit('SET_CART', response.data);
 							commit('SET_CART_STATUS', 'success');
 							commit('SET_CART_ERROR', null);
@@ -72,6 +71,28 @@ export const actions = {
 			//Todo complete behaviour #2.
 			alert('there is no local user data.');
 		}
+	},
+
+	getCart({ commit, dispatch }, currentUserSignIn) {
+		currentUserSignIn
+			.getIdToken(/* forceRefresh */ true)
+			.then(idToken => HandbagsService.getCartService(idToken, currentUserSignIn.uid))
+			.then(response => {
+				commit('SET_CART', response.data);
+				commit('SET_CART_STATUS', 'success');
+				commit('SET_CART_ERROR', null);
+			})
+			.catch(error => {
+				commit('SET_CART_STATUS', 'failure');
+				commit('SET_CART_ERROR', error.message);
+
+				const notification = {
+					type: 'error',
+					field: 'cart',
+					message: `'There was a problem fetching cart: '${error.message}`
+				};
+				dispatch('notification/add', notification, { root: true });
+			});
 	}
 };
 

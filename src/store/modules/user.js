@@ -128,6 +128,7 @@ export const actions = {
 					message: 'Authentication has been successful!'
 				};
 				dispatch('notification/add', notification, { root: true });
+				dispatch('cart/getCart', firebase.auth().currentUser, { root: true });
 			})
 			.catch(error => {
 				commit('SET_STATUS', 'failure');
@@ -175,11 +176,13 @@ export const actions = {
 	},
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////KEEP ME LOGGED IN
-	keepLogged({ commit }, payload) {
-		commit('SET_USER', payload.userUid);
+	keepUserLogged({ commit, dispatch }, firebaseUser) {
+		commit('SET_USER', firebaseUser.uid);
 		commit('SET_STATUS', 'success');
 		commit('SET_ERROR', null);
-		commit('SET_USERNAME', payload.userName);
+		commit('SET_USERNAME', firebaseUser.displayName);
+
+		dispatch('cart/getCart', firebaseUser, { root: true });
 	}
 };
 

@@ -24,8 +24,7 @@ firebase.initializeApp(firebaseConfig);
 
 firebase.auth().onAuthStateChanged(user => {
 	if (user && !store.state.user.user) {
-		const payload = { userUid: user.uid, userName: user.displayName };
-		store.dispatch('user/keepLogged', payload);
+		store.dispatch('user/keepUserLogged', user);
 	}
 	new Vue({
 		router,
