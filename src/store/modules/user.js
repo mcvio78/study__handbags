@@ -154,6 +154,8 @@ export const actions = {
 				commit('SET_STATUS', 'success');
 				commit('SET_ERROR', null);
 				commit('SET_USERNAME', null);
+
+				dispatch('cart/clearCart', null, { root: true });
 			})
 			.then(() => {
 				const notification = {

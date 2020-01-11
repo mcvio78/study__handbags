@@ -73,6 +73,7 @@ export const actions = {
 		}
 	},
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////GET TO CART
 	getCart({ commit, dispatch }, currentUserSignIn) {
 		currentUserSignIn
 			.getIdToken(/* forceRefresh */ true)
@@ -93,6 +94,13 @@ export const actions = {
 				};
 				dispatch('notification/add', notification, { root: true });
 			});
+	},
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////CLEAR CART
+	clearCart({ commit }) {
+		commit('SET_CART', null);
+		commit('SET_CART_STATUS', 'success');
+		commit('SET_CART_ERROR', null);
 	}
 };
 
