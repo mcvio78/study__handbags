@@ -13,6 +13,9 @@ export const mutations = {
 	SET_CART(state, payload) {
 		state.cart = payload;
 	},
+	ADD_TO_CART(state, payload) {
+		state.cart = { ...state.cart, [Object.keys(payload)[0]]: Object.values(payload)[0] };
+	},
 	REMOVE_ITEM(state) {
 		// Todo remove specific item.
 		state.cart = null;
@@ -37,7 +40,7 @@ export const actions = {
 						.currentUser.getIdToken(/* forceRefresh */ true)
 						.then(idToken => HandbagsService.addToCartService(idToken, firebase.auth().currentUser.uid, payload))
 						.then(response => {
-							commit('SET_CART', response.data);
+							commit('ADD_TO_CART', response.data);
 							commit('SET_CART_STATUS', 'success');
 							commit('SET_CART_ERROR', null);
 							resolve(response.status);
@@ -113,5 +116,12 @@ export const getters = {
 	},
 	cartError: state => {
 		return state.cartError;
+	},
+	idItemToCart: state => {
+		if (!state.cart) {
+			return 0;
+		} else {
+			return Object.keys(state.cart).length;
+		}
 	}
 };

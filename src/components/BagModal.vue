@@ -10,26 +10,41 @@
 				:alt="alt"
 				class="grey lighten-2"
 			></v-img>
-			<v-card-text class="mt-3 pb-0"
-				><span class="font-weight-black">Stock:</span> {{ bagModel.quantity }} <v-icon>mdi-check</v-icon>
-				<br />
-				<span class="font-weight-black">Price:</span> {{ bagModel.price }} <v-icon>mdi-cash-usd</v-icon>
+			<v-card-text class="mt-3 pb-0 "
+				><span class="font-weight-black">Stock:</span> {{ bagModel.quantity }}
+				<v-icon color="green darken-1">mdi-check</v-icon>
+				<!--				<br />-->
+				<span class="font-weight-black ml-2">Price:</span> {{ bagModel.price }}
+				<v-icon color="green darken-1">mdi-cash-usd</v-icon>
 			</v-card-text>
-			<v-card-actions class="pt-0">
-				<v-spacer></v-spacer>
+
+			<v-card-actions class="py-2 justify-space-around">
+				<div>
+					<v-btn fab dark x-small @click="decreaseQuantity">
+						<v-icon dark>mdi-minus</v-icon>
+					</v-btn>
+					<v-btn fab dark x-small @click="increaseQuantity">
+						<v-icon dark>mdi-plus</v-icon>
+					</v-btn>
+
+					<v-btn
+						color="green darken-1"
+						outlined
+						:class="this.$vuetify.breakpoint.xs ? 'body-2' : 'headline'"
+						text
+						@click="toCart"
+						>Buy {{ quantitySelected }}</v-btn
+					>
+				</div>
+
+				<!-- Todo change buttons add to cart and close. -->
 				<v-btn
+					outlined
 					color="red darken-1"
-					:class="this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'"
+					:class="this.$vuetify.breakpoint.xs ? 'subtitle-2' : 'headline'"
 					text
 					@click="closeModal"
 					>Close</v-btn
-				>
-				<v-btn
-					color="green darken-1"
-					:class="this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline'"
-					text
-					@click="toCart"
-					>To Cart</v-btn
 				>
 			</v-card-actions>
 		</v-card>
@@ -37,7 +52,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
 	props: {
@@ -51,18 +66,42 @@ export default {
 			dialog: false,
 			bagModel: {},
 			idBag: null,
+			quantitySelected: 1,
 			alt: 'An Image of Handbag.'
 		};
+	},
+	computed: {
+		...mapGetters('cart', ['idItemToCart']),
+		storeQuantity() {
+			return this.bagModel.quantity;
+		}
 	},
 	methods: {
 		...mapActions('cart', ['addToCart']),
 		closeModal() {
 			this.dialog = false;
+			this.quantitySelected = 1;
 		},
 		toCart() {
-			this.addToCart({ first_item: this.idBag }).then(() => {
+			//Todo { this.idItemToCart: this.idBag } why error?
+			let payload = {};
+			payload[this.idItemToCart] = { idBag: this.idBag, quantity: this.quantitySelected };
+
+			this.addToCart(payload).then(() => {
 				this.dialog = false;
+				this.quantitySelected = 1;
 			});
+		},
+		increaseQuantity() {
+			// Todo if not greater than quantity in store.
+			if (this.quantitySelected < this.storeQuantity) {
+				this.quantitySelected++;
+			}
+		},
+		decreaseQuantity() {
+			if (this.quantitySelected > 1) {
+				this.quantitySelected--;
+			}
 		}
 	},
 	watch: {

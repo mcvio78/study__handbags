@@ -15,7 +15,7 @@
 				<v-btn @click="logoutFirebase">Logout</v-btn>
 			</v-list-item>
 			<v-list-item-subtitle>
-				<p class="subtitle-1">{{ cart }}</p>
+				<p v-for="(item, index) in cart" :key="index" class="subtitle-1">{{ item }}</p>
 			</v-list-item-subtitle>
 		</v-list>
 	</v-menu>
