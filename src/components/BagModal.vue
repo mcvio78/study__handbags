@@ -82,9 +82,11 @@ export default {
 			this.dialog = false;
 			this.quantitySelected = 1;
 		},
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////ADD TO CART
 		toCart() {
-			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART
 			let currentObjectBagInCart = this.findObjectItemIfInCart(this.idBag);
+			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART
 
 			if (currentObjectBagInCart) {
 				const payload = {
@@ -94,6 +96,7 @@ export default {
 				this.updateCartField(payload).then(() => {
 					this.closeModal();
 				});
+
 				//////////////////////////////////////////////////////////////////////////////////////////////////IF NOT IN CART
 			} else {
 				const payload = { [this.idItemToCart]: { idBag: this.idBag, quantity: this.quantitySelected } };
@@ -102,6 +105,8 @@ export default {
 				});
 			}
 		},
+
+		///////////////////////////////////////////////////////////////////////////////////////MODAL BUTTONS SELECT QUANTITY
 		increaseQuantity() {
 			// Todo if not greater than quantity in store.
 			if (this.quantitySelected < this.storeQuantity) {
@@ -114,6 +119,8 @@ export default {
 			}
 		}
 	},
+
+	////////////////////////////////////////////////////////////////////////////////////////////////WATCH AND UPDATE PROPS
 	watch: {
 		handbagTypeAndId: {
 			// the callback will be called immediately after the start of the observation
