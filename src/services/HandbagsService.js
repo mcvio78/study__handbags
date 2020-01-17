@@ -21,7 +21,11 @@ export default {
 	addToCartService(token, userUid, payload) {
 		return apiClient.patch(`${usersPath}${userUid}/cart.json?auth=${token}`, payload);
 	},
+	updateFieldItemCartService(token, userUid, itemNumber, payload) {
+		return apiClient.patch(`${usersPath}${userUid}/cart/${itemNumber}/.json?auth=${token}`, payload);
+	},
 	getCartService(token, userUid) {
 		return apiClient.get(`${usersPath}${userUid}/cart.json?auth=${token}`);
 	}
 };
+

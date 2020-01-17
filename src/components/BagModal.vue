@@ -71,26 +71,36 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('cart', ['idItemToCart']),
+		...mapGetters('cart', ['cart', 'idItemToCart', 'findObjectItemIfInCart']),
 		storeQuantity() {
 			return this.bagModel.quantity;
 		}
 	},
 	methods: {
-		...mapActions('cart', ['addToCart']),
+		...mapActions('cart', ['addToCart', 'updateCartField']),
 		closeModal() {
 			this.dialog = false;
 			this.quantitySelected = 1;
 		},
 		toCart() {
-			//Todo { this.idItemToCart: this.idBag } why error?
-			let payload = {};
-			payload[this.idItemToCart] = { idBag: this.idBag, quantity: this.quantitySelected };
+			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART
+			let currentObjectBagInCart = this.findObjectItemIfInCart(this.idBag);
 
-			this.addToCart(payload).then(() => {
-				this.dialog = false;
-				this.quantitySelected = 1;
-			});
+			if (currentObjectBagInCart) {
+				const payload = {
+					itemNumber: currentObjectBagInCart[0],
+					value: { quantity: this.quantitySelected + currentObjectBagInCart[1]['quantity'] }
+				};
+				this.updateCartField(payload).then(() => {
+					this.closeModal();
+				});
+				//////////////////////////////////////////////////////////////////////////////////////////////////IF NOT IN CART
+			} else {
+				const payload = { [this.idItemToCart]: { idBag: this.idBag, quantity: this.quantitySelected } };
+				this.addToCart(payload).then(() => {
+					this.closeModal();
+				});
+			}
 		},
 		increaseQuantity() {
 			// Todo if not greater than quantity in store.
