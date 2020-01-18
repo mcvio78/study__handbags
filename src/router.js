@@ -95,7 +95,7 @@ const router = new Router({
 });
 
 router.beforeEach((routeTo, routeFrom, next) => {
-	store.dispatch('event/setEventStatus', 'loading');
+	// store.dispatch('event/setEventStatus', 'loading');
 	if (window.navigator.onLine) {
 		if (store.state.event.handbags.collections) {
 			next();
@@ -105,13 +105,14 @@ router.beforeEach((routeTo, routeFrom, next) => {
 			});
 		}
 	} else {
+		// Todo complete when offline.
 		alert('You are offline!');
 		next(false);
 	}
 });
 
-router.afterEach(() => {
-	store.dispatch('event/setEventStatus', 'success');
-});
+// router.afterEach(() => {
+// 	store.dispatch('event/setEventStatus', 'success');
+// });
 
 export default router;

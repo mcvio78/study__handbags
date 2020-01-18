@@ -54,9 +54,10 @@ export const actions = {
 				});
 		}
 	},
-	setEventStatus({ commit }, payload) {
-		commit('SET_EVENT_STATUS', payload);
-	}
+
+	// setEventStatus({ commit }, payload) {
+	// 	commit('SET_EVENT_STATUS', payload);
+	// }
 };
 
 export const getters = {
