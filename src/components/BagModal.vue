@@ -30,9 +30,10 @@
 					<v-btn
 						color="green darken-1"
 						outlined
+						:disabled="disableToCartButton"
 						:class="this.$vuetify.breakpoint.xs ? 'body-2' : 'headline'"
 						text
-						@click="toCart"
+						@click="putIntoCart"
 						>Buy {{ quantitySelected }}</v-btn
 					>
 				</div>
@@ -67,6 +68,7 @@ export default {
 			bagModel: {},
 			idBag: null,
 			quantitySelected: 1,
+			disableToCartButton: false,
 			alt: 'An Image of Handbag.'
 		};
 	},
@@ -81,10 +83,12 @@ export default {
 		closeModal() {
 			this.dialog = false;
 			this.quantitySelected = 1;
+			this.disableToCartButton = false;
 		},
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////ADD TO CART
-		toCart() {
+		putIntoCart() {
+			this.disableToCartButton = true;
 			let currentObjectBagInCart = this.findObjectItemIfInCart(this.idBag);
 			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART
 
@@ -99,7 +103,7 @@ export default {
 
 				//////////////////////////////////////////////////////////////////////////////////////////////////IF NOT IN CART
 			} else {
-				const payload = { [this.idItemToCart]: { idBag: this.idBag, quantity: this.quantitySelected } };
+				const payload = { [this.idItemToCart]: { idBag: this.idBag, quantity: this.quantitySelected, imageLo: this.bagModel.imageLo, name: this.bagModel.name } };
 				this.addToCart(payload).then(() => {
 					this.closeModal();
 				});
