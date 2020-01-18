@@ -26,6 +26,8 @@ export default {
 	},
 	getCartService(token, userUid) {
 		return apiClient.get(`${usersPath}${userUid}/cart.json?auth=${token}`);
+	},
+	removeItemCartService(token, userUid, itemNumber) {
+		return apiClient.delete(`${usersPath}${userUid}/cart/${itemNumber}/.json?auth=${token}`);
 	}
 };
-
