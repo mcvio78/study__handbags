@@ -235,8 +235,7 @@ export const getters = {
 					return `item_${i}`;
 				}
 			}
-		}
-		else {
+		} else {
 			return 'item_0';
 		}
 	},

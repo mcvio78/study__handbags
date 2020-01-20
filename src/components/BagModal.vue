@@ -56,6 +56,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
+	name: 'BagModal',
 	props: {
 		handbagTypeAndId: {
 			type: Object,
@@ -103,7 +104,15 @@ export default {
 
 				//////////////////////////////////////////////////////////////////////////////////////////////////IF NOT IN CART
 			} else {
-				const payload = { [this.idItemToCart]: { idBag: this.idBag, quantity: this.quantitySelected, imageLo: this.bagModel.imageLo, name: this.bagModel.name } };
+				const payload = {
+					[this.idItemToCart]: {
+						idBag: this.idBag,
+						quantity: this.quantitySelected,
+						imageLo: this.bagModel.imageLo,
+						name: this.bagModel.name,
+						price: this.bagModel.price
+					}
+				};
 				this.addToCart(payload).then(() => {
 					this.closeModal();
 				});

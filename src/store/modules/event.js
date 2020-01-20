@@ -53,7 +53,7 @@ export const actions = {
 					dispatch('notification/add', notification, { root: true });
 				});
 		}
-	},
+	}
 
 	// setEventStatus({ commit }, payload) {
 	// 	commit('SET_EVENT_STATUS', payload);

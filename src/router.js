@@ -85,6 +85,18 @@ const router = new Router({
 			}
 		},
 		{
+			path: '/cart',
+			name: 'cart',
+			component: () => import(/* webpackChunkName: "cart" */ './views/Cart.vue'),
+			beforeEnter: (to, from, next) => {
+				if (store.state.user.user !== null) {
+					next();
+				} else {
+					next({ name: 'home' });
+				}
+			}
+		},
+		{
 			path: '/not-found',
 			name: 'not-found',
 			props: true,
