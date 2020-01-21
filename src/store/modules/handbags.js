@@ -9,8 +9,8 @@ export const state = {
 		// melania: {},
 		// anna: {}
 	},
-	eventStatus: null,
-	eventError: null
+	handbagsStatus: null,
+	handbagsError: null
 };
 
 export const mutations = {
@@ -20,18 +20,18 @@ export const mutations = {
 		//state.handbags[payload.subField] = { ...payload.responseData };
 		//Vue.set(state.handbags, payload.subField, payload.responseData);
 	},
-	SET_EVENT_STATUS(state, payload) {
-		state.eventStatus = payload;
+	SET_HANDBAGS_STATUS(state, payload) {
+		state.handbagsStatus = payload;
 	},
-	SET_EVENT_ERROR(state, payload) {
-		state.eventError = payload;
+	SET_HANDBAGS_ERROR(state, payload) {
+		state.handbagsError = payload;
 	}
 };
 
 export const actions = {
 	fetchHandbags({ commit, getters, dispatch }, subField) {
 		if (!getters.checkIfCollectionExists(subField)) {
-			commit('SET_EVENT_STATUS', 'loading');
+			commit('SET_HANDBAGS_STATUS', 'loading');
 			return HandbagsService.getHandbagService(subField)
 				.then(response => {
 					const payload = {
@@ -39,12 +39,12 @@ export const actions = {
 						responseData: response.data
 					};
 					commit('SET_HANDBAGS', payload);
-					commit('SET_EVENT_STATUS', 'success');
-					commit('SET_EVENT_ERROR', null);
+					commit('SET_HANDBAGS_STATUS', 'success');
+					commit('SET_HANDBAGS_ERROR', null);
 				})
 				.catch(error => {
-					commit('SET_EVENT_STATUS', 'failure');
-					commit('SET_EVENT_ERROR', error.message);
+					commit('SET_HANDBAGS_STATUS', 'failure');
+					commit('SET_HANDBAGS_ERROR', error.message);
 					const notification = {
 						type: 'error',
 						field: 'handbags',
@@ -55,8 +55,8 @@ export const actions = {
 		}
 	}
 
-	// setEventStatus({ commit }, payload) {
-	// 	commit('SET_EVENT_STATUS', payload);
+	// handbagsStatus({ commit }, payload) {
+	// 	commit('SET_HANDBAGS_STATUS', payload);
 	// }
 };
 
@@ -64,10 +64,10 @@ export const getters = {
 	checkIfCollectionExists: state => subField => {
 		return state.handbags[subField];
 	},
-	eventStatus: state => {
-		return state.eventStatus;
+	handbagsStatus: state => {
+		return state.handbagsStatus;
 	},
-	eventError: state => {
-		return state.eventError;
+	handbagsError: state => {
+		return state.handbagsError;
 	}
 };

@@ -19,10 +19,10 @@ export default {
 	},
 	computed: {
 		...mapGetters('user', ['status']),
-		...mapGetters('event', ['eventStatus']),
+		...mapGetters('handbags', ['handbagsStatus']),
 		...mapGetters('cart', ['cartStatus']),
 		isLoading() {
-			return this.status === 'loading' || this.eventStatus === 'loading' || this.cartStatus === 'loading';
+			return this.status === 'loading' || this.handbagsStatus === 'loading' || this.cartStatus === 'loading';
 		}
 	}
 };

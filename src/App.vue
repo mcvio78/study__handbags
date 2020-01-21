@@ -2,7 +2,7 @@
 	<v-app>
 		<NavBar />
 		<ProgressBar />
-		<notification-box v-if="eventStatus" />
+		<notification-box v-if="handbagsStatus" />
 		<v-content>
 			<router-view :key="$route.fullPath" />
 		</v-content>
@@ -23,7 +23,7 @@ export default {
 			isEditing: false //Todo decide if true or false.
 		};
 	},
-	computed: mapState('event', ['eventStatus']),
+	computed: mapState('handbags', ['handbagsStatus']),
 
 	//Prevent browser refresh, URL changes and route navigation.
 	methods: {

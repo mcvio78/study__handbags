@@ -39,7 +39,7 @@ export default {
 		params() {
 			return this.$route.params.bagType;
 		},
-		...mapState({ collections: state => state.event.handbags.collections })
+		...mapState({ collections: state => state.handbags.handbags.collections })
 	},
 	methods: {
 		toBagsList(bagType) {

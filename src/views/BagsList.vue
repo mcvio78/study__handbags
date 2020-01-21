@@ -54,7 +54,7 @@ export default {
 		// bagTypeUpperCase() {
 		// 	return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
 		// },
-		...mapState('event', ['handbags'])
+		...mapState('handbags', ['handbags'])
 	},
 	methods: {
 		handBagToModal(handbagTypeAndId) {
@@ -66,13 +66,13 @@ export default {
 	},
 	beforeRouteEnter(routeTo, routeFrom, next) {
 		if (
-			store.state.event.handbags.collections &&
-			Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)
+			store.state.handbags.handbags.collections &&
+			Object.values(store.state.handbags.handbags.collections).includes(routeTo.params.bagType)
 		) {
 			next();
 		} else if (
-			store.state.event.handbags.collections &&
-			!Object.values(store.state.event.handbags.collections).includes(routeTo.params.bagType)
+			store.state.handbags.handbags.collections &&
+			!Object.values(store.state.handbags.handbags.collections).includes(routeTo.params.bagType)
 		) {
 			next({ name: 'not-found', params: { resource: routeTo.params.bagType } });
 		} else {
@@ -80,7 +80,7 @@ export default {
 		}
 	},
 	created() {
-		store.dispatch('event/fetchHandbags', this.bagType).then(() => {});
+		store.dispatch('handbags/fetchHandbags', this.bagType).then(() => {});
 	}
 };
 </script>

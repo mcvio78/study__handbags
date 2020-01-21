@@ -107,12 +107,12 @@ const router = new Router({
 });
 
 router.beforeEach((routeTo, routeFrom, next) => {
-	// store.dispatch('event/setEventStatus', 'loading');
+	// store.dispatch('handbags/setHandbagsStatus', 'loading');
 	if (window.navigator.onLine) {
-		if (store.state.event.handbags.collections) {
+		if (store.state.handbags.handbags.collections) {
 			next();
 		} else {
-			store.dispatch('event/fetchHandbags', 'collections').then(() => {
+			store.dispatch('handbags/fetchHandbags', 'collections').then(() => {
 				next();
 			});
 		}
@@ -124,7 +124,7 @@ router.beforeEach((routeTo, routeFrom, next) => {
 });
 
 // router.afterEach(() => {
-// 	store.dispatch('event/setEventStatus', 'success');
+// 	store.dispatch('handbags/setHandbagsStatus', 'success');
 // });
 
 export default router;
