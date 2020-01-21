@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import HandbagsService from './../../services/HandbagsService';
+import handbagsService from './../../services/HandbagsService';
 //import Vue from 'vue';
 
 export const namespaced = true;
@@ -22,7 +22,7 @@ export const mutations = {
 	},
 	REMOVE_FROM_CART(state, payload) {
 		// Todo decide if use Vue.delete intead.
-		if (payload.status === 200) {
+		if (payload.status === 200 && payload.data === null) {
 			const cart = { ...state.cart };
 			delete cart[payload.itemId];
 			state.cart = cart;
@@ -46,7 +46,7 @@ export const actions = {
 					firebase
 						.auth()
 						.currentUser.getIdToken(/* forceRefresh */ true)
-						.then(idToken => HandbagsService.addToCartService(idToken, firebase.auth().currentUser.uid, payload))
+						.then(idToken => handbagsService.addToCartService(idToken, firebase.auth().currentUser.uid, payload))
 						.then(response => {
 							commit('ADD_TO_CART', response.data);
 							commit('SET_CART_STATUS', 'success');
@@ -88,7 +88,7 @@ export const actions = {
 	getCart({ commit, dispatch }, currentUserSignIn) {
 		currentUserSignIn
 			.getIdToken(/* forceRefresh */ true)
-			.then(idToken => HandbagsService.getCartService(idToken, currentUserSignIn.uid))
+			.then(idToken => handbagsService.getCartService(idToken, currentUserSignIn.uid))
 			.then(response => {
 				commit('SET_CART', response.data);
 				commit('SET_CART_STATUS', 'success');
@@ -117,7 +117,7 @@ export const actions = {
 						.auth()
 						.currentUser.getIdToken(/* forceRefresh */ true)
 						.then(idToken =>
-							HandbagsService.updateFieldItemCartService(
+							handbagsService.updateFieldItemCartService(
 								idToken,
 								firebase.auth().currentUser.uid,
 								payload.itemNumber,
@@ -170,9 +170,9 @@ export const actions = {
 					firebase
 						.auth()
 						.currentUser.getIdToken(/* forceRefresh */ true)
-						.then(idToken => HandbagsService.removeItemCartService(idToken, firebase.auth().currentUser.uid, payload))
+						.then(idToken => handbagsService.removeItemCartService(idToken, firebase.auth().currentUser.uid, payload))
 						.then(response => {
-							commit('REMOVE_FROM_CART', { status: response.status, itemId: payload });
+							commit('REMOVE_FROM_CART', { status: response.status, data: response.data, itemId: payload });
 							commit('SET_CART_STATUS', 'success');
 							commit('SET_CART_ERROR', null);
 							resolve(response.status);
@@ -193,7 +193,7 @@ export const actions = {
 							const notification = {
 								type: 'error',
 								field: 'cart',
-								message: `'There was a problem remove item from cart: '${error.message}`
+								message: `'There was a problem removing item: '${error.message}`
 							};
 							dispatch('notification/add', notification, { root: true });
 						});

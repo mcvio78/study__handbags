@@ -34,6 +34,20 @@
 		<template v-slot:item.inventoriesQuantity="{ item }">
 			<v-chip color="grey" dark>{{ item.inventoriesQuantity }}</v-chip>
 		</template>
+
+		<template v-slot:item.action="{ item }">
+			<v-btn fab dark x-small color="red" @click="decrementQuantityEdit(item)">
+				<v-icon>mdi-minus</v-icon>
+			</v-btn>
+
+			<v-btn fab dark x-small color="green" class="ml-1" @click="incrementQuantityEdit(item)">
+				<v-icon>mdi-plus</v-icon>
+			</v-btn>
+
+			<v-btn fab dark x-small color="grey" class="ml-1" @click="removeFromCart(item.idBag)">
+				<v-icon>mdi-delete</v-icon>
+			</v-btn>
+		</template>
 	</v-data-table>
 </template>
 
@@ -53,17 +67,19 @@ export default {
 				{ text: 'Price ($)', value: 'price' },
 				{ text: 'Quantity', value: 'quantity' },
 				{ text: 'Inventories', value: 'inventoriesQuantity' },
-				{ text: 'Pic', value: 'imageLo' }
-			]
+				{ text: 'Pic', value: 'imageLo' },
+				{ text: 'Actions', value: 'action', sortable: false }
+			],
+			quantityEdit: 6
 		};
 	},
 	computed: {
-		...mapGetters('cart', ['cart']),
+		...mapGetters('cart', ['cart', 'findObjectItemIfInCart']),
 		...mapGetters('inventories', ['inventories']),
 
 		///////////////////////////////////////////////////////////////ADD INVENTORIES QUANTITY PROP TO ITEMS IN CART OBJECT
 		objectsInCart() {
-			if (this.cart) {
+			if (this.cart && this.inventories) {
 				return Object.values(this.cart).map(obj => {
 					obj.inventoriesQuantity = this.inventories[obj.idBag];
 					return obj;
@@ -73,7 +89,7 @@ export default {
 		total() {
 			if (this.objectsInCart) {
 				return this.objectsInCart.reduce((acc, item) => {
-					return acc + item.price;
+					return acc + item.price * item.quantity;
 				}, 0);
 			}
 		}
@@ -83,13 +99,23 @@ export default {
 			if (item.quantity > this.inventories[item.idBag]) return 'red';
 			else if (item.quantity === this.inventories[item.idBag]) return 'orange';
 			else return 'green';
+		},
+		incrementQuantityEdit(item) {
+			item.quantity++;
+		},
+		decrementQuantityEdit(item) {
+			if (item.quantity > 1) item.quantity--;
+		},
+		removeFromCart(item) {
+			this.$store.dispatch('cart/removeFromCart', this.findObjectItemIfInCart(item)[0]);
 		}
 	},
+
 	created() {
 		this.$store.dispatch('inventories/getInventories', 'quantity');
 		setInterval(() => {
 			this.$store.dispatch('inventories/getInventories', 'quantity');
-		}, 300000); //5 min.
+		}, 600000); //10 min.
 	}
 };
 </script>
