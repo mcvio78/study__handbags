@@ -77,6 +77,14 @@ export default {
 		...mapGetters('cart', ['cart', 'idItemToCart', 'findObjectItemIfInCart']),
 		storeQuantity() {
 			return this.bagModel.quantity;
+		},
+		timestamp() {
+			if (!Date.now) {
+				return (Date.now = function() {
+					return new Date().getTime();
+				});
+			}
+			return Date.now();
 		}
 	},
 	methods: {
@@ -110,7 +118,8 @@ export default {
 						quantity: this.quantitySelected,
 						imageLo: this.bagModel.imageLo,
 						name: this.bagModel.name,
-						price: this.bagModel.price
+						price: this.bagModel.price,
+						timestamp: this.timestamp
 					}
 				};
 				this.addToCart(payload).then(() => {
