@@ -15,37 +15,35 @@
 				<v-btn color="mcPrimary" @click="logoutFirebase">Logout</v-btn>
 			</v-list-item>
 
+			<div v-if="!cartPath">
+				<v-divider v-if="ifCartItems" class="my-1"></v-divider>
 
-			<div v-if='!cartPath'>
-			<v-divider v-if="ifCartItems" class="my-1"></v-divider>
+				<v-subheader v-if="ifCartItems" class="ma-0 py-0">Your Cart:</v-subheader>
 
-			<v-subheader v-if="ifCartItems" class="ma-0 py-0">Your Cart:</v-subheader>
+				<v-list-item v-for="(item, index) in cart" :key="index" class="subtitle-1 pa-0 ma-0 mb-1 justify-end">
+					<v-list-item>
+						<v-card>
+							<v-img width="50" height="50" :src="item.imageLo"></v-img>
+						</v-card>
+					</v-list-item>
 
-			<v-list-item v-for="(item, index) in cart" :key="index" class="subtitle-1 pa-0 ma-0 mb-1 justify-end">
-				<v-list-item>
-					<v-card>
-						<v-img width="50" height="50" :src="item.imageLo"></v-img>
-					</v-card>
+					<v-list-item class="ma-0 pa-0">
+						<v-list-item-group class="text-right">
+							<v-list-item-subtitle>{{ item.name }}</v-list-item-subtitle>
+							<v-list-item-subtitle>Quantity: {{ item.quantity }} </v-list-item-subtitle>
+						</v-list-item-group>
+
+						<v-list-item-action class="my-0 ml-0 mr-2">
+							<v-btn text icon color="deep-orange" @click="removeItem(index)">
+								<v-icon>mdi-close</v-icon>
+							</v-btn>
+						</v-list-item-action>
+					</v-list-item>
 				</v-list-item>
 
-				<v-list-item class="ma-0 pa-0">
-					<v-list-item-group class="text-right">
-						<v-list-item-subtitle>{{ item.name }}</v-list-item-subtitle>
-						<v-list-item-subtitle>Quantity: {{ item.quantity }} </v-list-item-subtitle>
-					</v-list-item-group>
-
-					<v-list-item-action class="my-0 ml-0 mr-2">
-						<v-btn text icon color="deep-orange" @click="removeItem(index)">
-							<v-icon>mdi-close</v-icon>
-						</v-btn>
-					</v-list-item-action>
+				<v-list-item v-if="ifCartItems" class="justify-end mt-2">
+					<v-btn color="mcPrimary" @click="toCart">To Cart</v-btn>
 				</v-list-item>
-			</v-list-item>
-
-
-			<v-list-item v-if="ifCartItems" class="justify-end mt-2">
-				<v-btn color="mcPrimary" @click="toCart">To Cart</v-btn>
-			</v-list-item>
 			</div>
 		</v-list>
 	</v-menu>
@@ -62,6 +60,7 @@ export default {
 	computed: {
 		...mapGetters('user', ['user', 'username']),
 		...mapGetters('cart', ['cart', 'cartItemNumber']),
+
 		userLogged() {
 			return this.user; //Todo Do you need it?
 		},

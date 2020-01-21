@@ -36,6 +36,14 @@ export const mutations = {
 				state.closeButton = true;
 				break;
 
+			case 'successdatabase':
+				state.okButton = true;
+				break;
+
+			case 'errordatabase':
+				state.closeButton = true;
+				break;
+
 			default:
 				break;
 		}

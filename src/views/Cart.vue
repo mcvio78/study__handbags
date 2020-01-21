@@ -24,7 +24,15 @@
 		</template>
 
 		<template v-slot:item.imageLo="{ item }">
-			<v-img width="50" height="50" :src="item.imageLo"></v-img>
+			<v-img width="50" height="50" :src="item.imageLo" class="mb-2 mb-sm-0"></v-img>
+		</template>
+
+		<template v-slot:item.quantity="{ item }">
+			<v-chip :color="getColor(item)" dark>{{ item.quantity }}</v-chip>
+		</template>
+
+		<template v-slot:item.inventoriesQuantity="{ item }">
+			<v-chip color="grey" dark>{{ item.inventoriesQuantity }}</v-chip>
 		</template>
 	</v-data-table>
 </template>
@@ -44,15 +52,22 @@ export default {
 				},
 				{ text: 'Price ($)', value: 'price' },
 				{ text: 'Quantity', value: 'quantity' },
+				{ text: 'Inventories', value: 'inventoriesQuantity' },
 				{ text: 'Pic', value: 'imageLo' }
 			]
 		};
 	},
 	computed: {
 		...mapGetters('cart', ['cart']),
+		...mapGetters('inventories', ['inventories']),
+
+		///////////////////////////////////////////////////////////////ADD INVENTORIES QUANTITY PROP TO ITEMS IN CART OBJECT
 		objectsInCart() {
 			if (this.cart) {
-				return Object.values(this.cart);
+				return Object.values(this.cart).map(obj => {
+					obj.inventoriesQuantity = this.inventories[obj.idBag];
+					return obj;
+				});
 			}
 		},
 		total() {
@@ -62,6 +77,19 @@ export default {
 				}, 0);
 			}
 		}
+	},
+	methods: {
+		getColor(item) {
+			if (item.quantity > this.inventories[item.idBag]) return 'red';
+			else if (item.quantity === this.inventories[item.idBag]) return 'orange';
+			else return 'green';
+		}
+	},
+	created() {
+		this.$store.dispatch('inventories/getInventories', 'quantity');
+		setInterval(() => {
+			this.$store.dispatch('inventories/getInventories', 'quantity');
+		}, 300000); //5 min.
 	}
 };
 </script>
