@@ -1,7 +1,7 @@
 <template>
 	<v-data-table
 		:headers="headers"
-		:items="objectsInCart"
+		:items="bagObjPlusStoreQuantity"
 		:items-per-page="5"
 		class="elevation-2 mb-12  mb-sm-0   fill-height"
 	>
@@ -13,14 +13,15 @@
 					</v-col>
 
 					<v-col class="col-8 col-sm-6 col-md-4 pa-0">
-						<p class="headline">TOTAL : {{ total }}$</p>
+						<p class="headline">TOTAL : ${{ totalAmoutn }}</p>
 					</v-col>
 
 					<v-col class="col-4 col-sm-6 col-md-4 pa-0">
-						<v-btn color="mcPrimary"><!--@click.buy--><span class="subtitle-1">Buy</span></v-btn>
+						<v-btn color="mcPrimary"><!--@click.buy--><span class="subtitle-1" @click="buy">Buy</span></v-btn>
 					</v-col>
 				</v-row>
 			</v-container>
+			<BaseNotificationModal :showModal.sync="modalStatus" :handbagToShow="excessHandbags"></BaseNotificationModal>
 		</template>
 
 		<template v-slot:item.imageLo="{ item }">
@@ -50,11 +51,11 @@
 		</template>
 	</v-data-table>
 </template>
-
 <script>
 import { mapGetters } from 'vuex';
 
 export default {
+	name: 'Cart',
 	data() {
 		return {
 			headers: [
@@ -70,7 +71,7 @@ export default {
 				{ text: 'Pic', value: 'imageLo' },
 				{ text: 'Actions', value: 'action', sortable: false }
 			],
-			quantityEdit: 6
+			modalStatus: null
 		};
 	},
 	computed: {
@@ -78,7 +79,7 @@ export default {
 		...mapGetters('inventories', ['inventories']),
 
 		///////////////////////////////////////////////////////////////ADD INVENTORIES QUANTITY PROP TO ITEMS IN CART OBJECT
-		objectsInCart() {
+		bagObjPlusStoreQuantity() {
 			if (this.cart && this.inventories) {
 				return Object.values(this.cart).map(obj => {
 					obj.inventoriesQuantity = this.inventories[obj.idBag];
@@ -86,12 +87,17 @@ export default {
 				});
 			}
 		},
-		total() {
-			if (this.objectsInCart) {
-				return this.objectsInCart.reduce((acc, item) => {
+		totalAmoutn() {
+			if (this.bagObjPlusStoreQuantity) {
+				return this.bagObjPlusStoreQuantity.reduce((acc, item) => {
 					return acc + item.price * item.quantity;
 				}, 0);
 			}
+		},
+		excessHandbags() {
+			return Object.values(this.cart)
+				.filter(obj => obj.quantity > this.inventories[obj.idBag])
+				.map(item => item.name);
 		}
 	},
 	methods: {
@@ -108,6 +114,14 @@ export default {
 		},
 		removeFromCart(item) {
 			this.$store.dispatch('cart/removeFromCart', this.findObjectItemIfInCart(item)[0]);
+		},
+		buy() {
+			if (this.bagObjPlusStoreQuantity.every(item => item.quantity <= this.inventories[item.idBag])) {
+				alert('OK');
+				this.modalStatus = false;
+			} else {
+				this.modalStatus = true;
+			}
 		}
 	},
 
