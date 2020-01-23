@@ -239,16 +239,20 @@ export const getters = {
 			return 'item_0';
 		}
 	},
-	findObjectItemIfInCart: state => idSearch => {
+
+	//////////////////////////////////////////////////////////////////////////////////GET PROPERTY/OBJECT IN CART BY IDBAG
+	findCartItemWithId: state => idSearch => {
 		if (state.cart) {
+			/* eslint-disable */
 			return Object.entries(state.cart).find(([key, value]) => value.idBag === idSearch);
-		}
-	},
-	cartItemNumber: getters => {
-		if (getters.cart) {
-			return Object.values(getters.cart).reduce((acc, item) => {
-				return acc + item.quantity;
-			}, 0);
+			/* eslint-enable */
 		}
 	}
+	// cartItemQuantity: getters => {
+	// 	if (getters.cart) {
+	// 		return Object.values(getters.cart).reduce((acc, item) => {
+	// 			return acc + item.quantity;
+	// 		}, 0);
+	// 	}
+	// }
 };

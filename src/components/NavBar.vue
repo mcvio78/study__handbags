@@ -42,6 +42,12 @@ export default {
 		noHomePath() {
 			return this.$route.name !== 'home';
 		}
+	},
+	created() {
+		this.$store.dispatch('inventories/getInventories', 'quantity');
+		setInterval(() => {
+			this.$store.dispatch('inventories/getInventories', 'quantity');
+		}, 60000); //1 min.
 	}
 };
 </script>

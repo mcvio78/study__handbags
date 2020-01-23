@@ -86,7 +86,7 @@ export default {
 		...mapGetters('cart', ['cart', 'idItemToCart', 'findCartItemWithId']),
 		...mapGetters('inventories', ['inventories']),
 		storeQuantity() {
-			if(Object.entries(this.bagModel)) {
+			if (Object.entries(this.bagModel)) {
 				return this.bagModel.quantity;
 			}
 			return null;
@@ -108,7 +108,7 @@ export default {
 			return false;
 		},
 		sold() {
-			if(this.idBag) {
+			if (this.idBag) {
 				return this.inventories[this.idBag] === 0;
 			}
 			return false;

@@ -16,7 +16,7 @@
 				<v-card-actions>
 					<v-spacer></v-spacer>
 					<v-btn color="primary" text @click="$emit('update:showModal', false)">
-						I accept
+						I understand
 					</v-btn>
 				</v-card-actions>
 			</v-card>

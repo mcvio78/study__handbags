@@ -1,5 +1,6 @@
 <template>
 	<v-data-table
+		v-if="cart && inventories"
 		:headers="headers"
 		:items="bagObjPlusStoreQuantity"
 		:items-per-page="5"
@@ -75,7 +76,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('cart', ['cart', 'findObjectItemIfInCart']),
+		...mapGetters('cart', ['cart', 'findCartItemWithId']),
 		...mapGetters('inventories', ['inventories']),
 
 		///////////////////////////////////////////////////////////////ADD INVENTORIES QUANTITY PROP TO ITEMS IN CART OBJECT
@@ -86,13 +87,12 @@ export default {
 					return obj;
 				});
 			}
+			return null;
 		},
 		totalAmoutn() {
-			if (this.bagObjPlusStoreQuantity) {
-				return this.bagObjPlusStoreQuantity.reduce((acc, item) => {
-					return acc + item.price * item.quantity;
-				}, 0);
-			}
+			return this.bagObjPlusStoreQuantity.reduce((acc, item) => {
+				return acc + item.price * item.quantity;
+			}, 0);
 		},
 		excessHandbags() {
 			return Object.values(this.cart)
@@ -113,23 +113,23 @@ export default {
 			if (item.quantity > 1) item.quantity--;
 		},
 		removeFromCart(item) {
-			this.$store.dispatch('cart/removeFromCart', this.findObjectItemIfInCart(item)[0]);
+			this.$store.dispatch('cart/removeFromCart', this.findCartItemWithId(item)[0]);
 		},
 		buy() {
 			if (this.bagObjPlusStoreQuantity.every(item => item.quantity <= this.inventories[item.idBag])) {
 				alert('OK');
+				// Todo send and remove item in store.
 				this.modalStatus = false;
 			} else {
 				this.modalStatus = true;
 			}
 		}
-	},
-
-	created() {
-		this.$store.dispatch('inventories/getInventories', 'quantity');
-		setInterval(() => {
-			this.$store.dispatch('inventories/getInventories', 'quantity');
-		}, 600000); //10 min.
 	}
+	// created() {
+	// 	this.$store.dispatch('inventories/getInventories', 'quantity');
+	// 	setInterval(() => {
+	// 		this.$store.dispatch('inventories/getInventories', 'quantity');
+	// 	}, 600000); //10 min.
+	// }
 };
 </script>

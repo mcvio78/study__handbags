@@ -3,7 +3,7 @@
 		<template v-slot:activator="{ on }">
 			<v-btn text icon large class="pa-0" v-on="on">
 				<div style="position: absolute">
-					<p class="white--text mt-0" style="font-size: .7rem; font-weight: bold">{{ cartItemNumber }}</p>
+					<p class="white--text mt-0" style="font-size: .7rem; font-weight: bold">{{ cartItemQuantity }}</p>
 				</div>
 				<v-icon color="grey">mdi-cart-outline</v-icon>
 			</v-btn>
@@ -59,7 +59,7 @@ export default {
 	}),
 	computed: {
 		...mapGetters('user', ['user', 'username']),
-		...mapGetters('cart', ['cart', 'cartItemNumber']),
+		...mapGetters('cart', ['cart', 'cartItemQuantity']),
 
 		userLogged() {
 			return this.user; //Todo Do you need it?
@@ -72,9 +72,18 @@ export default {
 			} else {
 				return false;
 			}
+			return null;
 		},
 		cartPath() {
 			return this.$route.name === 'cart';
+		},
+		cartItemQuantity() {
+			if (this.cart) {
+				return Object.values(this.cart).reduce((acc, item) => {
+					return acc + item.quantity;
+				}, 0);
+			}
+			return 0;
 		}
 	},
 	methods: {
