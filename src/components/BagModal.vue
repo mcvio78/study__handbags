@@ -9,9 +9,18 @@
 				:srcset="bagModel.imageLo + ' 500w, ' + bagModel.imageHi + ' 1000w'"
 				:alt="alt"
 				class="grey lighten-2"
-			></v-img>
+			>
+				<v-container v-if="exceeded" class="d-flex fill-height justify-center  align-sm-center align-end">
+					<span class="red--text text-center grey title d-inline-block pa-8 pa-sm-12">Quantity available exceeded</span>
+				</v-container>
+
+				<v-container v-if="sold" class="d-flex fill-height justify-center align-sm-center align-end">
+					<span class="red--text text-center grey title d-inline-block pa-8 pa-sm-12">Sold Out</span>
+				</v-container>
+			</v-img>
+
 			<v-card-text class="mt-3 pb-0 "
-				><span class="font-weight-black">Stock:</span> {{ bagModel.quantity }}
+				><span class="font-weight-black">Stock:</span> {{ inventories[bagModel.idBag] }}
 				<v-icon color="green darken-1">mdi-check</v-icon>
 				<!--				<br />-->
 				<span class="font-weight-black ml-2">Price:</span> {{ bagModel.price }}
@@ -67,16 +76,20 @@ export default {
 		return {
 			dialog: false,
 			bagModel: {},
-			idBag: null,
+			idBag: 'null',
 			quantitySelected: 1,
 			disableToCartButton: false,
 			alt: 'An Image of Handbag.'
 		};
 	},
 	computed: {
-		...mapGetters('cart', ['cart', 'idItemToCart', 'findObjectItemIfInCart']),
+		...mapGetters('cart', ['cart', 'idItemToCart', 'findCartItemWithId']),
+		...mapGetters('inventories', ['inventories']),
 		storeQuantity() {
-			return this.bagModel.quantity;
+			if(Object.entries(this.bagModel)) {
+				return this.bagModel.quantity;
+			}
+			return null;
 		},
 		timestamp() {
 			if (!Date.now) {
@@ -85,6 +98,20 @@ export default {
 				});
 			}
 			return Date.now();
+		},
+		exceeded() {
+			if (this.findCartItemWithId(this.idBag)) {
+				return (
+					this.quantitySelected + this.findCartItemWithId(this.idBag)[1]['quantity'] > this.inventories[this.idBag]
+				);
+			}
+			return false;
+		},
+		sold() {
+			if(this.idBag) {
+				return this.inventories[this.idBag] === 0;
+			}
+			return false;
 		}
 	},
 	methods: {
@@ -93,12 +120,13 @@ export default {
 			this.dialog = false;
 			this.quantitySelected = 1;
 			this.disableToCartButton = false;
+			this.quantity = 1;
 		},
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////ADD TO CART
 		putIntoCart() {
 			this.disableToCartButton = true;
-			let currentObjectBagInCart = this.findObjectItemIfInCart(this.idBag);
+			let currentObjectBagInCart = this.findCartItemWithId(this.idBag);
 			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART
 
 			if (currentObjectBagInCart) {
@@ -149,9 +177,9 @@ export default {
 			immediate: true,
 			handler() {
 				// do your stuff
-				this.bagModel = this.handbagTypeAndId;
-				this.idBag = this.handbagTypeAndId.idBag;
-				this.dialog = this.handbagTypeAndId.openModal;
+				this.bagModel = this.handbagTypeAndId || {};
+				this.idBag = this.handbagTypeAndId.idBag || null;
+				this.dialog = this.handbagTypeAndId.openModal || false;
 			}
 		}
 	}
