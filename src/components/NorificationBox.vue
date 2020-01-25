@@ -45,9 +45,13 @@ export default {
 	computed: {
 		...mapGetters('notification', ['closeButton', 'refreshButton', 'okButton', 'notifications']),
 		...mapGetters('user', ['status']),
+		...mapGetters('cart', ['cart']),
 		signInUpView() {
 			return this.$route.path === '/subscribe' || this.$route.path === '/authentication';
-		}
+		},
+		cartViewEmptyCart() {
+			return this.$route.path === '/cart' && Object.keys(this.cart).length === 0;
+		},
 	},
 	methods: {
 		...mapActions('notification', ['resetButtonsAndTempId']),
@@ -58,7 +62,7 @@ export default {
 		closeOverlay() {
 			this.resetButtonsAndTempId();
 			this.overlay = false;
-			if (this.status === 'success' && this.signInUpView) {
+			if (this.status === 'success' && this.signInUpView || this.cartViewEmptyCart) {
 				this.$router.push({ name: 'home' });
 			}
 		}
