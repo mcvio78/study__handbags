@@ -2,7 +2,7 @@
 	<v-data-table
 		v-if="cart && inventories"
 		:headers="headers"
-		:items="bagObjPlusStoreQuantity"
+		:items="cartBagObjAndStoreQuantity"
 		:items-per-page="5"
 		class="elevation-2 mb-12  mb-sm-0   fill-height"
 	>
@@ -30,7 +30,7 @@
 		</template>
 
 		<template v-slot:item.quantity="{ item }">
-			<v-chip :color="getColor(item)" dark>{{ item.quantity }}</v-chip>
+			<v-chip :color="getColorCart(item)" dark>{{ item.quantity }}</v-chip>
 		</template>
 
 		<template v-slot:item.inventoriesQuantity="{ item }">
@@ -53,7 +53,7 @@
 	</v-data-table>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
 	name: 'Cart',
@@ -80,7 +80,7 @@ export default {
 		...mapGetters('inventories', ['inventories']),
 
 		///////////////////////////////////////////////////////////////ADD INVENTORIES QUANTITY PROP TO ITEMS IN CART OBJECT
-		bagObjPlusStoreQuantity() {
+		cartBagObjAndStoreQuantity() {
 			if (this.cart && this.inventories) {
 				return Object.values(this.cart).map(obj => {
 					obj.inventoriesQuantity = this.inventories[obj.idBag];
@@ -90,7 +90,7 @@ export default {
 			return null;
 		},
 		totalAmoutn() {
-			return this.bagObjPlusStoreQuantity.reduce((acc, item) => {
+			return this.cartBagObjAndStoreQuantity.reduce((acc, item) => {
 				return acc + item.price * item.quantity;
 			}, 0);
 		},
@@ -101,7 +101,8 @@ export default {
 		}
 	},
 	methods: {
-		getColor(item) {
+		...mapActions('inventories', ['updateInventories']),
+		getColorCart(item) {
 			if (item.quantity > this.inventories[item.idBag]) return 'red';
 			else if (item.quantity === this.inventories[item.idBag]) return 'orange';
 			else return 'green';
@@ -116,20 +117,25 @@ export default {
 			this.$store.dispatch('cart/removeFromCart', this.findCartItemWithId(item)[0]);
 		},
 		buy() {
-			if (this.bagObjPlusStoreQuantity.every(item => item.quantity <= this.inventories[item.idBag])) {
-				alert('OK');
+			if (this.cartBagObjAndStoreQuantity.every(item => item.quantity <= this.inventories[item.idBag])) {
 				// Todo send and remove item in store.
+
+				const cartOrderBuy = this.cartBagObjAndStoreQuantity.reduce(
+					(acc, item) => ({ ...acc, [item.idBag]: item.quantity }),
+					{}
+				);
+
+				const inventoriesObjValuesUpdated = Object.entries(cartOrderBuy).reduce(
+					(acc, item) => ({ ...acc, [item[0]]: this.inventories[item[0]] - item[1] }),
+					{}
+				);
+
+				this.updateInventories(inventoriesObjValuesUpdated);
 				this.modalStatus = false;
 			} else {
 				this.modalStatus = true;
 			}
 		}
 	}
-	// created() {
-	// 	this.$store.dispatch('inventories/getInventories', 'quantity');
-	// 	setInterval(() => {
-	// 		this.$store.dispatch('inventories/getInventories', 'quantity');
-	// 	}, 600000); //10 min.
-	// }
 };
 </script>
