@@ -27,7 +27,13 @@ export default {
 	getCartService(token, userUid) {
 		return apiClient.get(`${usersPath}${userUid}/cart.json?auth=${token}`);
 	},
-	removeItemCartService(token, userUid, itemNumber) {
+	removeItemCartService(token, userUid, field, itemNumber) {
 		return apiClient.delete(`${usersPath}${userUid}/cart/${itemNumber}/.json?auth=${token}`);
-	}
+	},
+	deleteField(token, userUid, field) {
+		return apiClient.delete(`${usersPath}${userUid}/${field}/.json?auth=${token}`);
+	},
+	updateInventoriesService(token, userUid, payload) {
+		return apiClient.patch(`${handbagsPath}/quantity.json?auth=${token}`, payload);
+	},
 };
