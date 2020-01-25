@@ -15,7 +15,7 @@
 				</v-container>
 
 				<v-container v-if="sold" class="d-flex fill-height justify-center align-sm-center align-end">
-					<span class="red--text text-center grey title d-inline-block pa-8 pa-sm-12">Sold Out</span>
+					<span class="white--text text-center grey title d-inline-block pa-8 pa-sm-12">Sold Out</span>
 				</v-container>
 			</v-img>
 
@@ -76,7 +76,7 @@ export default {
 		return {
 			dialog: false,
 			bagModel: {},
-			idBag: 'null',
+			idBag: null,
 			quantitySelected: 1,
 			disableToCartButton: false,
 			alt: 'An Image of Handbag.'
@@ -86,10 +86,7 @@ export default {
 		...mapGetters('cart', ['cart', 'idItemToCart', 'findCartItemWithId']),
 		...mapGetters('inventories', ['inventories']),
 		storeQuantity() {
-			if (Object.entries(this.bagModel)) {
-				return this.bagModel.quantity;
-			}
-			return null;
+			return this.bagModel.quantity;
 		},
 		timestamp() {
 			if (!Date.now) {
@@ -126,9 +123,9 @@ export default {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////ADD TO CART
 		putIntoCart() {
 			this.disableToCartButton = true;
-			let currentObjectBagInCart = this.findCartItemWithId(this.idBag);
-			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART
+			const currentObjectBagInCart = this.findCartItemWithId(this.idBag);
 
+			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART
 			if (currentObjectBagInCart) {
 				const payload = {
 					itemNumber: currentObjectBagInCart[0],
@@ -174,11 +171,11 @@ export default {
 	watch: {
 		handbagTypeAndId: {
 			// the callback will be called immediately after the start of the observation
-			immediate: true,
+			//immediate: true,
 			handler() {
 				// do your stuff
-				this.bagModel = this.handbagTypeAndId || {};
-				this.idBag = this.handbagTypeAndId.idBag || null;
+				this.bagModel = this.handbagTypeAndId;
+				this.idBag = this.handbagTypeAndId.idBag;
 				this.dialog = this.handbagTypeAndId.openModal || false;
 			}
 		}
