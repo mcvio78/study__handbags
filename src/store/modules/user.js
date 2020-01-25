@@ -155,7 +155,7 @@ export const actions = {
 				commit('SET_ERROR', null);
 				commit('SET_USERNAME', null);
 
-				dispatch('cart/clearCart', null, { root: true });
+				dispatch('cart/signOutCart', null, { root: true });
 			})
 			.then(() => {
 				const notification = {
