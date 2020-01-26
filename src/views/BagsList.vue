@@ -24,7 +24,7 @@
 				></BaseBagCard>
 			</v-row>
 		</v-container>
-		<BagModal :handbagTypeAndId="handBagReceivedToModal" />
+		<BagModal :handbagTypeAndId="handbagReceivedToModal" />
 	</div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
 	},
 	data() {
 		return {
-			handBagReceivedToModal: {}
+			handbagReceivedToModal: {}
 		};
 	},
 	computed: {
@@ -58,7 +58,7 @@ export default {
 	},
 	methods: {
 		handBagToModal(handbagTypeAndId) {
-			this.handBagReceivedToModal = handbagTypeAndId;
+			this.handbagReceivedToModal = handbagTypeAndId;
 		}
 	},
 	filters: {
@@ -80,7 +80,7 @@ export default {
 		}
 	},
 	created() {
-		store.dispatch('handbags/fetchHandbags', this.bagType).then(() => {});
+		store.dispatch('handbags/fetchHandbags', this.bagType).then(() => {});// Todo why? remove?
 	}
 };
 </script>

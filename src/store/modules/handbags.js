@@ -28,6 +28,7 @@ export const mutations = {
 	}
 };
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////FETCH HANDBAGS
 export const actions = {
 	fetchHandbags({ commit, getters, dispatch }, subField) {
 		if (!getters.checkIfCollectionExists(subField)) {

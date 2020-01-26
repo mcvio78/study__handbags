@@ -170,10 +170,10 @@ export default {
 	////////////////////////////////////////////////////////////////////////////////////////////////WATCH AND UPDATE PROPS
 	watch: {
 		handbagTypeAndId: {
-			// the callback will be called immediately after the start of the observation
-			//immediate: true,
+			// The callback will be called immediately after the start of the observation.
+			// immediate: true,
 			handler() {
-				// do your stuff
+				// Do your stuff.
 				this.bagModel = this.handbagTypeAndId;
 				this.idBag = this.handbagTypeAndId.idBag;
 				this.dialog = this.handbagTypeAndId.openModal || false;
