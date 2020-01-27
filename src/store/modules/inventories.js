@@ -20,7 +20,7 @@ export const mutations = {
 		state.inventoriesError = payload;
 	},
 	UPDATE_INVENTORIES_FIELD(state, payload) {
-		Object.keys(payload).forEach(key => state.inventories[key] = payload[key]);
+		Object.keys(payload).forEach(key => (state.inventories[key] = payload[key]));
 		//state.inventories[payload.itemNumber]['quantity'] = payload.value.quantity;
 	}
 };

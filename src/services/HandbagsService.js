@@ -35,5 +35,5 @@ export default {
 	},
 	updateInventoriesService(token, userUid, payload) {
 		return apiClient.patch(`${handbagsPath}/quantity.json?auth=${token}`, payload);
-	},
+	}
 };

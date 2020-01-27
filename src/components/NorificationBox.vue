@@ -51,7 +51,7 @@ export default {
 		},
 		cartViewEmptyCart() {
 			return this.$route.path === '/cart' && Object.keys(this.cart).length === 0;
-		},
+		}
 	},
 	methods: {
 		...mapActions('notification', ['resetButtonsAndTempId']),
@@ -62,7 +62,7 @@ export default {
 		closeOverlay() {
 			this.resetButtonsAndTempId();
 			this.overlay = false;
-			if (this.status === 'success' && this.signInUpView || this.cartViewEmptyCart) {
+			if ((this.status === 'success' && this.signInUpView) || this.cartViewEmptyCart) {
 				this.$router.push({ name: 'home' });
 			}
 		}

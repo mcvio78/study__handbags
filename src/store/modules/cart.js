@@ -222,26 +222,26 @@ export const actions = {
 				if (firebase.auth().currentUser) {
 					commit('SET_CART_STATUS', 'loading');
 					firebase
-					.auth()
-					.currentUser.getIdToken(/* forceRefresh */ true)
-					.then(idToken => handbagsService.deleteField(idToken, firebase.auth().currentUser.uid, payload))
-					.then(response => {
-						commit('SET_CART', null);
-						commit('SET_CART_STATUS', 'success');
-						commit('SET_CART_ERROR', null);
-						resolve(response.status);
-					})
-					.catch(error => {
-						commit('SET_CART_STATUS', 'failure');
-						commit('SET_CART_ERROR', error.message);
+						.auth()
+						.currentUser.getIdToken(/* forceRefresh */ true)
+						.then(idToken => handbagsService.deleteField(idToken, firebase.auth().currentUser.uid, payload))
+						.then(response => {
+							commit('SET_CART', null);
+							commit('SET_CART_STATUS', 'success');
+							commit('SET_CART_ERROR', null);
+							resolve(response.status);
+						})
+						.catch(error => {
+							commit('SET_CART_STATUS', 'failure');
+							commit('SET_CART_ERROR', error.message);
 
-						const notification = {
-							type: 'error',
-							field: 'cart',
-							message: `'There was a problem delete your cart in database: '${error.message}`
-						};
-						dispatch('notification/add', notification, { root: true });
-					});
+							const notification = {
+								type: 'error',
+								field: 'cart',
+								message: `'There was a problem delete your cart in database: '${error.message}`
+							};
+							dispatch('notification/add', notification, { root: true });
+						});
 				} else {
 					//Todo complete behaviour #1.
 					alert('there is no firebase user.');
@@ -251,10 +251,6 @@ export const actions = {
 			//Todo complete behaviour #2.
 			alert('there is no local user data.');
 		}
-
-
-
-
 	}
 };
 

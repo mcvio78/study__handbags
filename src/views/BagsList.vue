@@ -80,7 +80,7 @@ export default {
 		}
 	},
 	created() {
-		store.dispatch('handbags/fetchHandbags', this.bagType).then(() => {});// Todo why? remove?
+		store.dispatch('handbags/fetchHandbags', this.bagType).then(() => {}); // Todo why? remove?
 	}
 };
 </script>
