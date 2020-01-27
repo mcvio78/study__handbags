@@ -28,57 +28,101 @@ export const mutations = {
 	}
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////FIREBASE USER CREDENTIAL
+function firebaseId() {
+	return firebase.auth().currentUser.uid;
+}
+
+function firebaseName() {
+	return firebase.auth().currentUser.displayName;
+}
+
+function firebaseToken() {
+	return firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////FIREBASE PERSISTENCE
+function firebaseCreate(payload) {
+	return firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password);
+}
+
+function firebaseAuthentication(payload) {
+	return firebase.auth().signInWithEmailAndPassword(payload.email, payload.password);
+}
+
+function PersistenceLocal(payload, signTypeAccount) {
+	if (signTypeAccount === 'signUp') {
+		return firebaseCreate(payload);
+	} else if (signTypeAccount === 'signIn') {
+		return firebaseAuthentication(payload);
+	}
+}
+
+function PersistenceSession(payload, signTypeAccount) {
+	if (signTypeAccount === 'signUp') {
+		return firebase
+			.auth()
+			.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+			.then(() => firebaseCreate(payload));
+	} else if (signTypeAccount === 'signIn') {
+		return firebase
+			.auth()
+			.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+			.then(() => firebaseAuthentication(payload));
+	}
+}
+
+function firebasePersistence(payload, signTypeAccount) {
+	if (payload.staySigned) {
+		return PersistenceLocal(payload, signTypeAccount);
+	} else {
+		return PersistenceSession(payload, signTypeAccount);
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////MUTATE STATE SUCCESS
+function mutateStateSuccess(commit, userValue, statusValue, errorValue, usernameValue) {
+	commit('SET_USER', userValue);
+	commit('SET_STATUS', statusValue);
+	commit('SET_ERROR', errorValue);
+	commit('SET_USERNAME', usernameValue);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////MUTATE STATE FAILURE
+function mutateStateFailure(commit, statusValue, err) {
+	commit('SET_STATUS', statusValue);
+	commit('SET_ERROR', err.message);
+}
+
 export const actions = {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////SUBSCRIPTION
 	signUpAction({ commit, dispatch }, payload) {
 		commit('SET_STATUS', 'loading');
 
-		function PersistenceLocal() {
-			return firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password);
-		}
-
-		function PersistenceSession() {
-			return firebase
-				.auth()
-				.setPersistence(firebase.auth.Auth.Persistence.SESSION)
-				.then(() => firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password));
-		}
-
-		function firebasePersistence() {
-			if (payload.staySigned) {
-				return PersistenceLocal();
-			} else {
-				return PersistenceSession();
-			}
-		}
-
-		firebasePersistence()
+		firebasePersistence(payload, 'signUp')
 			.then(response => response.user.updateProfile({ displayName: payload.name }))
-			.then(() => firebase.auth().currentUser.getIdToken(/* forceRefresh */ true))
+			.then(() => firebaseToken())
 			.then(idToken =>
-				HandbagsService.putUserProfileService(idToken, firebase.auth().currentUser.uid, {
+				HandbagsService.putUserProfileService(idToken, firebaseId(), {
 					name: payload.name,
 					email: payload.email
 				})
 			)
+
 			.then(() => {
-				commit('SET_USER', firebase.auth().currentUser.uid);
-				commit('SET_STATUS', 'success');
-				commit('SET_ERROR', null);
-				commit('SET_USERNAME', firebase.auth().currentUser.displayName);
-			})
-			.then(() => {
+				mutateStateSuccess(commit, firebaseId(), 'success', null, firebaseName());
+
 				const notification = {
 					type: 'success',
 					field: 'user',
-					name: firebase.auth().currentUser.displayName,
+					name: firebaseName(),
 					message: 'Your registration has been successful!'
 				};
 				dispatch('notification/add', notification, { root: true });
 			})
+
 			.catch(error => {
-				commit('SET_STATUS', 'failure');
-				commit('SET_ERROR', error.message);
+				mutateStateFailure(commit, 'failure', error);
 
 				const notification = {
 					type: 'error',
@@ -94,45 +138,25 @@ export const actions = {
 	signInAction({ commit, dispatch }, payload) {
 		commit('SET_STATUS', 'loading');
 
-		function PersistenceLocal() {
-			return firebase.auth().signInWithEmailAndPassword(payload.email, payload.password);
-		}
-
-		function PersistenceSession() {
-			return firebase
-				.auth()
-				.setPersistence(firebase.auth.Auth.Persistence.SESSION)
-				.then(() => firebase.auth().signInWithEmailAndPassword(payload.email, payload.password));
-		}
-
-		function firebasePersistence() {
-			if (payload.staySigned) {
-				return PersistenceLocal();
-			} else {
-				return PersistenceSession();
-			}
-		}
-
-		firebasePersistence()
+		firebasePersistence(payload, 'signIn')
 			.then(() => {
-				commit('SET_USER', firebase.auth().currentUser.uid);
-				commit('SET_STATUS', 'success');
-				commit('SET_ERROR', null);
-				commit('SET_USERNAME', firebase.auth().currentUser.displayName);
+				mutateStateSuccess(commit, firebaseId(), 'success', null, firebaseName());
 			})
+
 			.then(() => {
+				dispatch('cart/getCart', firebase.auth().currentUser, { root: true });
+
 				const notification = {
 					type: 'success',
 					field: 'user',
-					name: firebase.auth().currentUser.displayName,
+					name: firebaseName(),
 					message: 'Authentication has been successful!'
 				};
 				dispatch('notification/add', notification, { root: true });
-				dispatch('cart/getCart', firebase.auth().currentUser, { root: true });
 			})
+
 			.catch(error => {
-				commit('SET_STATUS', 'failure');
-				commit('SET_ERROR', error.message);
+				mutateStateFailure(commit, 'failure', error);
 
 				const notification = {
 					type: 'error',
@@ -146,17 +170,16 @@ export const actions = {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////SIGN OUT
 	signOutAction({ commit, dispatch }) {
 		commit('SET_STATUS', 'loading');
+
 		firebase
 			.auth()
 			.signOut()
 			.then(() => {
-				commit('SET_USER', null);
-				commit('SET_STATUS', 'success');
-				commit('SET_ERROR', null);
-				commit('SET_USERNAME', null);
+				mutateStateSuccess(commit, null, 'success', null, null);
 
 				dispatch('cart/signOutCart', null, { root: true });
 			})
+
 			.then(() => {
 				const notification = {
 					type: 'success',
@@ -165,9 +188,10 @@ export const actions = {
 				};
 				dispatch('notification/add', notification, { root: true });
 			})
+
 			.catch(error => {
-				commit('SET_STATUS', 'failure');
-				commit('SET_ERROR', error.message);
+				mutateStateFailure(commit, 'failure', error);
+
 				const notification = {
 					type: 'error',
 					field: 'user',
@@ -179,10 +203,9 @@ export const actions = {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////KEEP ME LOGGED IN
 	keepUserLogged({ commit, dispatch }, firebaseUser) {
-		commit('SET_USER', firebaseUser.uid);
-		commit('SET_STATUS', 'success');
-		commit('SET_ERROR', null);
-		commit('SET_USERNAME', firebaseUser.displayName);
+		commit('SET_STATUS', 'loading');
+
+		mutateStateSuccess(commit, firebaseUser.uid, 'success', null, firebaseUser.displayName);
 
 		dispatch('cart/getCart', firebaseUser, { root: true });
 	}
