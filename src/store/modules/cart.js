@@ -27,6 +27,9 @@ export const mutations = {
 			delete cart[payload.itemId];
 			state.cart = cart;
 		}
+		if (Object.keys(state.cart).length === 0) {
+			state.cart = null;
+		}
 	},
 	SET_CART_STATUS(state, payload) {
 		state.cartStatus = payload;

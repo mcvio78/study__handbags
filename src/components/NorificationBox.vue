@@ -50,7 +50,7 @@ export default {
 			return this.$route.path === '/subscribe' || this.$route.path === '/authentication';
 		},
 		cartViewEmptyCart() {
-			return this.$route.path === '/cart' && Object.keys(this.cart).length === 0;
+			return this.$route.path === '/cart' && this.cart === null;
 		}
 	},
 	methods: {

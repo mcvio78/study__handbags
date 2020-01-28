@@ -156,9 +156,9 @@ export default {
 		///////////////////////////////////////////////////////////////////////////////////////MODAL BUTTONS SELECT QUANTITY
 		increaseQuantity() {
 			// Todo if not greater than quantity in store.
-			if (this.quantitySelected < this.storeQuantity) {
-				this.quantitySelected++;
-			}
+			// if (this.quantitySelected < this.storeQuantity) {
+			this.quantitySelected++;
+			// }
 		},
 		decreaseQuantity() {
 			if (this.quantitySelected > 1) {

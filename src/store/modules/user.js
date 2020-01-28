@@ -28,7 +28,9 @@ export const mutations = {
 	}
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////FIREBASE USER CREDENTIAL
+/**
+ ***********************************************************************************************FIREBASE USER CREDENTIAL
+ */
 function firebaseId() {
 	return firebase.auth().currentUser.uid;
 }
@@ -41,16 +43,22 @@ function firebaseToken() {
 	return firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////FIREBASE PERSISTENCE
+/**
+ ***************************************************************************************************FIREBASE PERSISTENCE
+ */
+
+// create user
 function firebaseCreate(payload) {
 	return firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password);
 }
 
+// authenticate user
 function firebaseAuthentication(payload) {
 	return firebase.auth().signInWithEmailAndPassword(payload.email, payload.password);
 }
 
-function PersistenceLocal(payload, signTypeAccount) {
+// check if auth or subscribe
+function signType(payload, signTypeAccount) {
 	if (signTypeAccount === 'signUp') {
 		return firebaseCreate(payload);
 	} else if (signTypeAccount === 'signIn') {
@@ -58,29 +66,33 @@ function PersistenceLocal(payload, signTypeAccount) {
 	}
 }
 
-function PersistenceSession(payload, signTypeAccount) {
-	if (signTypeAccount === 'signUp') {
-		return firebase
-			.auth()
-			.setPersistence(firebase.auth.Auth.Persistence.SESSION)
-			.then(() => firebaseCreate(payload));
-	} else if (signTypeAccount === 'signIn') {
-		return firebase
-			.auth()
-			.setPersistence(firebase.auth.Auth.Persistence.SESSION)
-			.then(() => firebaseAuthentication(payload));
-	}
+// local
+function persistenceLocal(payload, signTypeAccount) {
+	return signType(payload, signTypeAccount);
 }
 
+// session
+function persistenceSession(payload, signTypeAccount) {
+	return firebase
+		.auth()
+		.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+		.then(() => {
+			return signType(payload, signTypeAccount);
+		});
+}
+
+// persistence
 function firebasePersistence(payload, signTypeAccount) {
 	if (payload.staySigned) {
-		return PersistenceLocal(payload, signTypeAccount);
+		return persistenceLocal(payload, signTypeAccount);
 	} else {
-		return PersistenceSession(payload, signTypeAccount);
+		return persistenceSession(payload, signTypeAccount);
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////MUTATE STATE SUCCESS
+/**
+ ***************************************************************************************************MUTATE STATE SUCCESS
+ */
 function mutateStateSuccess(commit, userValue, statusValue, errorValue, usernameValue) {
 	commit('SET_USER', userValue);
 	commit('SET_STATUS', statusValue);
@@ -88,14 +100,18 @@ function mutateStateSuccess(commit, userValue, statusValue, errorValue, username
 	commit('SET_USERNAME', usernameValue);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////MUTATE STATE FAILURE
+/**
+ ***************************************************************************************************MUTATE STATE FAILURE
+ */
 function mutateStateFailure(commit, statusValue, err) {
 	commit('SET_STATUS', statusValue);
 	commit('SET_ERROR', err.message);
 }
 
 export const actions = {
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////SUBSCRIPTION
+	/**
+	 *********************************************************************************************************SUBSCRIPTION
+	 */
 	signUpAction({ commit, dispatch }, payload) {
 		commit('SET_STATUS', 'loading');
 
@@ -134,7 +150,9 @@ export const actions = {
 			});
 	},
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////AUTHENTICATION
+	/**
+	 *******************************************************************************************************AUTHENTICATION
+	 */
 	signInAction({ commit, dispatch }, payload) {
 		commit('SET_STATUS', 'loading');
 
@@ -167,7 +185,9 @@ export const actions = {
 			});
 	},
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////SIGN OUT
+	/**
+	 *************************************************************************************************************SIGN OUT
+	 */
 	signOutAction({ commit, dispatch }) {
 		commit('SET_STATUS', 'loading');
 
@@ -201,7 +221,9 @@ export const actions = {
 			});
 	},
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////KEEP ME LOGGED IN
+	/**
+	 ****************************************************************************************************KEEP ME LOGGED IN
+	 */
 	keepUserLogged({ commit, dispatch }, firebaseUser) {
 		commit('SET_STATUS', 'loading');
 
