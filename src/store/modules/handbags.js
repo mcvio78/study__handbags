@@ -28,12 +28,16 @@ export const mutations = {
 	}
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////FETCH HANDBAGS
 export const actions = {
+	/**
+	 *********************************************************************************************************FETCH HANDBAGS
+	 */
 	fetchHandbags({ commit, getters, dispatch }, subField) {
 		if (!getters.checkIfCollectionExists(subField)) {
 			commit('SET_HANDBAGS_STATUS', 'loading');
+
 			return HandbagsService.getHandbagService(subField)
+
 				.then(response => {
 					const payload = {
 						subField: subField,
@@ -43,6 +47,7 @@ export const actions = {
 					commit('SET_HANDBAGS_STATUS', 'success');
 					commit('SET_HANDBAGS_ERROR', null);
 				})
+
 				.catch(error => {
 					commit('SET_HANDBAGS_STATUS', 'failure');
 					commit('SET_HANDBAGS_ERROR', error.message);

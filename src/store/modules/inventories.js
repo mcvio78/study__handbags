@@ -26,10 +26,13 @@ export const mutations = {
 };
 
 export const actions = {
-	/////////////////////////////////////////////////////////////////////////////////////////////////GET QUANTITY DATABASE
+	/**
+	 ************************************************************************************************GET QUANTITY DATABASE
+	 */
 	getInventories({ commit, dispatch }, subField) {
 		return handbagsService
 			.getHandbagService(subField)
+
 			.then(response => {
 				commit('SET_INVENTORIES', response.data);
 				commit('SET_INVENTORIES_STATUS', 'success');
@@ -49,55 +52,53 @@ export const actions = {
 			});
 	},
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////UPDATE CART
+	/**
+	 ***************************************************************************************************UPDATE INVENTORIES
+	 */
 	updateInventories({ commit, rootState, dispatch }, payload) {
-		console.log('payload: ', payload);
-		if (rootState.user.user) {
-			return new Promise(resolve => {
-				if (firebase.auth().currentUser) {
-					commit('SET_INVENTORIES_STATUS', 'loading');
-					firebase
-						.auth()
-						.currentUser.getIdToken(/* forceRefresh */ true)
-						.then(idToken =>
-							handbagsService.updateInventoriesService(idToken, firebase.auth().currentUser.uid, payload)
-						)
-						.then(response => {
-							commit('UPDATE_INVENTORIES_FIELD', payload);
-							commit('SET_INVENTORIES_STATUS', 'success');
-							commit('SET_INVENTORIES_ERROR', null);
-							resolve(response.status);
-							dispatch('cart/cleanCart', 'cart', { root: true });
-						})
-						.then(() => {
-							const notification = {
-								type: 'success',
-								field: 'database',
-								name: firebase.auth().currentUser.displayName,
-								message: 'Your order has been sent.'
-							};
-							dispatch('notification/add', notification, { root: true });
-						})
-						.catch(error => {
-							commit('SET_INVENTORIES_STATUS', 'failure');
-							commit('SET_INVENTORIES_ERROR', error.message);
+		return new Promise((resolve, reject) => {
+			if (firebase.auth().currentUser && rootState.user.user) {
+				commit('SET_INVENTORIES_STATUS', 'loading');
 
-							const notification = {
-								type: 'error',
-								field: 'database',
-								message: `'There was a problem sent your order: '${error.message}`
-							};
-							dispatch('notification/add', notification, { root: true });
-						});
-				} else {
-					//Todo complete behaviour #1.
-					alert('there is no firebase user.');
-				}
-			});
-		} else {
-			//Todo complete behaviour #2.
-			alert('there is no local user data.');
-		}
+				firebase
+					.auth()
+					.currentUser.getIdToken(/* forceRefresh */ true)
+					.then(idToken => handbagsService.updateInventoriesService(idToken, firebase.auth().currentUser.uid, payload))
+
+					.then(response => {
+						commit('UPDATE_INVENTORIES_FIELD', payload);
+						commit('SET_INVENTORIES_STATUS', 'success');
+						commit('SET_INVENTORIES_ERROR', null);
+						resolve(response.status);
+
+						dispatch('cart/cleanCart', 'cart', { root: true });
+					})
+
+					.then(() => {
+						const notification = {
+							type: 'success',
+							field: 'database',
+							name: firebase.auth().currentUser.displayName,
+							message: 'Your order has been sent.'
+						};
+						dispatch('notification/add', notification, { root: true });
+					})
+
+					.catch(error => {
+						commit('SET_INVENTORIES_STATUS', 'failure');
+						commit('SET_INVENTORIES_ERROR', error.message);
+
+						const notification = {
+							type: 'error',
+							field: 'database',
+							message: `'There was a problem sent your order: '${error.message}`
+						};
+						dispatch('notification/add', notification, { root: true });
+					});
+			} else {
+				reject('There is a problem with User');
+			}
+		});
 	}
 };
 

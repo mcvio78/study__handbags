@@ -137,6 +137,7 @@ export default {
 
 				//////////////////////////////////////////////////////////////////////////////////////////////////IF NOT IN CART
 			} else {
+				//Todo this is the problem.
 				const payload = {
 					[this.idItemToCart]: {
 						idBag: this.idBag,
@@ -147,9 +148,10 @@ export default {
 						timestamp: this.timestamp
 					}
 				};
-				this.addToCart(payload).then(() => {
-					this.closeModal();
-				});
+				this.addToCart(payload)
+					.then(response => console.log('response: ', response))
+					.catch(err => console.log('err: ', err));
+				this.closeModal();
 			}
 		},
 

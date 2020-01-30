@@ -29,24 +29,8 @@ export const mutations = {
 };
 
 /**
- ***********************************************************************************************FIREBASE USER CREDENTIAL
- */
-function firebaseId() {
-	return firebase.auth().currentUser.uid;
-}
-
-function firebaseName() {
-	return firebase.auth().currentUser.displayName;
-}
-
-function firebaseToken() {
-	return firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
-}
-
-/**
  ***************************************************************************************************FIREBASE PERSISTENCE
  */
-
 // create user
 function firebaseCreate(payload) {
 	return firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password);
@@ -90,24 +74,6 @@ function firebasePersistence(payload, signTypeAccount) {
 	}
 }
 
-/**
- ***************************************************************************************************MUTATE STATE SUCCESS
- */
-function mutateStateSuccess(commit, userValue, statusValue, errorValue, usernameValue) {
-	commit('SET_USER', userValue);
-	commit('SET_STATUS', statusValue);
-	commit('SET_ERROR', errorValue);
-	commit('SET_USERNAME', usernameValue);
-}
-
-/**
- ***************************************************************************************************MUTATE STATE FAILURE
- */
-function mutateStateFailure(commit, statusValue, err) {
-	commit('SET_STATUS', statusValue);
-	commit('SET_ERROR', err.message);
-}
-
 export const actions = {
 	/**
 	 *********************************************************************************************************SUBSCRIPTION
@@ -117,28 +83,36 @@ export const actions = {
 
 		firebasePersistence(payload, 'signUp')
 			.then(response => response.user.updateProfile({ displayName: payload.name }))
-			.then(() => firebaseToken())
+
+			.then(() => firebase.auth().currentUser.getIdToken(/* forceRefresh */ true))
+
 			.then(idToken =>
-				HandbagsService.putUserProfileService(idToken, firebaseId(), {
+				HandbagsService.putUserProfileService(idToken, firebase.auth().currentUser.uid, {
 					name: payload.name,
 					email: payload.email
 				})
 			)
 
 			.then(() => {
-				mutateStateSuccess(commit, firebaseId(), 'success', null, firebaseName());
+				commit('SET_USER', firebase.auth().currentUser.uid);
+				commit('SET_STATUS', 'success');
+				commit('SET_ERROR', null);
+				commit('SET_USERNAME', firebase.auth().currentUser.displayName);
+			})
 
+			.then(() => {
 				const notification = {
 					type: 'success',
 					field: 'user',
-					name: firebaseName(),
+					name: firebase.auth().currentUser.displayName,
 					message: 'Your registration has been successful!'
 				};
 				dispatch('notification/add', notification, { root: true });
 			})
 
 			.catch(error => {
-				mutateStateFailure(commit, 'failure', error);
+				commit('SET_STATUS', 'failure');
+				commit('SET_ERROR', error.message);
 
 				const notification = {
 					type: 'error',
@@ -158,7 +132,10 @@ export const actions = {
 
 		firebasePersistence(payload, 'signIn')
 			.then(() => {
-				mutateStateSuccess(commit, firebaseId(), 'success', null, firebaseName());
+				commit('SET_USER', firebase.auth().currentUser.uid);
+				commit('SET_STATUS', 'success');
+				commit('SET_ERROR', null);
+				commit('SET_USERNAME', firebase.auth().currentUser.displayName);
 			})
 
 			.then(() => {
@@ -167,14 +144,15 @@ export const actions = {
 				const notification = {
 					type: 'success',
 					field: 'user',
-					name: firebaseName(),
+					name: firebase.auth().currentUser.displayName,
 					message: 'Authentication has been successful!'
 				};
 				dispatch('notification/add', notification, { root: true });
 			})
 
 			.catch(error => {
-				mutateStateFailure(commit, 'failure', error);
+				commit('SET_STATUS', 'failure');
+				commit('SET_ERROR', error.message);
 
 				const notification = {
 					type: 'error',
@@ -194,8 +172,12 @@ export const actions = {
 		firebase
 			.auth()
 			.signOut()
+
 			.then(() => {
-				mutateStateSuccess(commit, null, 'success', null, null);
+				commit('SET_USER', null);
+				commit('SET_STATUS', 'success');
+				commit('SET_ERROR', null);
+				commit('SET_USERNAME', null);
 
 				dispatch('cart/signOutCart', null, { root: true });
 			})
@@ -210,7 +192,8 @@ export const actions = {
 			})
 
 			.catch(error => {
-				mutateStateFailure(commit, 'failure', error);
+				commit('SET_STATUS', 'failure');
+				commit('SET_ERROR', error.message);
 
 				const notification = {
 					type: 'error',
@@ -227,7 +210,10 @@ export const actions = {
 	keepUserLogged({ commit, dispatch }, firebaseUser) {
 		commit('SET_STATUS', 'loading');
 
-		mutateStateSuccess(commit, firebaseUser.uid, 'success', null, firebaseUser.displayName);
+		commit('SET_USER', firebaseUser.uid);
+		commit('SET_STATUS', 'success');
+		commit('SET_ERROR', null);
+		commit('SET_USERNAME', firebaseUser.displayName);
 
 		dispatch('cart/getCart', firebaseUser, { root: true });
 	}
