@@ -14,16 +14,25 @@
 					required
 				></v-text-field>
 
-				<v-card-actions class="justify-center">
-					<!-- Todo understad behavior of "valid" -->
-					<v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
-						Validate
-					</v-btn>
+				<v-card-actions>
+					<v-row>
 
-					<v-btn color="error" class="mr-4" @click="reset">
-						Reset Form
-					</v-btn>
-					<v-switch v-model="staySigned" label="Stay Signed"></v-switch>
+						<v-col class="col-12 col-sm-6 col-md-4 text-center">
+							<v-btn :disabled="!valid" color="success" @click="validate">
+								Validate
+							</v-btn>
+						</v-col>
+
+						<v-col class="col-12 col-sm-6 col-md-4 text-center">
+							<v-btn color="error" @click="reset">
+								Reset Form
+							</v-btn>
+						</v-col>
+
+						<v-col class="col-12 col-md-4  text-center">
+							<v-switch v-model="staySigned" label="Stay Signed" class="d-inline-block ma-0"></v-switch>
+						</v-col>
+					</v-row>
 				</v-card-actions>
 			</v-form>
 		</v-col>
