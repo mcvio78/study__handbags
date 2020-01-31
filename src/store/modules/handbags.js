@@ -2,23 +2,14 @@ import HandbagsService from '../../services/HandbagsService';
 
 export const namespaced = true;
 export const state = {
-	handbags: {
-		// collections: {},
-		// patrizia: {},
-		// olivia: {},
-		// melania: {},
-		// anna: {}
-	},
+	handbags: {},
 	handbagsStatus: null,
 	handbagsError: null
 };
 
 export const mutations = {
 	SET_HANDBAGS(state, payload) {
-		//state.handbags[payload.subField] = payload.responseData;
 		state.handbags = { ...state.handbags, [payload.subField]: payload.responseData };
-		//state.handbags[payload.subField] = { ...payload.responseData };
-		//Vue.set(state.handbags, payload.subField, payload.responseData);
 	},
 	SET_HANDBAGS_STATUS(state, payload) {
 		state.handbagsStatus = payload;
@@ -60,10 +51,6 @@ export const actions = {
 				});
 		}
 	}
-
-	// handbagsStatus({ commit }, payload) {
-	// 	commit('SET_HANDBAGS_STATUS', payload);
-	// }
 };
 
 export const getters = {

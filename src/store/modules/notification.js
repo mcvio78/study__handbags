@@ -8,8 +8,6 @@ export const state = {
 	okButton: false
 };
 
-// let nextId = 1;
-
 export const mutations = {
 	PUSH(state, notification) {
 		state.notifications = [...state.notifications, { ...notification, id: state.temporaryId++ }];

@@ -37,8 +37,8 @@ export const actions = {
 				commit('SET_INVENTORIES', response.data);
 				commit('SET_INVENTORIES_STATUS', 'success');
 				commit('SET_INVENTORIES_ERROR', null);
-				//return response
 			})
+
 			.catch(error => {
 				commit('SET_INVENTORIES_STATUS', 'failure');
 				commit('SET_INVENTORIES_ERROR', error.message);
@@ -56,7 +56,7 @@ export const actions = {
 	 ***************************************************************************************************UPDATE INVENTORIES
 	 */
 	updateInventories({ commit, rootState, dispatch }, payload) {
-		return new Promise((resolve, reject) => {
+
 			if (firebase.auth().currentUser && rootState.user.user) {
 				commit('SET_INVENTORIES_STATUS', 'loading');
 
@@ -69,7 +69,6 @@ export const actions = {
 						commit('UPDATE_INVENTORIES_FIELD', payload);
 						commit('SET_INVENTORIES_STATUS', 'success');
 						commit('SET_INVENTORIES_ERROR', null);
-						resolve(response.status);
 
 						dispatch('cart/cleanCart', 'cart', { root: true });
 					})
@@ -96,9 +95,13 @@ export const actions = {
 						dispatch('notification/add', notification, { root: true });
 					});
 			} else {
-				reject('There is a problem with User');
+				const notification = {
+					type: 'error',
+					field: 'user',
+					message: `'There is no User.`
+				};
+				dispatch('notification/add', notification, { root: true });
 			}
-		});
 	}
 };
 

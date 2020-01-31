@@ -25,7 +25,6 @@
 
 				<v-card-actions>
 					<v-row>
-
 						<v-col class="col-12 col-sm-6 col-md-4 text-center">
 							<v-btn :disabled="!valid" color="success" @click="validate">
 								Validate

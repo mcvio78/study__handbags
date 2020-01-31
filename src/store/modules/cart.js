@@ -1,6 +1,5 @@
 import firebase from 'firebase/app';
 import handbagsService from './../../services/HandbagsService';
-//import Vue from 'vue';
 
 export const namespaced = true;
 
@@ -21,7 +20,6 @@ export const mutations = {
 		state.cart[payload.itemNumber]['quantity'] = payload.value.quantity;
 	},
 	REMOVE_FROM_CART(state, payload) {
-		// Todo decide if use Vue.delete intead.
 		if (payload.status === 200 && payload.data === null) {
 			const cart = { ...state.cart };
 			delete cart[payload.itemId];
@@ -44,48 +42,50 @@ export const actions = {
 	 **********************************************************************************************************ADD TO CART
 	 */
 	addToCart({ commit, rootState, dispatch }, payload) {
-		return new Promise((resolve, reject) => {
-			if (firebase.auth().currentUser && rootState.user.user) {
-				commit('SET_CART_STATUS', 'loading');
+		if (firebase.auth().currentUser && rootState.user.user) {
+			commit('SET_CART_STATUS', 'loading');
 
-				firebase
-					.auth()
-					.currentUser.getIdToken(/* forceRefresh */ true)
+			return firebase
+				.auth()
+				.currentUser.getIdToken(/* forceRefresh */ true)
 
-					.then(idToken => handbagsService.addToCartService(idToken, firebase.auth().currentUser.uid, payload))
+				.then(idToken => handbagsService.addToCartService(idToken, firebase.auth().currentUser.uid, payload))
 
-					.then(response => {
-						commit('ADD_TO_CART', response.data);
-						commit('SET_CART_STATUS', 'success');
-						commit('SET_CART_ERROR', null);
-						resolve(response.status);
-					})
+				.then(response => {
+					commit('ADD_TO_CART', response.data);
+					commit('SET_CART_STATUS', 'success');
+					commit('SET_CART_ERROR', null);
+				})
 
-					.then(response => {
-						const notification = {
-							type: 'success',
-							field: 'cart',
-							name: firebase.auth().currentUser.displayName,
-							message: 'The item has been added to your cart.'
-						};
-						dispatch('notification/add', notification, { root: true });
-					})
+				.then(() => {
+					const notification = {
+						type: 'success',
+						field: 'cart',
+						name: firebase.auth().currentUser.displayName,
+						message: 'The item has been added to your cart.'
+					};
+					dispatch('notification/add', notification, { root: true });
+				})
 
-					.catch(error => {
-						commit('SET_CART_STATUS', 'failure');
-						commit('SET_CART_ERROR', error.message);
+				.catch(error => {
+					commit('SET_CART_STATUS', 'failure');
+					commit('SET_CART_ERROR', error.message);
 
-						const notification = {
-							type: 'error',
-							field: 'cart',
-							message: `'There was a problem add item to cart: '${error.message}`
-						};
-						dispatch('notification/add', notification, { root: true });
-					});
-			} else {
-				reject('There is a problem with User');
-			}
-		});
+					const notification = {
+						type: 'error',
+						field: 'cart',
+						message: `'There was a problem add item to cart: '${error.message}`
+					};
+					dispatch('notification/add', notification, { root: true });
+				});
+		} else {
+			const notification = {
+				type: 'error',
+				field: 'user',
+				message: `'There is no User.`
+			};
+			dispatch('notification/add', notification, { root: true });
+		}
 	},
 
 	/**
@@ -122,103 +122,107 @@ export const actions = {
 	 **********************************************************************************************************UPDATE CART
 	 */
 	updateCartField({ commit, rootState, dispatch }, payload) {
-		return new Promise((resolve, reject) => {
-			if (firebase.auth().currentUser && rootState.user.user) {
-				commit('SET_CART_STATUS', 'loading');
+		if (firebase.auth().currentUser && rootState.user.user) {
+			commit('SET_CART_STATUS', 'loading');
 
-				firebase
-					.auth()
-					.currentUser.getIdToken(/* forceRefresh */ true)
+			return firebase
+				.auth()
+				.currentUser.getIdToken(/* forceRefresh */ true)
 
-					.then(idToken =>
-						handbagsService.updateFieldItemCartService(
-							idToken,
-							firebase.auth().currentUser.uid,
-							payload.itemNumber,
-							payload.value
-						)
+				.then(idToken =>
+					handbagsService.updateFieldItemCartService(
+						idToken,
+						firebase.auth().currentUser.uid,
+						payload.itemNumber,
+						payload.value
 					)
+				)
 
-					.then(response => {
-						commit('UPDATE_CART_FIELD', payload);
-						commit('SET_CART_STATUS', 'success');
-						commit('SET_CART_ERROR', null);
-						resolve(response.status);
-					})
+				.then(() => {
+					commit('UPDATE_CART_FIELD', payload);
+					commit('SET_CART_STATUS', 'success');
+					commit('SET_CART_ERROR', null);
+				})
 
-					.then(() => {
-						const notification = {
-							type: 'success',
-							field: 'cart',
-							name: firebase.auth().currentUser.displayName,
-							message: 'The cart item quantity has been updated.'
-						};
-						dispatch('notification/add', notification, { root: true });
-					})
+				.then(() => {
+					const notification = {
+						type: 'success',
+						field: 'cart',
+						name: firebase.auth().currentUser.displayName,
+						message: 'The cart item quantity has been updated.'
+					};
+					dispatch('notification/add', notification, { root: true });
+				})
 
-					.catch(error => {
-						commit('SET_CART_STATUS', 'failure');
-						commit('SET_CART_ERROR', error.message);
+				.catch(error => {
+					commit('SET_CART_STATUS', 'failure');
+					commit('SET_CART_ERROR', error.message);
 
-						const notification = {
-							type: 'error',
-							field: 'cart',
-							message: `'There was a problem update your cart: '${error.message}`
-						};
-						dispatch('notification/add', notification, { root: true });
-					});
-			} else {
-				reject('There is a problem with User');
-			}
-		});
+					const notification = {
+						type: 'error',
+						field: 'cart',
+						message: `'There was a problem update your cart: '${error.message}`
+					};
+					dispatch('notification/add', notification, { root: true });
+				});
+		} else {
+			const notification = {
+				type: 'error',
+				field: 'user',
+				message: `'There is no User.`
+			};
+			dispatch('notification/add', notification, { root: true });
+		}
 	},
 
 	/**
 	 *****************************************************************************************************REMOVE FROM CART
 	 */
 	removeFromCart({ commit, rootState, dispatch }, payload) {
-		return new Promise((resolve, reject) => {
-			if (firebase.auth().currentUser && rootState.user.user) {
-				commit('SET_CART_STATUS', 'loading');
+		if (firebase.auth().currentUser && rootState.user.user) {
+			commit('SET_CART_STATUS', 'loading');
 
-				firebase
-					.auth()
-					.currentUser.getIdToken(/* forceRefresh */ true)
+			firebase
+				.auth()
+				.currentUser.getIdToken(/* forceRefresh */ true)
 
-					.then(idToken => handbagsService.removeItemCartService(idToken, firebase.auth().currentUser.uid, payload))
+				.then(idToken => handbagsService.removeItemCartService(idToken, firebase.auth().currentUser.uid, payload))
 
-					.then(response => {
-						commit('REMOVE_FROM_CART', { status: response.status, data: response.data, itemId: payload });
-						commit('SET_CART_STATUS', 'success');
-						commit('SET_CART_ERROR', null);
-						resolve(response.status);
-					})
+				.then(response => {
+					commit('REMOVE_FROM_CART', { status: response.status, data: response.data, itemId: payload });
+					commit('SET_CART_STATUS', 'success');
+					commit('SET_CART_ERROR', null);
+				})
 
-					.then(() => {
-						const notification = {
-							type: 'success',
-							field: 'cart',
-							name: firebase.auth().currentUser.displayName,
-							message: 'The item has been removed from your cart.'
-						};
-						dispatch('notification/add', notification, { root: true });
-					})
+				.then(() => {
+					const notification = {
+						type: 'success',
+						field: 'cart',
+						name: firebase.auth().currentUser.displayName,
+						message: 'The item has been removed from your cart.'
+					};
+					dispatch('notification/add', notification, { root: true });
+				})
 
-					.catch(error => {
-						commit('SET_CART_STATUS', 'failure');
-						commit('SET_CART_ERROR', error.message);
+				.catch(error => {
+					commit('SET_CART_STATUS', 'failure');
+					commit('SET_CART_ERROR', error.message);
 
-						const notification = {
-							type: 'error',
-							field: 'cart',
-							message: `'There was a problem removing item: '${error.message}`
-						};
-						dispatch('notification/add', notification, { root: true });
-					});
-			} else {
-				reject('There is a problem with User');
-			}
-		});
+					const notification = {
+						type: 'error',
+						field: 'cart',
+						message: `'There was a problem removing item: '${error.message}`
+					};
+					dispatch('notification/add', notification, { root: true });
+				});
+		} else {
+			const notification = {
+				type: 'error',
+				field: 'user',
+				message: `'There is no User.`
+			};
+			dispatch('notification/add', notification, { root: true });
+		}
 	},
 
 	/**
@@ -234,38 +238,40 @@ export const actions = {
 	 ***********************************************************************************************************CLEAN CART
 	 */
 	cleanCart({ commit, rootState, dispatch }, payload) {
-		return new Promise((resolve, reject) => {
-			if (firebase.auth().currentUser && rootState.user.user) {
-				commit('SET_CART_STATUS', 'loading');
+		if (firebase.auth().currentUser && rootState.user.user) {
+			commit('SET_CART_STATUS', 'loading');
 
-				firebase
-					.auth()
-					.currentUser.getIdToken(/* forceRefresh */ true)
+			firebase
+				.auth()
+				.currentUser.getIdToken(/* forceRefresh */ true)
 
-					.then(idToken => handbagsService.deleteField(idToken, firebase.auth().currentUser.uid, payload))
+				.then(idToken => handbagsService.deleteField(idToken, firebase.auth().currentUser.uid, payload))
 
-					.then(response => {
-						commit('SET_CART', null);
-						commit('SET_CART_STATUS', 'success');
-						commit('SET_CART_ERROR', null);
-						resolve(response.status);
-					})
+				.then(() => {
+					commit('SET_CART', null);
+					commit('SET_CART_STATUS', 'success');
+					commit('SET_CART_ERROR', null);
+				})
 
-					.catch(error => {
-						commit('SET_CART_STATUS', 'failure');
-						commit('SET_CART_ERROR', error.message);
+				.catch(error => {
+					commit('SET_CART_STATUS', 'failure');
+					commit('SET_CART_ERROR', error.message);
 
-						const notification = {
-							type: 'error',
-							field: 'cart',
-							message: `'There was a problem delete your cart in database: '${error.message}`
-						};
-						dispatch('notification/add', notification, { root: true });
-					});
-			} else {
-				reject('There is a problem with User');
-			}
-		});
+					const notification = {
+						type: 'error',
+						field: 'cart',
+						message: `'There was a problem delete your cart in database: '${error.message}`
+					};
+					dispatch('notification/add', notification, { root: true });
+				});
+		} else {
+			const notification = {
+				type: 'error',
+				field: 'user',
+				message: `'There is no User.`
+			};
+			dispatch('notification/add', notification, { root: true });
+		}
 	}
 };
 
@@ -302,11 +308,4 @@ export const getters = {
 			return Object.entries(state.cart).find(([key, value]) => value.idBag === idSearch);
 		}
 	}
-	// cartItemQuantity: getters => {
-	// 	if (getters.cart) {
-	// 		return Object.values(getters.cart).reduce((acc, item) => {
-	// 			return acc + item.quantity;
-	// 		}, 0);
-	// 	}
-	// }
 };
