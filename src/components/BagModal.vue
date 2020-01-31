@@ -29,33 +29,26 @@
 
 			<v-card-actions class="py-2 justify-space-around">
 				<div>
-					<v-btn fab dark x-small @click="decreaseQuantity">
+					<v-btn v-if="user" fab dark x-small @click="decreaseQuantity">
 						<v-icon dark>mdi-minus</v-icon>
 					</v-btn>
-					<v-btn fab dark x-small @click="increaseQuantity">
+					<v-btn v-if="user" fab dark x-small @click="increaseQuantity">
 						<v-icon dark>mdi-plus</v-icon>
 					</v-btn>
 
 					<v-btn
 						color="green darken-1"
-						outlined
-						:disabled="disableToCartButton"
-						:class="this.$vuetify.breakpoint.xs ? 'body-2' : 'headline'"
-						text
+						class="white--text"
+						:disabled="disableToCartButtons || !user"
+						:class="fontButton"
 						@click="putIntoCart"
-						>Buy {{ quantitySelected }}</v-btn
 					>
+						<span v-if="user">Buy {{ quantitySelected }}</span>
+						<span v-else>No User</span>
+					</v-btn>
 				</div>
 
-				<!-- Todo change buttons add to cart and close. -->
-				<v-btn
-					outlined
-					color="red darken-1"
-					:class="this.$vuetify.breakpoint.xs ? 'subtitle-2' : 'headline'"
-					text
-					@click="closeModal"
-					>Close</v-btn
-				>
+				<v-btn color="red darken-1" class="white--text" :class="fontButton" @click="closeModal">Close </v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
@@ -78,13 +71,14 @@ export default {
 			bagModel: {},
 			idBag: null,
 			quantitySelected: 1,
-			disableToCartButton: false,
+			disableToCartButtons: false,
 			alt: 'An Image of Handbag.'
 		};
 	},
 	computed: {
 		...mapGetters('cart', ['cart', 'idItemToCart', 'findCartItemWithId']),
 		...mapGetters('inventories', ['inventories']),
+		...mapGetters('user', ['user']),
 		storeQuantity() {
 			return this.bagModel.quantity;
 		},
@@ -109,6 +103,9 @@ export default {
 				return this.inventories[this.idBag] === 0;
 			}
 			return false;
+		},
+		fontButton() {
+			return this.$vuetify.breakpoint.xs ? 'subtitle-2' : 'headline';
 		}
 	},
 	methods: {
@@ -116,13 +113,13 @@ export default {
 		closeModal() {
 			this.dialog = false;
 			this.quantitySelected = 1;
-			this.disableToCartButton = false;
+			this.disableToCartButtons = false;
 			this.quantity = 1;
 		},
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////ADD TO CART
 		putIntoCart() {
-			this.disableToCartButton = true;
+			this.disableToCartButtons = true;
 			const currentObjectBagInCart = this.findCartItemWithId(this.idBag);
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART

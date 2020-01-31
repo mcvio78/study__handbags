@@ -22,6 +22,7 @@
 					</v-col>
 				</v-row>
 			</v-container>
+			<BaseNotificationModal :showModal.sync="modalStatus" :handbagToShow="excessHandbags"></BaseNotificationModal>
 		</template>
 
 		<template v-slot:item.imageLo="{ item }">
