@@ -5,8 +5,7 @@
 
 			<v-spacer></v-spacer>
 
-			<!-- Todo NavBarHomeButton shows when refresh. -->
-			<NavBarHomeButton v-if="noHomePath" />
+			<NavBarHomeButton v-if="noHomePath && $route.name" />
 
 			<NavBarMenu />
 
@@ -48,6 +47,6 @@ export default {
 		setInterval(() => {
 			this.$store.dispatch('inventories/getInventories', 'quantity');
 		}, 60000); //1 min.
-	}
+	},
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<v-dialog width="unset" v-model="dialog" persistent>
+	<v-dialog width="unset" v-model="dialog" persistent v-if="Object.keys(this.bagModel).length">
 		<v-card>
 			<v-card-title :class="this.$vuetify.breakpoint.md ? 'subtitle-1' : 'headline'">{{ bagModel.name }}</v-card-title>
 			<v-img
@@ -40,7 +40,7 @@
 						color="green darken-1"
 						class="white--text"
 						:disabled="disableToCartButtons || !user"
-						:class="fontButton"
+						:class="fontButtons"
 						@click="putIntoCart"
 					>
 						<span v-if="user">Buy {{ quantitySelected }}</span>
@@ -48,7 +48,7 @@
 					</v-btn>
 				</div>
 
-				<v-btn color="red darken-1" class="white--text" :class="fontButton" @click="closeModal">Close </v-btn>
+				<v-btn color="red darken-1" class="white--text" :class="fontButtons" @click="closeModal">Close </v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
@@ -69,7 +69,6 @@ export default {
 		return {
 			dialog: false,
 			bagModel: {},
-			idBag: null,
 			quantitySelected: 1,
 			disableToCartButtons: false,
 			alt: 'An Image of Handbag.'
@@ -79,9 +78,6 @@ export default {
 		...mapGetters('cart', ['cart', 'idItemToCart', 'findCartItemWithId']),
 		...mapGetters('inventories', ['inventories']),
 		...mapGetters('user', ['user']),
-		storeQuantity() {
-			return this.bagModel.quantity;
-		},
 		timestamp() {
 			if (!Date.now) {
 				return (Date.now = function() {
@@ -91,20 +87,24 @@ export default {
 			return Date.now();
 		},
 		exceeded() {
-			if (this.findCartItemWithId(this.idBag)) {
+			if (this.bagModel.idBag && this.findCartItemWithId(this.bagModel.idBag)) {
 				return (
-					this.quantitySelected + this.findCartItemWithId(this.idBag)[1]['quantity'] > this.inventories[this.idBag]
+					this.quantitySelected + this.findCartItemWithId(this.bagModel.idBag)[1]['quantity'] >
+					this.inventories[this.bagModel.idBag]
 				);
+			} else if (this.bagModel.idBag) {
+				return this.quantitySelected > this.inventories[this.bagModel.idBag];
+			} else {
+				return false;
 			}
-			return false;
 		},
 		sold() {
-			if (this.idBag) {
-				return this.inventories[this.idBag] === 0;
+			if (this.bagModel.idBag !== null) {
+				return this.inventories[this.bagModel.idBag] === 0;
 			}
 			return false;
 		},
-		fontButton() {
+		fontButtons() {
 			return this.$vuetify.breakpoint.xs ? 'subtitle-2' : 'headline';
 		}
 	},
@@ -117,12 +117,14 @@ export default {
 			this.quantity = 1;
 		},
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////ADD TO CART
+		/**
+		 ********************************************************************************************************ADD TO CART
+		 */
 		putIntoCart() {
 			this.disableToCartButtons = true;
-			const currentObjectBagInCart = this.findCartItemWithId(this.idBag);
+			const currentObjectBagInCart = this.findCartItemWithId(this.bagModel.idBag);
 
-			////////////////////////////////////////////////////////////////////////////////////////////////////////IF IN CART
+			// if in cart
 			if (currentObjectBagInCart) {
 				const payload = {
 					itemNumber: currentObjectBagInCart[0],
@@ -132,31 +134,31 @@ export default {
 					this.closeModal();
 				});
 
-				//////////////////////////////////////////////////////////////////////////////////////////////////IF NOT IN CART
+				// if not in cart
 			} else {
-				//Todo this is the problem.
-				const payload = {
-					[this.idItemToCart]: {
-						idBag: this.idBag,
-						quantity: this.quantitySelected,
-						imageLo: this.bagModel.imageLo,
-						name: this.bagModel.name,
-						price: this.bagModel.price,
-						timestamp: this.timestamp
-					}
-				};
-				this.addToCart(payload).then(() => {
-					this.closeModal();
-				});
+				if (Object.keys(this.bagModel).length) {
+					const payload = {
+						[this.idItemToCart]: {
+							idBag: this.bagModel.idBag,
+							quantity: this.quantitySelected,
+							imageLo: this.bagModel.imageLo,
+							name: this.bagModel.name,
+							price: this.bagModel.price,
+							timestamp: this.timestamp
+						}
+					};
+					this.addToCart(payload).then(() => {
+						this.closeModal();
+					});
+				}
 			}
 		},
 
-		///////////////////////////////////////////////////////////////////////////////////////MODAL BUTTONS SELECT QUANTITY
+		/**
+		 **************************************************************************************MODAL BUTTONS SELECT QUANTITY
+		 */
 		increaseQuantity() {
-			// Todo if not greater than quantity in store.
-			// if (this.quantitySelected < this.storeQuantity) {
 			this.quantitySelected++;
-			// }
 		},
 		decreaseQuantity() {
 			if (this.quantitySelected > 1) {
@@ -165,16 +167,17 @@ export default {
 		}
 	},
 
-	////////////////////////////////////////////////////////////////////////////////////////////////WATCH AND UPDATE PROPS
+	/**
+	 ******************************************************************************************WATCH PROPS AND UPDATE DATA
+	 */
 	watch: {
 		handbagTypeAndId: {
 			// The callback will be called immediately after the start of the observation.
-			// immediate: true,
+			immediate: true,
 			handler() {
 				// Do your stuff.
-				this.bagModel = this.handbagTypeAndId;
-				this.idBag = this.handbagTypeAndId.idBag;
-				this.dialog = this.handbagTypeAndId.openModal || false;
+				this.bagModel = { ...this.handbagTypeAndId };
+				this.dialog = this.handbagTypeAndId.openModal;
 			}
 		}
 	}

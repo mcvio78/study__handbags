@@ -18,27 +18,27 @@ import { mapState } from 'vuex';
 export default {
 	name: 'App',
 	components: { NavBar, NotificationBox, ProgressBar },
-	data() {
-		return {
-			isEditing: false //Todo decide if true or false.
-		};
-	},
+	// data() {
+	// 	return {
+	// 		isEditing: false
+	// 	};
+	// },
 	computed: mapState('handbags', ['handbagsStatus']),
 
-	//Prevent browser refresh, URL changes and route navigation.
-	methods: {
-		preventNav(event) {
-			if (!this.isEditing) return;
-			event.preventDefault();
-			event.returnValue = '';
-		}
-	},
-	beforeMount() {
-		window.addEventListener('beforeunload', this.preventNav);
-	},
-
-	beforeDestroy() {
-		window.removeEventListener('beforeunload', this.preventNav);
-	}
+	// //Prevent browser refresh, URL changes and route navigation.
+	// methods: {
+	// 	preventNav(event) {
+	// 		if (!this.isEditing) return;
+	// 		event.preventDefault();
+	// 		event.returnValue = '';
+	// 	}
+	// },
+	// beforeMount() {
+	// 	window.addEventListener('beforeunload', this.preventNav);
+	// },
+	//
+	// beforeDestroy() {
+	// 	window.removeEventListener('beforeunload', this.preventNav);
+	// }
 };
 </script>
