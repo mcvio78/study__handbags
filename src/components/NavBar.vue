@@ -47,6 +47,6 @@ export default {
 		setInterval(() => {
 			this.$store.dispatch('inventories/getInventories', 'quantity');
 		}, 60000); //1 min.
-	},
+	}
 };
 </script>

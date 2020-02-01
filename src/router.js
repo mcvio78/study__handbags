@@ -59,7 +59,6 @@ const router = new Router({
 			// which is lazy-loaded when the route is visited.
 			component: () => import(/* webpackChunkName: "list" */ './views/BagsList.vue')
 		},
-		//Todo lazy import for the rest of components.
 		{
 			path: '/subscribe',
 			name: 'subscribe',
@@ -117,9 +116,16 @@ router.beforeEach((routeTo, routeFrom, next) => {
 			});
 		}
 	} else {
-		// Todo complete when offline.
-		alert('You are offline!');
 		next(false);
+
+		const notification = {
+			type: 'error',
+			field: 'connection',
+			message: `You are offline.`
+		};
+		store.dispatch('notification/add', notification, { root: true });
+
+		throw new Error('You are offline');
 	}
 });
 

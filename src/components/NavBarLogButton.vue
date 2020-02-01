@@ -60,10 +60,6 @@ export default {
 	computed: {
 		...mapGetters('user', ['user', 'username']),
 		...mapGetters('cart', ['cart', 'cartItemQuantity']),
-
-		userLogged() {
-			return this.user; //Todo Do you need it?
-		},
 		ifCartItems() {
 			if (this.cart) {
 				if (Object.keys(this.cart).length) {

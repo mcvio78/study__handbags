@@ -10,8 +10,8 @@
 				:alt="alt"
 				class="grey lighten-2"
 			>
-				<v-container v-if="exceeded" class="d-flex fill-height justify-center  align-sm-center align-end">
-					<span class="red--text text-center grey title d-inline-block pa-8 pa-sm-12">Quantity available exceeded</span>
+				<v-container v-if="exceeded && !sold" class="d-flex fill-height justify-center align-sm-center align-end border">
+					<span class="white--text text-center grey title d-inline-block pa-8 pa-sm-12">Quantity available exceeded</span>
 				</v-container>
 
 				<v-container v-if="sold" class="d-flex fill-height justify-center align-sm-center align-end">
@@ -22,7 +22,6 @@
 			<v-card-text class="mt-3 pb-0 "
 				><span class="font-weight-black">Stock:</span> {{ inventories[bagModel.idBag] }}
 				<v-icon color="green darken-1">mdi-check</v-icon>
-				<!--				<br />-->
 				<span class="font-weight-black ml-2">Price:</span> {{ bagModel.price }}
 				<v-icon color="green darken-1">mdi-cash-usd</v-icon>
 			</v-card-text>

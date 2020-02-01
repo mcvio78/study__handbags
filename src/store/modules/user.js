@@ -4,7 +4,7 @@ import HandbagsService from './../../services/HandbagsService';
 export const namespaced = true;
 
 export const state = {
-	user: null, //Todo is user.uid necessary and secure?
+	user: null,
 	status: null,
 	error: null,
 	username: null

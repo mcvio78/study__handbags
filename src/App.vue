@@ -23,7 +23,7 @@ export default {
 	// 		isEditing: false
 	// 	};
 	// },
-	computed: mapState('handbags', ['handbagsStatus']),
+	computed: mapState('handbags', ['handbagsStatus'])
 
 	// //Prevent browser refresh, URL changes and route navigation.
 	// methods: {

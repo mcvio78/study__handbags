@@ -1,4 +1,4 @@
-import env from '../../.env.local.json';
+import env from '../../.env.json';
 const NODE_ENV = process.env.NODE_ENV;
 //
 /********************************************************

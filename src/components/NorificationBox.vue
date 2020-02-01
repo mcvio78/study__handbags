@@ -29,8 +29,7 @@
 
 <script>
 import NotificationBar from './NotificationBar';
-import { mapActions } from 'vuex';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
 	name: 'NotificationBox',
@@ -56,7 +55,6 @@ export default {
 	methods: {
 		...mapActions('notification', ['resetButtonsAndTempId']),
 		refreshPage() {
-			//this.resetButtonsAndTempId();// Todo is this necessary?
 			this.$router.go();
 		},
 		closeOverlay() {

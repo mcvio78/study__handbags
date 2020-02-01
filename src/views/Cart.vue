@@ -118,8 +118,6 @@ export default {
 		},
 		buy() {
 			if (this.cartBagObjAndStoreQuantity.every(item => item.quantity <= this.inventories[item.idBag])) {
-				// Todo send and remove item in store.
-
 				const cartOrderBuy = this.cartBagObjAndStoreQuantity.reduce(
 					(acc, item) => ({ ...acc, [item.idBag]: item.quantity }),
 					{}

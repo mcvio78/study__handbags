@@ -72,11 +72,9 @@ export default {
 	methods: {
 		...mapActions('user', ['signUpAction']),
 		validate() {
-			//Todo check if email already exists or not.
 			if (this.$refs.form.validate()) {
 				// Will validate all inputs and return if they are all valid or not
 				// Registration Code
-
 				const userSignUp = { email: this.email, password: this.password, name: this.name, staySigned: this.staySigned };
 				this.signUpAction(userSignUp);
 			}

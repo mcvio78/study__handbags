@@ -38,7 +38,7 @@ export const mutations = {
 				state.okButton = true;
 				break;
 
-			case 'errordatabase':
+			case 'errorconnection':
 				state.closeButton = true;
 				break;
 
