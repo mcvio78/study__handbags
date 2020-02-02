@@ -14,15 +14,19 @@ export const mutations = {
 	SET_USER(state, payload) {
 		state.user = payload;
 	},
+
 	REMOVE_USER(state) {
 		state.user = null;
 	},
+
 	SET_STATUS(state, payload) {
 		state.status = payload;
 	},
+
 	SET_ERROR(state, payload) {
 		state.error = payload;
 	},
+
 	SET_USERNAME(state, payload) {
 		state.username = payload;
 	}
@@ -216,20 +220,5 @@ export const actions = {
 		commit('SET_USERNAME', firebaseUser.displayName);
 
 		dispatch('cart/getCart', firebaseUser, { root: true });
-	}
-};
-
-export const getters = {
-	status: state => {
-		return state.status;
-	},
-	user: state => {
-		return state.user;
-	},
-	error: state => {
-		return state.error;
-	},
-	username: state => {
-		return state.username;
 	}
 };

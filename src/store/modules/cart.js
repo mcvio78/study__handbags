@@ -13,12 +13,15 @@ export const mutations = {
 	SET_CART(state, payload) {
 		state.cart = payload;
 	},
+
 	ADD_TO_CART(state, payload) {
 		state.cart = { ...state.cart, [Object.keys(payload)[0]]: Object.values(payload)[0] };
 	},
+
 	UPDATE_CART_FIELD(state, payload) {
 		state.cart[payload.itemNumber]['quantity'] = payload.value.quantity;
 	},
+
 	REMOVE_FROM_CART(state, payload) {
 		if (payload.status === 200 && payload.data === null) {
 			const cart = { ...state.cart };
@@ -29,9 +32,11 @@ export const mutations = {
 			state.cart = null;
 		}
 	},
+
 	SET_CART_STATUS(state, payload) {
 		state.cartStatus = payload;
 	},
+
 	SET_CART_ERROR(state, payload) {
 		state.cartError = payload;
 	}
@@ -276,18 +281,9 @@ export const actions = {
 };
 
 export const getters = {
-	cart: state => {
-		return state.cart;
-	},
-	cartStatus: state => {
-		return state.cartStatus;
-	},
-	cartError: state => {
-		return state.cartError;
-	},
-	idItemToCart: getters => {
-		if (getters.cart) {
-			let itemNumberInCart = Object.keys(getters.cart).map(item => Number(item.split('_')[1]));
+	idItemToCart: state => {
+		if (state.cart) {
+			let itemNumberInCart = Object.keys(state.cart).map(item => Number(item.split('_')[1]));
 
 			for (let i = 0; i <= itemNumberInCart.length; i++) {
 				if (itemNumberInCart.indexOf(i) === -1) {

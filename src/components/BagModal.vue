@@ -10,8 +10,13 @@
 				:alt="alt"
 				class="grey lighten-2"
 			>
-				<v-container v-if="exceeded && !sold" class="d-flex fill-height justify-center align-sm-center align-end border">
-					<span class="white--text text-center grey title d-inline-block pa-8 pa-sm-12">Quantity available exceeded</span>
+				<v-container
+					v-if="exceeded && !sold"
+					class="d-flex fill-height justify-center align-sm-center align-end border"
+				>
+					<span class="white--text text-center grey title d-inline-block pa-8 pa-sm-12"
+						>Quantity available exceeded</span
+					>
 				</v-container>
 
 				<v-container v-if="sold" class="d-flex fill-height justify-center align-sm-center align-end">
@@ -54,16 +59,18 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
 	name: 'BagModal',
+
 	props: {
 		handbagTypeAndId: {
 			type: Object,
 			required: true
 		}
 	},
+
 	data() {
 		return {
 			dialog: false,
@@ -73,10 +80,13 @@ export default {
 			alt: 'An Image of Handbag.'
 		};
 	},
+
 	computed: {
-		...mapGetters('cart', ['cart', 'idItemToCart', 'findCartItemWithId']),
-		...mapGetters('inventories', ['inventories']),
-		...mapGetters('user', ['user']),
+		...mapState('cart', ['cart']),
+		...mapGetters('cart', ['idItemToCart', 'findCartItemWithId']),
+		...mapState('inventories', ['inventories']),
+		...mapState('user', ['user']),
+
 		timestamp() {
 			if (!Date.now) {
 				return (Date.now = function() {
@@ -85,6 +95,7 @@ export default {
 			}
 			return Date.now();
 		},
+
 		exceeded() {
 			if (this.bagModel.idBag && this.findCartItemWithId(this.bagModel.idBag)) {
 				return (
@@ -97,18 +108,22 @@ export default {
 				return false;
 			}
 		},
+
 		sold() {
 			if (this.bagModel.idBag !== null) {
 				return this.inventories[this.bagModel.idBag] === 0;
 			}
 			return false;
 		},
+
 		fontButtons() {
 			return this.$vuetify.breakpoint.xs ? 'subtitle-2' : 'headline';
 		}
 	},
+
 	methods: {
 		...mapActions('cart', ['addToCart', 'updateCartField']),
+
 		closeModal() {
 			this.dialog = false;
 			this.quantitySelected = 1;
@@ -159,6 +174,7 @@ export default {
 		increaseQuantity() {
 			this.quantitySelected++;
 		},
+
 		decreaseQuantity() {
 			if (this.quantitySelected > 1) {
 				this.quantitySelected--;

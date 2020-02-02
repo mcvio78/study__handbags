@@ -35,10 +35,10 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions('notification', ['resetTemporaryId']),
+		...mapActions('notification', ['resetButtonsAndTempId']),
 		returnHome() {
 			this.$router.push({ name: 'home' });
-			this.resetTemporaryId();
+			this.resetButtonsAndTempId();
 		}
 	},
 	beforeDestroy() {

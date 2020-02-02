@@ -53,7 +53,7 @@
 	</v-data-table>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapState } from 'vuex';
 
 export default {
 	name: 'Cart',
@@ -76,10 +76,13 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('cart', ['cart', 'findCartItemWithId']),
-		...mapGetters('inventories', ['inventories']),
+		...mapState('cart', ['cart']),
+		...mapState('inventories', ['inventories']),
+		...mapGetters('cart', ['findCartItemWithId']),
 
-		///////////////////////////////////////////////////////////////ADD INVENTORIES QUANTITY PROP TO ITEMS IN CART OBJECT
+		/**
+		 **************************************************************ADD INVENTORIES QUANTITY PROP TO ITEMS IN CART OBJECT
+		 */
 		cartBagObjAndStoreQuantity() {
 			if (this.cart && this.inventories) {
 				return Object.values(this.cart).map(obj => {
@@ -89,19 +92,23 @@ export default {
 			}
 			return null;
 		},
+
 		totalAmoutn() {
 			return this.cartBagObjAndStoreQuantity.reduce((acc, item) => {
 				return acc + item.price * item.quantity;
 			}, 0);
 		},
+
 		excessHandbags() {
 			return Object.values(this.cart)
 				.filter(obj => obj.quantity > this.inventories[obj.idBag])
 				.map(item => item.name);
 		}
 	},
+
 	methods: {
 		...mapActions('inventories', ['updateInventories']),
+
 		getColorCart(item) {
 			if (item.quantity > this.inventories[item.idBag]) return 'red';
 			else if (item.quantity === this.inventories[item.idBag]) return 'orange';
@@ -110,12 +117,15 @@ export default {
 		incrementQuantityEdit(item) {
 			item.quantity++;
 		},
+
 		decrementQuantityEdit(item) {
 			if (item.quantity > 1) item.quantity--;
 		},
+
 		removeFromCart(item) {
 			this.$store.dispatch('cart/removeFromCart', this.findCartItemWithId(item)[0]);
 		},
+
 		buy() {
 			if (this.cartBagObjAndStoreQuantity.every(item => item.quantity <= this.inventories[item.idBag])) {
 				const cartOrderBuy = this.cartBagObjAndStoreQuantity.reduce(

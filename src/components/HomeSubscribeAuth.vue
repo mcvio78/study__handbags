@@ -1,5 +1,5 @@
 <template>
-	<v-row v-if="!userLogIn" dense class="fill-height align-center  pa-0 ma-0">
+	<v-row v-if="!user" dense class="fill-height align-center  pa-0 ma-0">
 		<v-col cols="12">
 			<v-card color="rgb(225,190,231, 0.65)" max-width="400" class="mx-auto">
 				<v-card-title class="headline justify-center">Subscribe or Sign in</v-card-title>
@@ -19,12 +19,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	name: 'HomeSigninSubscribe',
 	computed: {
-		userLogIn() {
-			return this.$store.getters['user/user'];
-		}
+		...mapState('user', ['user'])
 	},
 	methods: {
 		toSubscribe() {

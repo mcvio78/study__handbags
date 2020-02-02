@@ -46,9 +46,11 @@ export const mutations = {
 				break;
 		}
 	},
+
 	DELETE(state, notificationToRemove) {
 		state.notifications = state.notifications.filter(notification => notification.id !== notificationToRemove.id);
 	},
+
 	RESET_BUTTONS_AND_TEMP_ID(state) {
 		state.temporaryId = 1;
 		state.closeButton = false;
@@ -61,25 +63,12 @@ export const actions = {
 	add({ commit }, notification) {
 		commit('PUSH', notification);
 	},
+
 	remove({ commit }, notificationToRemove) {
 		commit('DELETE', notificationToRemove);
 	},
+
 	resetButtonsAndTempId({ commit }) {
 		commit('RESET_BUTTONS_AND_TEMP_ID');
-	}
-};
-
-export const getters = {
-	notifications: state => {
-		return state.notifications;
-	},
-	closeButton: state => {
-		return state.closeButton;
-	},
-	refreshButton: state => {
-		return state.refreshButton;
-	},
-	okButton: state => {
-		return state.okButton;
 	}
 };

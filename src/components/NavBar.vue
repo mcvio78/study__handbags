@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import NavbarTitle from './NavbarTitle';
 import NavBarHomeButton from './NavBarHomeButton';
 import NavBarMenu from './NavBarMenu';
@@ -34,7 +34,7 @@ export default {
 		NavBarScroll
 	},
 	computed: {
-		...mapGetters('user', ['user']),
+		...mapState('user', ['user']),
 		userLogged() {
 			return this.user;
 		},

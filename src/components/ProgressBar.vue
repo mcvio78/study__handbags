@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
 	data() {
@@ -18,9 +18,9 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('user', ['status']),
-		...mapGetters('handbags', ['handbagsStatus']),
-		...mapGetters('cart', ['cartStatus']),
+		...mapState('user', ['status']),
+		...mapState('handbags', ['handbagsStatus']),
+		...mapState('cart', ['cartStatus']),
 		isLoading() {
 			return this.status === 'loading' || this.handbagsStatus === 'loading' || this.cartStatus === 'loading';
 		}

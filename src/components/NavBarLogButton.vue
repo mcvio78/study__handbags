@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'NavBarlogButton',
@@ -58,8 +58,8 @@ export default {
 		fab: false
 	}),
 	computed: {
-		...mapGetters('user', ['user', 'username']),
-		...mapGetters('cart', ['cart', 'cartItemQuantity']),
+		...mapState('user', ['user', 'username']),
+		...mapState('cart', ['cart']),
 		ifCartItems() {
 			if (this.cart) {
 				if (Object.keys(this.cart).length) {

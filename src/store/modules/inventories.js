@@ -13,15 +13,17 @@ export const mutations = {
 	SET_INVENTORIES(state, payload) {
 		state.inventories = payload;
 	},
+
 	SET_INVENTORIES_STATUS(state, payload) {
 		state.inventoriesStatus = payload;
 	},
+
 	SET_INVENTORIES_ERROR(state, payload) {
 		state.inventoriesError = payload;
 	},
+
 	UPDATE_INVENTORIES_FIELD(state, payload) {
 		Object.keys(payload).forEach(key => (state.inventories[key] = payload[key]));
-		//state.inventories[payload.itemNumber]['quantity'] = payload.value.quantity;
 	}
 };
 
@@ -101,17 +103,5 @@ export const actions = {
 			};
 			dispatch('notification/add', notification, { root: true });
 		}
-	}
-};
-
-export const getters = {
-	inventories: state => {
-		return state.inventories;
-	},
-	inventoriesStatus: state => {
-		return state.inventoriesStatus;
-	},
-	inventoriesError: state => {
-		return state.inventoriesError;
 	}
 };
