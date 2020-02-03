@@ -51,10 +51,7 @@ export default {
 		};
 	},
 	computed: {
-		// bagTypeUpperCase() {
-		// 	return this.bagType.charAt(0).toUpperCase() + this.bagType.substr(1);
-		// },
-		...mapState('handbags', ['handbags'])
+		...mapState('handbags', ['handbags']),
 	},
 	methods: {
 		handBagToModal(handbagTypeAndId) {
@@ -74,7 +71,7 @@ export default {
 			store.state.handbags.handbags.collections &&
 			!Object.values(store.state.handbags.handbags.collections).includes(routeTo.params.bagType)
 		) {
-			next({ name: 'not-found', params: { resource: routeTo.params.bagType } });
+			next({ name: 'search-not-found', params: { resource: routeTo.params.bagType } });
 		} else {
 			next();
 		}

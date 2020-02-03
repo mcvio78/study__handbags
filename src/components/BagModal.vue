@@ -1,7 +1,7 @@
 <template>
-	<v-dialog width="unset" v-model="dialog" persistent v-if="Object.keys(this.bagModel).length">
+	<v-dialog width="unset" v-model="dialog" persistent v-if="notEmptyBagModel">
 		<v-card>
-			<v-card-title :class="this.$vuetify.breakpoint.md ? 'subtitle-1' : 'headline'">{{ bagModel.name }}</v-card-title>
+			<v-card-title :class="fontTitle">{{ bagModel.name }}</v-card-title>
 			<v-img
 				sizes="(min-width: 900px) 40vw, 80vw"
 				:src="bagModel.imageLo"
@@ -36,6 +36,7 @@
 					<v-btn v-if="user" fab dark x-small @click="decreaseQuantity">
 						<v-icon dark>mdi-minus</v-icon>
 					</v-btn>
+
 					<v-btn v-if="user" fab dark x-small @click="increaseQuantity">
 						<v-icon dark>mdi-plus</v-icon>
 					</v-btn>
@@ -87,6 +88,10 @@ export default {
 		...mapState('inventories', ['inventories']),
 		...mapState('user', ['user']),
 
+		notEmptyBagModel() {
+			return Object.keys(this.bagModel).length;
+		},
+
 		timestamp() {
 			if (!Date.now) {
 				return (Date.now = function() {
@@ -118,6 +123,10 @@ export default {
 
 		fontButtons() {
 			return this.$vuetify.breakpoint.xs ? 'subtitle-2' : 'headline';
+		},
+
+		fontTitle() {
+			return this.$vuetify.breakpoint.md ? 'subtitle-1' : 'headline';
 		}
 	},
 
@@ -128,7 +137,6 @@ export default {
 			this.dialog = false;
 			this.quantitySelected = 1;
 			this.disableToCartButtons = false;
-			this.quantity = 1;
 		},
 
 		/**
@@ -150,7 +158,7 @@ export default {
 
 				// if not in cart
 			} else {
-				if (Object.keys(this.bagModel).length) {
+				if (this.notEmptyBagModel) {
 					const payload = {
 						[this.idItemToCart]: {
 							idBag: this.bagModel.idBag,

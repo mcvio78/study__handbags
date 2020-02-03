@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import Error_404 from './views/Error_404';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import store from './store/store';
@@ -96,12 +95,20 @@ const router = new Router({
 			}
 		},
 		{
-			path: '/not-found',
-			name: 'not-found',
+			path: '/search-not-found',
+			name: 'search-not-found',
 			props: true,
-			component: () => import(/* webpackChunkName: "not-found" */ './views/NotFound.vue')
+			component: () => import(/* webpackChunkName: "not-found" */ './views/SearchNotFound.vue')
 		},
-		{ path: '*', component: Error_404 }
+		{
+			path: '/404',
+			name: '404',
+			component: () => import(/* webpackChunkName: "404" */ './views/NotFound')
+		},
+		{
+			path: '*',
+			redirect: { name: '404' }
+		}
 	]
 });
 
@@ -111,9 +118,10 @@ router.beforeEach((routeTo, routeFrom, next) => {
 		if (store.state.handbags.handbags.collections) {
 			next();
 		} else {
-			store.dispatch('handbags/fetchHandbags', 'collections').then(() => {
+			store.dispatch('handbags/fetchHandbags', 'collections')
+			.then(() => {
 				next();
-			});
+			})
 		}
 	} else {
 		next(false);
