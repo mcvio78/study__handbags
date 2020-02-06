@@ -64,14 +64,21 @@ export const actions = {
 			firebase
 				.auth()
 				.currentUser.getIdToken(/* forceRefresh */ true)
-				.then(idToken => handbagsService.updateInventoriesService(idToken, firebase.auth().currentUser.uid, payload))
+				.then(idToken =>
+					handbagsService.updateInventoriesService(
+						idToken,
+						firebase.auth().currentUser.uid,
+						payload.inventoriesObjValuesUpdated
+					)
+				)
 
 				.then(() => {
-					commit('UPDATE_INVENTORIES_FIELD', payload);
+					commit('UPDATE_INVENTORIES_FIELD', payload.inventoriesObjValuesUpdated);
 					commit('SET_INVENTORIES_STATUS', 'success');
 					commit('SET_INVENTORIES_ERROR', null);
 
 					dispatch('cart/cleanCart', 'cart', { root: true });
+					dispatch('cart/putToCartHistory', payload.cartHistoryIndexed, { root: true });
 				})
 
 				.then(() => {
