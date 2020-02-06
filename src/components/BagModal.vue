@@ -1,7 +1,8 @@
 <template>
-	<v-dialog width="unset" v-model="dialog" persistent v-if="notEmptyBagModel">
+	<v-dialog width="unset" v-model="dialog" persistent v-if="notEmptyBagModelProp">
 		<v-card>
 			<v-card-title :class="fontTitle">{{ bagModel.name }}</v-card-title>
+
 			<v-img
 				sizes="(min-width: 900px) 40vw, 80vw"
 				:src="bagModel.imageLo"
@@ -61,9 +62,12 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
+import findId from './../mixins/findIdItem';
 
 export default {
 	name: 'BagModal',
+
+	mixins: [findId],
 
 	props: {
 		handbagTypeAndId: {
@@ -84,21 +88,12 @@ export default {
 
 	computed: {
 		...mapState('cart', ['cart']),
-		...mapGetters('cart', ['idItemToCart', 'findCartItemWithId']),
 		...mapState('inventories', ['inventories']),
 		...mapState('user', ['user']),
+		...mapGetters('cart', ['idItemToCart', 'findCartItemWithId']),
 
-		notEmptyBagModel() {
+		notEmptyBagModelProp() {
 			return Object.keys(this.bagModel).length;
-		},
-
-		timestamp() {
-			if (!Date.now) {
-				return (Date.now = function() {
-					return new Date().getTime();
-				});
-			}
-			return Date.now();
 		},
 
 		exceeded() {
@@ -158,15 +153,14 @@ export default {
 
 				// if not in cart
 			} else {
-				if (this.notEmptyBagModel) {
+				if (this.notEmptyBagModelProp) {
 					const payload = {
-						[this.idItemToCart]: {
+						[this.findId(this.cart)]: {
 							idBag: this.bagModel.idBag,
 							quantity: this.quantitySelected,
 							imageLo: this.bagModel.imageLo,
 							name: this.bagModel.name,
-							price: this.bagModel.price,
-							timestamp: this.timestamp
+							price: this.bagModel.price
 						}
 					};
 					this.addToCart(payload).then(() => {
