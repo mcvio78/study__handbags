@@ -11,9 +11,11 @@
 
 		<v-list class="text-center py-sm-2 ma-sm-0">
 			<v-list-item-title class="title">User: {{ username }}</v-list-item-title>
-			<v-list-item>
-				<v-btn color="mcPrimary" @click="logoutFirebase">Logout</v-btn>
-			</v-list-item>
+
+			<v-list-item-action class="d-inline-block">
+				<v-btn color="mcPrimary" class=" mx-1" @click="logoutFirebase">Logout</v-btn>
+				<v-btn v-if="!purchasedPath" color="mcPrimary" class=" mr-1" @click="toCartHistory">Purchased</v-btn>
+			</v-list-item-action>
 
 			<div v-if="!cartPath">
 				<v-divider v-if="ifCartItems" class="my-1"></v-divider>
@@ -60,6 +62,7 @@ export default {
 	computed: {
 		...mapState('user', ['user', 'username']),
 		...mapState('cart', ['cart']),
+
 		ifCartItems() {
 			if (this.cart) {
 				if (Object.keys(this.cart).length) {
@@ -70,9 +73,15 @@ export default {
 			}
 			return null;
 		},
+
+		purchasedPath() {
+			return this.$route.name === 'purchased';
+		},
+
 		cartPath() {
 			return this.$route.name === 'cart';
 		},
+
 		cartItemQuantity() {
 			if (this.cart) {
 				return Object.values(this.cart).reduce((acc, item) => {
@@ -86,11 +95,17 @@ export default {
 		logoutFirebase() {
 			this.$store.dispatch('user/signOutAction');
 		},
+
 		removeItem(item) {
 			this.$store.dispatch('cart/removeFromCart', item);
 		},
+
 		toCart() {
-			this.$router.push({ name: 'cart' });
+			return this.$router.push({ name: 'cart' });
+		},
+
+		toCartHistory() {
+			return this.$router.push({ name: 'purchased' });
 		}
 	}
 };

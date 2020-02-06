@@ -95,6 +95,18 @@ const router = new Router({
 			}
 		},
 		{
+			path: '/purchased',
+			name: 'purchased',
+			component: () => import(/* webpackChunkName: "purchased" */ './views/Purchased.vue'),
+			beforeEnter: (to, from, next) => {
+				if (store.state.user.user !== null) {
+					next();
+				} else {
+					next({ name: 'home' });
+				}
+			}
+		},
+		{
 			path: '/search-not-found',
 			name: 'search-not-found',
 			props: true,
@@ -118,10 +130,9 @@ router.beforeEach((routeTo, routeFrom, next) => {
 		if (store.state.handbags.handbags.collections) {
 			next();
 		} else {
-			store.dispatch('handbags/fetchHandbags', 'collections')
-			.then(() => {
+			store.dispatch('handbags/fetchHandbags', 'collections').then(() => {
 				next();
-			})
+			});
 		}
 	} else {
 		next(false);
