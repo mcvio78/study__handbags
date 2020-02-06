@@ -51,7 +51,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('handbags', ['handbags']),
+		...mapState('handbags', ['handbags'])
 	},
 	methods: {
 		handBagToModal(handbagTypeAndId) {

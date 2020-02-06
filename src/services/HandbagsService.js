@@ -35,5 +35,12 @@ export default {
 	},
 	updateInventoriesService(token, userUid, payload) {
 		return apiClient.patch(`${handbagsPath}/quantity.json?auth=${token}`, payload);
+	},
+	getHistoryService(token, userUid) {
+		return apiClient.get(`${usersPath}${userUid}/history.json?auth=${token}`);
+	},
+	addToHistoryService(token, userUid, payload) {
+		return apiClient.patch(`${usersPath}${userUid}/history.json?auth=${token}`, payload);
 	}
 };
+// Todo DRY request getCartService = getCart and getInventory.

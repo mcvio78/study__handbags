@@ -36,11 +36,13 @@ export default {
 	},
 	methods: {
 		...mapActions('notification', ['resetButtonsAndTempId']),
+
 		returnHome() {
 			this.$router.push({ name: 'home' });
 			this.resetButtonsAndTempId();
 		}
 	},
+
 	beforeDestroy() {
 		this.inexistentResource = null;
 	}

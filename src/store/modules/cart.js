@@ -6,7 +6,8 @@ export const namespaced = true;
 export const state = {
 	cart: null,
 	cartStatus: null,
-	cartError: null
+	cartError: null,
+	cartHistory: null
 };
 
 export const mutations = {
@@ -39,6 +40,14 @@ export const mutations = {
 
 	SET_CART_ERROR(state, payload) {
 		state.cartError = payload;
+	},
+
+	INCREMENT_QUANTITY_HANDBAG(state, payload) {
+		state.cart[payload]['quantity']++;
+	},
+
+	DECREMENT_QUANTITY_HANDBAG(state, payload) {
+		state.cart[payload]['quantity']--;
 	}
 };
 
@@ -181,6 +190,20 @@ export const actions = {
 	},
 
 	/**
+	 *******************************************************************************************INCREMENT QUANTITY HANDBAG
+	 */
+	incrementQuantityHandbag({ commit }, payload) {
+		commit('INCREMENT_QUANTITY_HANDBAG', payload);
+	},
+
+	/**
+	 *******************************************************************************************INCREMENT QUANTITY HANDBAG
+	 */
+	decrementQuantityHandbag({ commit }, payload) {
+		commit('DECREMENT_QUANTITY_HANDBAG', payload);
+	},
+
+	/**
 	 *****************************************************************************************************REMOVE FROM CART
 	 */
 	removeFromCart({ commit, rootState, dispatch }, payload) {
@@ -277,23 +300,71 @@ export const actions = {
 			};
 			dispatch('notification/add', notification, { root: true });
 		}
+	},
+
+	/**
+	 **********************************************************************************************************GET HISTORY
+	 */
+	getHistory({ commit, dispatch }) {
+		return firebase
+			.auth()
+			.currentUser.getIdToken(/* forceRefresh */ true)
+
+			.then(idToken => handbagsService.getHistoryService(idToken, firebase.auth().currentUser.uid))
+
+			.catch(error => {
+				commit('SET_CART_STATUS', 'failure');
+				commit('SET_CART_ERROR', error.message);
+
+				const notification = {
+					type: 'error',
+					field: 'cart',
+					message: `'There was a problem with cart history: '${error.message}`
+				};
+				dispatch('notification/add', notification, { root: true });
+			});
+	},
+
+	/**
+	 *******************************************************************************************************UPDATE HISTORY
+	 */
+	putToCartHistory({ commit, dispatch }, payload) {
+		commit('SET_CART_STATUS', 'loading');
+
+		firebase
+			.auth()
+			.currentUser.getIdToken(/* forceRefresh */ true)
+
+			.then(idToken => handbagsService.addToHistoryService(idToken, firebase.auth().currentUser.uid, payload))
+
+			.catch(error => {
+				commit('SET_CART_STATUS', 'failure');
+				commit('SET_CART_ERROR', error.message);
+
+				const notification = {
+					type: 'error',
+					field: 'cart',
+					message: `'There was a problem create cart history database: '${error.message}`
+				};
+				dispatch('notification/add', notification, { root: true });
+			});
 	}
 };
 
 export const getters = {
-	idItemToCart: state => {
-		if (state.cart) {
-			let itemNumberInCart = Object.keys(state.cart).map(item => Number(item.split('_')[1]));
-
-			for (let i = 0; i <= itemNumberInCart.length; i++) {
-				if (itemNumberInCart.indexOf(i) === -1) {
-					return `item_${i}`;
-				}
-			}
-		} else {
-			return 'item_0';
-		}
-	},
+	// idItemToCart: state => {
+	// 	if (state.cart) {
+	// 		let itemNumberInCart = Object.keys(state.cart).map(item => Number(item.split('_')[1]));
+	//
+	// 		for (let i = 0; i <= itemNumberInCart.length; i++) {
+	// 			if (itemNumberInCart.indexOf(i) === -1) {
+	// 				return `item_${i}`;
+	// 			}
+	// 		}
+	// 	} else {
+	// 		return 'item_0';
+	// 	}
+	// },
 
 	/**
 	 *********************************************************************************GET PROPERTY/OBJECT IN CART BY IDBAG

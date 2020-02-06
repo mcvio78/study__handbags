@@ -38,11 +38,11 @@
 		</template>
 
 		<template v-slot:item.action="{ item }">
-			<v-btn fab dark x-small color="red" @click="decrementQuantityEdit(item)">
+			<v-btn fab dark x-small color="red" @click="decrementQuantityHandbag(item)">
 				<v-icon>mdi-minus</v-icon>
 			</v-btn>
 
-			<v-btn fab dark x-small color="green" class="ml-1" @click="incrementQuantityEdit(item)">
+			<v-btn fab dark x-small color="green" class="ml-1" @click="incrementQuantityHandbag(item)">
 				<v-icon>mdi-plus</v-icon>
 			</v-btn>
 
@@ -54,9 +54,14 @@
 </template>
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex';
+import idMixin from './../mixins/findIdItem';
+import timeStamp from './../mixins/timeStamp';
 
 export default {
 	name: 'Cart',
+
+	mixins: [idMixin, timeStamp],
+
 	data() {
 		return {
 			headers: [
@@ -72,9 +77,11 @@ export default {
 				{ text: 'Pic', value: 'imageLo' },
 				{ text: 'Actions', value: 'action', sortable: false }
 			],
+
 			modalStatus: null
 		};
 	},
+
 	computed: {
 		...mapState('cart', ['cart']),
 		...mapState('inventories', ['inventories']),
@@ -94,7 +101,7 @@ export default {
 		},
 
 		totalAmoutn() {
-			return this.cartBagObjAndStoreQuantity.reduce((acc, item) => {
+			return Object.values(this.cart).reduce((acc, item) => {
 				return acc + item.price * item.quantity;
 			}, 0);
 		},
@@ -108,27 +115,30 @@ export default {
 
 	methods: {
 		...mapActions('inventories', ['updateInventories']),
+		...mapActions('cart', ['getHistory']),
 
 		getColorCart(item) {
 			if (item.quantity > this.inventories[item.idBag]) return 'red';
 			else if (item.quantity === this.inventories[item.idBag]) return 'orange';
 			else return 'green';
 		},
-		incrementQuantityEdit(item) {
-			item.quantity++;
+
+		incrementQuantityHandbag(item) {
+			return this.$store.dispatch('cart/incrementQuantityHandbag', this.findCartItemWithId(item.idBag)[0]);
 		},
 
-		decrementQuantityEdit(item) {
-			if (item.quantity > 1) item.quantity--;
+		decrementQuantityHandbag(item) {
+			if (item.quantity > 1)
+				return this.$store.dispatch('cart/decrementQuantityHandbag', this.findCartItemWithId(item.idBag)[0]);
 		},
 
 		removeFromCart(item) {
-			this.$store.dispatch('cart/removeFromCart', this.findCartItemWithId(item)[0]);
+			return this.$store.dispatch('cart/removeFromCart', this.findCartItemWithId(item)[0]);
 		},
 
 		buy() {
-			if (this.cartBagObjAndStoreQuantity.every(item => item.quantity <= this.inventories[item.idBag])) {
-				const cartOrderBuy = this.cartBagObjAndStoreQuantity.reduce(
+			if (Object.values(this.cart).every(item => item.quantity <= this.inventories[item.idBag])) {
+				const cartOrderBuy = Object.values(this.cart).reduce(
 					(acc, item) => ({ ...acc, [item.idBag]: item.quantity }),
 					{}
 				);
@@ -138,7 +148,11 @@ export default {
 					{}
 				);
 
-				this.updateInventories(inventoriesObjValuesUpdated);
+				const cartHistoryIndexed = { [this.timeStamp()]: this.cart };
+				const payload = { inventoriesObjValuesUpdated, cartHistoryIndexed };
+
+				this.updateInventories(payload);
+
 				this.modalStatus = false;
 			} else {
 				this.modalStatus = true;
