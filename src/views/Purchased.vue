@@ -9,11 +9,11 @@
 						</v-col>
 
 						<v-col class="col-12 col-sm-auto py-0 py-sm-1">
-							<p class="my-1 ma-sm-1">Date: {{ new Date(Number(iKey)).toLocaleDateString('en-US') }}</p>
+							<p class="my-1 ma-sm-1">Date: {{ convertToDate(iKey) }}</p>
 						</v-col>
 
 						<v-col class="col-12  col-sm-auto py-0 py-sm-1">
-							<p class="my-1 ma-sm-1">Time: {{ new Date(Number(iKey)).toLocaleTimeString('en-US') }}</p>
+							<p class="my-1 ma-sm-1">Time: {{ convertToTime(iKey) }}</p>
 						</v-col>
 					</v-row>
 				</v-expansion-panel-header>
@@ -56,6 +56,7 @@
 
 <script>
 import store from './../store/store';
+import timeStamp from './../mixins/timeStamp';
 
 export default {
 	name: 'Purchased',
@@ -65,6 +66,8 @@ export default {
 			history: null
 		};
 	},
+
+	mixins: [timeStamp],
 
 	computed: {
 		cartObjectsPurchased() {

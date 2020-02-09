@@ -7,6 +7,12 @@ export default {
 				});
 			}
 			return Date.now();
+		},
+		convertToDate(timeStamp) {
+			return new Date(Number(timeStamp)).toLocaleDateString('en-US')
+		},
+		convertToTime(timeStamp) {
+			return new Date(Number(timeStamp)).toLocaleTimeString('en-US')
 		}
 	}
 };
