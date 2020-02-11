@@ -16,10 +16,29 @@ const urlServer = `${httpProtocol}${serverDomain}`;
  */
 const handbagsData = env[NODE_ENV].url.backEnd.handbagsData;
 const handbagsPath = env[NODE_ENV].url.backEnd.handbagsPath;
+const handbagsQuantityData = env[NODE_ENV].url.backEnd.handbagsQuantityData;
 const usersData = env[NODE_ENV].url.backEnd.usersData;
 const usersPath = env[NODE_ENV].url.backEnd.usersPath;
+const userProfileData = env[NODE_ENV].url.backEnd.userProfileData;
+const cartPath = env[NODE_ENV].url.backEnd.cartPath;
+const userCartData = env[NODE_ENV].url.backEnd.userCartData;
+const userHistoryData = env[NODE_ENV].url.backEnd.userHistoryData;
 const baseURLServer = env[NODE_ENV].url.backEnd.baseURLServer;
 //
 const pathDataServer = `${baseURLServer}${handbagsData}`;
 
-export { handbagsData, handbagsPath, usersData, usersPath, baseURLServer, urlApp, urlServer, pathDataServer };
+export {
+	handbagsData,
+	handbagsPath,
+	handbagsQuantityData,
+	usersData,
+	usersPath,
+	userProfileData,
+	cartPath,
+	userCartData,
+	userHistoryData,
+	baseURLServer,
+	urlApp,
+	urlServer,
+	pathDataServer
+};

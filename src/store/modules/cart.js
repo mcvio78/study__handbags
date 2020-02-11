@@ -111,7 +111,7 @@ export const actions = {
 		currentUserSignIn
 			.getIdToken(/* forceRefresh */ true)
 
-			.then(idToken => handbagsService.getCartService(idToken, currentUserSignIn.uid))
+			.then(idToken => handbagsService.getSelectedFieldService(idToken, currentUserSignIn.uid, 'cart'))
 
 			.then(response => {
 				commit('SET_CART', response.data);
@@ -273,7 +273,7 @@ export const actions = {
 				.auth()
 				.currentUser.getIdToken(/* forceRefresh */ true)
 
-				.then(idToken => handbagsService.deleteField(idToken, firebase.auth().currentUser.uid, payload))
+				.then(idToken => handbagsService.deleteFieldService(idToken, firebase.auth().currentUser.uid, payload))
 
 				.then(() => {
 					commit('SET_CART', null);
@@ -310,7 +310,7 @@ export const actions = {
 			.auth()
 			.currentUser.getIdToken(/* forceRefresh */ true)
 
-			.then(idToken => handbagsService.getHistoryService(idToken, firebase.auth().currentUser.uid))
+			.then(idToken => handbagsService.getSelectedFieldService(idToken, firebase.auth().currentUser.uid, 'history'))
 
 			.catch(error => {
 				commit('SET_CART_STATUS', 'failure');

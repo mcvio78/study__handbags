@@ -1,5 +1,14 @@
 import axios from 'axios';
-import { baseURLServer, handbagsPath, usersPath } from './URLs.js';
+import {
+	baseURLServer,
+	handbagsPath,
+	handbagsQuantityData,
+	usersPath,
+	userProfileData,
+	cartPath,
+	userCartData,
+	userHistoryData
+} from './URLs.js';
 
 const apiClient = axios.create({
 	baseURL: baseURLServer,
@@ -15,32 +24,36 @@ export default {
 	getHandbagService(id) {
 		return apiClient.get(`${handbagsPath}${id}.json`);
 	},
+
 	putUserProfileService(token, userUid, payload) {
-		return apiClient.put(`${usersPath}${userUid}/profile.json?auth=${token}`, payload);
+		return apiClient.put(`${usersPath}${userUid}${userProfileData}?auth=${token}`, payload);
 	},
+
 	addToCartService(token, userUid, payload) {
-		return apiClient.patch(`${usersPath}${userUid}/cart.json?auth=${token}`, payload);
+		return apiClient.patch(`${usersPath}${userUid}${userCartData}?auth=${token}`, payload);
 	},
+
 	updateFieldItemCartService(token, userUid, itemNumber, payload) {
-		return apiClient.patch(`${usersPath}${userUid}/cart/${itemNumber}/.json?auth=${token}`, payload);
+		return apiClient.patch(`${usersPath}${userUid}${cartPath}${itemNumber}/.json?auth=${token}`, payload);
 	},
-	getCartService(token, userUid) {
-		return apiClient.get(`${usersPath}${userUid}/cart.json?auth=${token}`);
-	},
+
 	removeItemCartService(token, userUid, itemNumber) {
-		return apiClient.delete(`${usersPath}${userUid}/cart/${itemNumber}/.json?auth=${token}`);
+		return apiClient.delete(`${usersPath}${userUid}${cartPath}${itemNumber}/.json?auth=${token}`);
 	},
-	deleteField(token, userUid, field) {
+
+	deleteFieldService(token, userUid, field) {
 		return apiClient.delete(`${usersPath}${userUid}/${field}/.json?auth=${token}`);
 	},
+
 	updateInventoriesService(token, userUid, payload) {
-		return apiClient.patch(`${handbagsPath}/quantity.json?auth=${token}`, payload);
+		return apiClient.patch(`${handbagsPath}${handbagsQuantityData}?auth=${token}`, payload);
 	},
-	getHistoryService(token, userUid) {
-		return apiClient.get(`${usersPath}${userUid}/history.json?auth=${token}`);
-	},
+
 	addToHistoryService(token, userUid, payload) {
-		return apiClient.patch(`${usersPath}${userUid}/history.json?auth=${token}`, payload);
+		return apiClient.patch(`${usersPath}${userUid}${userHistoryData}?auth=${token}`, payload);
+	},
+
+	getSelectedFieldService(token, userUid, field) {
+		return apiClient.get(`${usersPath}${userUid}/${field}.json?auth=${token}`);
 	}
 };
-// Todo DRY request getCartService = getCart and getInventory.
