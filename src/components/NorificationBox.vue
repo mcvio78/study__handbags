@@ -52,6 +52,9 @@ export default {
 		},
 		cartViewEmptyCart() {
 			return this.$route.path === '/cart' && this.cart === null;
+		},
+		purchasedView() {
+			return this.$route.path === '/purchased';
 		}
 	},
 	methods: {
@@ -62,7 +65,7 @@ export default {
 		closeOverlay() {
 			this.resetButtonsAndTempId();
 			this.overlay = false;
-			if ((this.status === 'success' && this.signInUpView) || this.cartViewEmptyCart) {
+			if ((this.status === 'success' && this.signInUpView) || this.cartViewEmptyCart || this.purchasedView) {
 				this.$router.push({ name: 'home' });
 			}
 		}

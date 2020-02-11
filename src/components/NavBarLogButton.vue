@@ -14,10 +14,10 @@
 
 			<v-list-item-action class="d-inline-block">
 				<v-btn color="mcPrimary" class=" mx-1" @click="logoutFirebase">Logout</v-btn>
-				<v-btn v-if="!purchasedPath" color="mcPrimary" class=" mr-1" @click="toCartHistory">Purchased</v-btn>
+				<v-btn v-if="!urlPurchasedPath" color="mcPrimary" class=" mr-1" @click="toCartHistory">Purchased</v-btn>
 			</v-list-item-action>
 
-			<div v-if="!cartPath">
+			<div v-if="!urlCartPath">
 				<v-divider v-if="ifCartItems" class="my-1"></v-divider>
 
 				<v-subheader v-if="ifCartItems" class="ma-0 py-0">Your Cart:</v-subheader>
@@ -74,11 +74,11 @@ export default {
 			return null;
 		},
 
-		purchasedPath() {
+		urlPurchasedPath() {
 			return this.$route.name === 'purchased';
 		},
 
-		cartPath() {
+		urlCartPath() {
 			return this.$route.name === 'cart';
 		},
 

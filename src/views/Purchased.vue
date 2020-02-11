@@ -1,5 +1,7 @@
 <template>
 	<v-row class="ma-0 pa-0">
+		<p v-if="noHistory" class="headline d-inline-block ma-auto">There are no items.</p>
+
 		<v-expansion-panels inset>
 			<v-expansion-panel v-for="(dateObject, iKey, index) in history" :key="index">
 				<v-expansion-panel-header>
@@ -63,7 +65,8 @@ export default {
 
 	data() {
 		return {
-			history: null
+			history: null,
+			noHistory: false
 		};
 	},
 
@@ -78,6 +81,9 @@ export default {
 	created() {
 		store.dispatch('cart/getHistory').then(response => {
 			this.history = response.data;
+			if (response.data === null) {
+				this.noHistory = true;
+			}
 		});
 	}
 };
