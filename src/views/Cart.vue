@@ -54,13 +54,12 @@
 </template>
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex';
-import idMixin from './../mixins/findIdItem';
-import timeStamp from './../mixins/timeStamp';
+import { timeStamp } from './../mixins/timeStamp';
 
 export default {
 	name: 'Cart',
 
-	mixins: [idMixin, timeStamp],
+	mixins: [timeStamp],
 
 	data() {
 		return {
@@ -115,7 +114,6 @@ export default {
 
 	methods: {
 		...mapActions('inventories', ['updateInventories']),
-		...mapActions('cart', ['getHistory']),
 
 		getColorCart(item) {
 			if (item.quantity > this.inventories[item.idBag]) return 'red';
@@ -148,7 +146,7 @@ export default {
 					{}
 				);
 
-				const cartHistoryIndexed = { [this.timeStamp()]: this.cart };
+				const cartHistoryIndexed = { [this.createTimeStamp()]: this.cart };
 				const payload = { inventoriesObjValuesUpdated, cartHistoryIndexed };
 
 				this.updateInventories(payload);

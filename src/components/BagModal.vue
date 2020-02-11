@@ -62,12 +62,12 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import findId from './../mixins/findIdItem';
+import { findIdItem } from './../mixins/findIdItem';
 
 export default {
 	name: 'BagModal',
 
-	mixins: [findId],
+	mixins: [findIdItem],
 
 	props: {
 		handbagTypeAndId: {
@@ -90,7 +90,7 @@ export default {
 		...mapState('cart', ['cart']),
 		...mapState('inventories', ['inventories']),
 		...mapState('user', ['user']),
-		...mapGetters('cart', ['idItemToCart', 'findCartItemWithId']),
+		...mapGetters('cart', ['findCartItemWithId']),
 
 		notEmptyBagModelProp() {
 			return Object.keys(this.bagModel).length;
@@ -155,7 +155,7 @@ export default {
 			} else {
 				if (this.notEmptyBagModelProp) {
 					const payload = {
-						[this.findId(this.cart)]: {
+						[this.findAppropriateCartId(this.cart)]: {
 							idBag: this.bagModel.idBag,
 							quantity: this.quantitySelected,
 							imageLo: this.bagModel.imageLo,

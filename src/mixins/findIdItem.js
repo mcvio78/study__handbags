@@ -1,6 +1,6 @@
-export default {
+export const findIdItem = {
 	methods: {
-		findId(value) {
+		findAppropriateCartId(value) {
 			if (value) {
 				let itemNumberInCart = Object.keys(value).map(item => Number(item.split('_')[1]));
 

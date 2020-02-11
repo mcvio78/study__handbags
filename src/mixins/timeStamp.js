@@ -1,6 +1,6 @@
-export default {
+export const timeStamp = {
 	methods: {
-		timeStamp() {
+		createTimeStamp() {
 			if (!Date.now) {
 				return (Date.now = function() {
 					return new Date().getTime();

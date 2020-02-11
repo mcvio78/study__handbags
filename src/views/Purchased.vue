@@ -58,7 +58,7 @@
 
 <script>
 import store from './../store/store';
-import timeStamp from './../mixins/timeStamp';
+import { timeStamp } from './../mixins/timeStamp';
 
 export default {
 	name: 'Purchased',
