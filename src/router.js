@@ -135,6 +135,9 @@ router.beforeEach((routeTo, routeFrom, next) => {
 			});
 		}
 	} else {
+		if (!store.state.handbags.handbags.collections) {
+			store.dispatch('handbags/fetchHandbags', 'collections');
+		}
 		next(false);
 
 		const notification = {
@@ -147,9 +150,5 @@ router.beforeEach((routeTo, routeFrom, next) => {
 		throw new Error('You are offline');
 	}
 });
-
-// router.afterEach(() => {
-// 	store.dispatch('handbags/setHandbagsStatus', 'success');
-// });
 
 export default router;

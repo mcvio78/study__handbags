@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import store from './../store/store';
 import { mapState } from 'vuex';
 import NavbarTitle from './NavbarTitle';
 import NavBarHomeButton from './NavBarHomeButton';
@@ -48,10 +47,6 @@ export default {
 		setInterval(() => {
 			this.$store.dispatch('inventories/getInventories', 'quantity');
 		}, 60000); //1 min.
-
-		if (!store.state.handbags.handbags.collections) {
-			store.dispatch('handbags/fetchHandbags', 'collections');
-		}
 	}
 };
 </script>
