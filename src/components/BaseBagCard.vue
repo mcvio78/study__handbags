@@ -23,13 +23,13 @@
 				<v-col cols="auto" class="text-center pl-0">
 					<v-row class="flex-column ma-0 fill-height" justify="center">
 						<v-col class="px-0">
-							<v-btn icon @click.native.stop>
+							<v-btn disabled icon @click.native.stop>
 								<v-icon>mdi-heart</v-icon>
 							</v-btn>
 						</v-col>
 
 						<v-col class="px-0">
-							<v-btn icon @click.stop>
+							<v-btn disabled icon @click.stop>
 								<v-icon>mdi-bookmark</v-icon>
 							</v-btn>
 						</v-col>
