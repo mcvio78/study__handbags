@@ -4,9 +4,7 @@
 ********************************************************************************
  */
 
-@import url('https://fonts.googleapis.com/css?family=McLaren&display=swap');
-
-$body-font-family: 'McLaren', cursive !default;
+@import './abstract/_abstract-dir';
 
 @import './../../node_modules/vuetify/src/styles/styles';
 
