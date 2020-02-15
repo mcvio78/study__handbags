@@ -27,6 +27,7 @@
 <script>
 export default {
 	name: 'BaseNotificationModal',
+
 	props: {
 		showModal: {
 			type: Boolean

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-toolbar color="purple darken-1" dark>
+		<v-toolbar color="grey darken-1" dark>
 			<NavbarTitle />
 
 			<v-spacer></v-spacer>
@@ -26,6 +26,7 @@ import NavBarScroll from './NavBarScroll';
 
 export default {
 	name: 'NavBar',
+
 	components: {
 		NavbarTitle,
 		NavBarHomeButton,
@@ -33,15 +34,19 @@ export default {
 		NavBarLogButton,
 		NavBarScroll
 	},
+
 	computed: {
 		...mapState('user', ['user']),
+
 		userLogged() {
 			return this.user;
 		},
+
 		noHomePath() {
 			return this.$route.name !== 'home';
 		}
 	},
+
 	created() {
 		this.$store.dispatch('inventories/getInventories', 'quantity');
 		setInterval(() => {

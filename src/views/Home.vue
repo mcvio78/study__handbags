@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid class="py-0 purple lighten-5" height="100%">
+	<v-container fluid class="py-0" height="100%">
 		<HomeBackground />
 
 		<HomeText />
@@ -15,11 +15,13 @@ import HomeBackground from './../components/HomeBackgroundImage';
 
 export default {
 	name: 'Home',
+
 	components: {
 		HomeText,
 		HomeFooter,
 		HomeBackground
 	},
+
 	data() {
 		return {};
 	}

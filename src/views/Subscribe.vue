@@ -1,5 +1,5 @@
 <template>
-	<v-row justify="center" class="fill-height align-center">
+	<v-row justify="center" class="fill-height align-center grey lighten-3">
 		<v-col class="col-10 col-sm-7 col-md-6 col-lg-4">
 			<v-form ref="form" v-model="valid">
 				<v-text-field v-model="name" :counter="20" :rules="nameRules" label="Name" required></v-text-field>

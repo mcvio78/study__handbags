@@ -352,24 +352,10 @@ export const actions = {
 };
 
 export const getters = {
-	// idItemToCart: state => {
-	// 	if (state.cart) {
-	// 		let itemNumberInCart = Object.keys(state.cart).map(item => Number(item.split('_')[1]));
-	//
-	// 		for (let i = 0; i <= itemNumberInCart.length; i++) {
-	// 			if (itemNumberInCart.indexOf(i) === -1) {
-	// 				return `item_${i}`;
-	// 			}
-	// 		}
-	// 	} else {
-	// 		return 'item_0';
-	// 	}
-	// },
-
 	/**
 	 *********************************************************************************GET PROPERTY/OBJECT IN CART BY IDBAG
 	 */
-	findCartItemWithId: state => idSearch => {
+	findCartPropertyById: state => idSearch => {
 		if (state.cart) {
 			// eslint-disable-next-line
 			return Object.entries(state.cart).find(([key, value]) => value.idBag === idSearch);

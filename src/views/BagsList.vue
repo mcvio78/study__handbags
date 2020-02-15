@@ -1,5 +1,5 @@
 <template>
-	<div class="bagsList fill-height pink lighten-5">
+	<div class="bagsList fill-height grey lighten-3">
 		<v-row no-gutters>
 			<v-col class="text-center">
 				<p :class="[this.$vuetify.breakpoint.xs ? 'headline' : 'display-1']" class="mb-0 mt-2">
@@ -24,6 +24,7 @@
 				></BaseBagCard>
 			</v-row>
 		</v-container>
+
 		<BagModal :handbagTypeAndId="handbagReceivedToModal" />
 	</div>
 </template>
@@ -36,31 +37,36 @@ import firstCapital from './../filters/firstCapital';
 
 export default {
 	name: 'BagsList',
+
 	props: {
 		bagType: {
 			type: String,
 			required: true
 		}
 	},
+
 	components: {
 		BagModal
 	},
+
 	data() {
 		return {
 			handbagReceivedToModal: {}
 		};
 	},
-	computed: {
-		...mapState('handbags', ['handbags'])
-	},
+
+	computed: mapState('handbags', ['handbags']),
+
 	methods: {
 		handBagToModal(handbagTypeAndId) {
 			this.handbagReceivedToModal = handbagTypeAndId;
 		}
 	},
+
 	filters: {
 		firstCapital
 	},
+
 	beforeRouteEnter(routeTo, routeFrom, next) {
 		if (
 			store.state.handbags.handbags.collections &&
@@ -76,6 +82,7 @@ export default {
 			next();
 		}
 	},
+
 	created() {
 		store.dispatch('handbags/fetchHandbags', this.bagType);
 	}

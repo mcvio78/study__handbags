@@ -49,21 +49,25 @@
 <script>
 export default {
 	name: 'BagCard',
+
 	props: {
 		idBag: {
 			type: String,
 			required: true
 		},
+
 		handbag: {
 			type: Object,
 			required: true
 		}
 	},
+
 	data() {
 		return {
 			alt: 'Bag preview image.'
 		};
 	},
+
 	methods: {
 		modalBag() {
 			const handbagTypeAndId = { ...this.handbag, idBag: this.idBag, openModal: true };

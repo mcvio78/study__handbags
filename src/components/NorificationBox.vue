@@ -2,10 +2,8 @@
 	<div class="text-center">
 		<v-overlay :value="notifications.length ? (overlay = true) : overlay">
 			<notification-bar v-for="notification in notifications" :key="notification.id" :notification="notification" />
+
 			<div class="my-2">
-				<!--
-				-------------------------------------------------------------------------------------------------OVERLAY BUTTONS
-				-->
 				<v-btn error class="ma-1" v-if="closeButton" x-large :disabled="notifications.length > 0" @click="closeOverlay">
 					<p class="display-1 ma-auto"><v-icon large>mdi-close</v-icon> Close</p>
 				</v-btn>
@@ -35,33 +33,42 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
 	name: 'NotificationBox',
+
 	components: {
 		NotificationBar
 	},
+
 	data() {
 		return {
 			overlay: false
 		};
 	},
+
 	computed: {
 		...mapState('notification', ['closeButton', 'refreshButton', 'okButton', 'notifications']),
 		...mapState('user', ['status']),
 		...mapState('cart', ['cart']),
+
 		signInUpView() {
 			return this.$route.path === '/subscribe' || this.$route.path === '/authentication';
 		},
+
 		cartViewEmptyCart() {
 			return this.$route.path === '/cart' && this.cart === null;
 		},
+
 		purchasedView() {
 			return this.$route.path === '/purchased';
 		}
 	},
+
 	methods: {
 		...mapActions('notification', ['resetButtonsAndTempId']),
+
 		refreshPage() {
 			this.$router.go();
 		},
+
 		closeOverlay() {
 			this.resetButtonsAndTempId();
 			this.overlay = false;

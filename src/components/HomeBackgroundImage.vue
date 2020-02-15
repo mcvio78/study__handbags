@@ -13,6 +13,7 @@ import HomeSubscribeAuth from './../components/HomeSubscribeAuth';
 
 export default {
 	name: 'HomeBackgroundImage',
+
 	components: {
 		HomeSubscribeAuth
 	}

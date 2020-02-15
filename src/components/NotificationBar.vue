@@ -5,6 +5,7 @@
 				<h1>Thanks {{ notification.name }}!</h1>
 			</v-col>
 		</v-row>
+
 		<v-row class="pr-6">
 			<v-col>
 				<h2 class="pa-sm-2" :class="[this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline']">
@@ -20,28 +21,34 @@ import { mapActions } from 'vuex';
 
 export default {
 	name: 'NotificationBar',
+
 	props: {
 		notification: {
 			type: Object,
 			required: true
 		}
 	},
+
 	data() {
 		return {
 			timeout: null
 		};
 	},
+
 	computed: {
 		isError() {
 			return this.notification.type === 'error';
 		}
 	},
+
 	mounted() {
 		this.timeout = setTimeout(() => this.remove(this.notification), 2000);
 	},
+
 	beforeDestroy() {
 		clearTimeout(this.timeout);
 	},
+
 	methods: mapActions('notification', ['remove'])
 };
 </script>

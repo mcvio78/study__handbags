@@ -1,5 +1,5 @@
 <template>
-	<v-row class="justify-center">
+	<v-row class="justify-center grey lighten-3">
 		<v-col cols="11" class="pa-0 col-md-10 col-lg-11 text-xl-center">
 			<h1 class="display-1 mb-2 mt-4">Philosophy:</h1>
 			<p class="d-lg-inline-block">

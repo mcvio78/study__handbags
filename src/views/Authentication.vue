@@ -1,8 +1,9 @@
 <template>
-	<v-row justify="center" class="fill-height align-center">
+	<v-row justify="center" class="fill-height align-center grey lighten-3">
 		<v-col class="col-10 col-sm-7 col-md-6 col-lg-4">
 			<v-form ref="form" v-model="valid">
 				<v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+
 				<v-text-field
 					:type="showPassword ? 'text' : 'password'"
 					label="Password"
@@ -43,6 +44,7 @@ import { mapActions } from 'vuex';
 
 export default {
 	name: 'Authentication',
+
 	data() {
 		return {
 			valid: true,
@@ -57,6 +59,7 @@ export default {
 			staySigned: false
 		};
 	},
+
 	methods: {
 		...mapActions('user', ['signInAction']),
 
@@ -66,6 +69,7 @@ export default {
 				this.signInAction(userSignIn);
 			}
 		},
+
 		reset() {
 			this.$refs.form.reset();
 		}

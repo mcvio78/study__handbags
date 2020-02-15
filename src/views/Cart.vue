@@ -4,7 +4,7 @@
 		:headers="headers"
 		:items="cartBagObjAndStoreQuantity"
 		:items-per-page="5"
-		class="elevation-2 mb-12  mb-sm-0   fill-height"
+		class="elevation-2 mb-12  mb-sm-0 fill-height grey lighten-4"
 	>
 		<template v-slot:top>
 			<v-container fluid>
@@ -18,10 +18,13 @@
 					</v-col>
 
 					<v-col class="col-4 col-sm-6 col-md-4 pa-0">
-						<v-btn color="mcPrimary"><!--@click.buy--><span class="subtitle-1" @click="buy">Buy</span></v-btn>
+						<v-btn color="deep-purple lighten-3"
+							><!--@click.buy--><span class="subtitle-1" @click="buy">Buy</span></v-btn
+						>
 					</v-col>
 				</v-row>
 			</v-container>
+
 			<BaseNotificationModal :showModal.sync="modalStatus" :handbagToShow="excessHandbags"></BaseNotificationModal>
 		</template>
 
@@ -52,6 +55,7 @@
 		</template>
 	</v-data-table>
 </template>
+
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex';
 import { timeStamp } from './../mixins/timeStamp';
@@ -76,7 +80,6 @@ export default {
 				{ text: 'Pic', value: 'imageLo' },
 				{ text: 'Actions', value: 'action', sortable: false }
 			],
-
 			modalStatus: null
 		};
 	},
@@ -84,7 +87,7 @@ export default {
 	computed: {
 		...mapState('cart', ['cart']),
 		...mapState('inventories', ['inventories']),
-		...mapGetters('cart', ['findCartItemWithId']),
+		...mapGetters('cart', ['findCartPropertyById']),
 
 		/**
 		 **************************************************************ADD INVENTORIES QUANTITY PROP TO ITEMS IN CART OBJECT
@@ -122,16 +125,16 @@ export default {
 		},
 
 		incrementQuantityHandbag(item) {
-			return this.$store.dispatch('cart/incrementQuantityHandbag', this.findCartItemWithId(item.idBag)[0]);
+			return this.$store.dispatch('cart/incrementQuantityHandbag', this.findCartPropertyById(item.idBag)[0]);
 		},
 
 		decrementQuantityHandbag(item) {
 			if (item.quantity > 1)
-				return this.$store.dispatch('cart/decrementQuantityHandbag', this.findCartItemWithId(item.idBag)[0]);
+				return this.$store.dispatch('cart/decrementQuantityHandbag', this.findCartPropertyById(item.idBag)[0]);
 		},
 
 		removeFromCart(item) {
-			return this.$store.dispatch('cart/removeFromCart', this.findCartItemWithId(item)[0]);
+			return this.$store.dispatch('cart/removeFromCart', this.findCartPropertyById(item)[0]);
 		},
 
 		buy() {

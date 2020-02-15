@@ -13,8 +13,10 @@
 			<v-list-item-title class="title">User: {{ username }}</v-list-item-title>
 
 			<v-list-item-action class="d-inline-block">
-				<v-btn color="mcPrimary" class=" mx-1" @click="logoutFirebase">Logout</v-btn>
-				<v-btn v-if="!urlPurchasedPath" color="mcPrimary" class=" mr-1" @click="toCartHistory">Purchased</v-btn>
+				<v-btn color="deep-purple lighten-3" class=" mx-1" @click="logoutFirebase">Logout</v-btn>
+				<v-btn v-if="!urlPurchasedPath" color="deep-purple lighten-3" class=" mr-1" @click="toCartHistory"
+					>Purchased</v-btn
+				>
 			</v-list-item-action>
 
 			<div v-if="!urlCartPath">
@@ -44,7 +46,7 @@
 				</v-list-item>
 
 				<v-list-item v-if="ifCartItems" class="justify-end mt-2">
-					<v-btn color="mcPrimary" @click="toCart">To Cart</v-btn>
+					<v-btn color="deep-purple lighten-3" @click="toCart">To Cart</v-btn>
 				</v-list-item>
 			</div>
 		</v-list>
@@ -56,9 +58,7 @@ import { mapState } from 'vuex';
 
 export default {
 	name: 'NavBarlogButton',
-	data: () => ({
-		fab: false
-	}),
+
 	computed: {
 		...mapState('user', ['user', 'username']),
 		...mapState('cart', ['cart']),

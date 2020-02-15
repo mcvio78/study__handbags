@@ -1,5 +1,5 @@
 <template>
-	<div style="min-height: 4px; background-color: #E1BEE7">
+	<div style="min-height: 4px; background-color: #EEEEEE">
 		<v-progress-linear v-model="value" :active="isLoading" :indeterminate="isLoading" :query="true">
 		</v-progress-linear>
 	</div>
@@ -17,10 +17,12 @@ export default {
 			interval: 0
 		};
 	},
+
 	computed: {
 		...mapState('user', ['status']),
 		...mapState('handbags', ['handbagsStatus']),
 		...mapState('cart', ['cartStatus']),
+
 		isLoading() {
 			return this.status === 'loading' || this.handbagsStatus === 'loading' || this.cartStatus === 'loading';
 		}

@@ -90,16 +90,16 @@ export default {
 		...mapState('cart', ['cart']),
 		...mapState('inventories', ['inventories']),
 		...mapState('user', ['user']),
-		...mapGetters('cart', ['findCartItemWithId']),
+		...mapGetters('cart', ['findCartPropertyById']),
 
 		notEmptyBagModelProp() {
 			return Object.keys(this.bagModel).length;
 		},
 
 		exceeded() {
-			if (this.bagModel.idBag && this.findCartItemWithId(this.bagModel.idBag)) {
+			if (this.bagModel.idBag && this.findCartPropertyById(this.bagModel.idBag)) {
 				return (
-					this.quantitySelected + this.findCartItemWithId(this.bagModel.idBag)[1]['quantity'] >
+					this.quantitySelected + this.findCartPropertyById(this.bagModel.idBag)[1]['quantity'] >
 					this.inventories[this.bagModel.idBag]
 				);
 			} else if (this.bagModel.idBag) {
@@ -128,6 +128,9 @@ export default {
 	methods: {
 		...mapActions('cart', ['addToCart', 'updateCartField']),
 
+		/**
+		 ********************************************************************************************************CLOSE MODAL
+		 */
 		closeModal() {
 			this.dialog = false;
 			this.quantitySelected = 1;
@@ -139,7 +142,7 @@ export default {
 		 */
 		putIntoCart() {
 			this.disableToCartButtons = true;
-			const currentObjectBagInCart = this.findCartItemWithId(this.bagModel.idBag);
+			const currentObjectBagInCart = this.findCartPropertyById(this.bagModel.idBag);
 
 			// if in cart
 			if (currentObjectBagInCart) {

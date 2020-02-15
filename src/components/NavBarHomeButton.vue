@@ -5,6 +5,7 @@
 <script>
 export default {
 	name: 'NavBarHomeButton',
+
 	methods: {
 		toHome() {
 			this.$router.push({ name: 'home' });
