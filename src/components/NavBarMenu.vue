@@ -4,22 +4,17 @@
 			<v-btn color="accent" dark v-on="on">Handbags</v-btn>
 		</template>
 
-		<v-list class="text-center py-sm-2 ma-sm-0">
-			<div class="d-inline">
-				<p class="black--text headline px-1 px-sm-0 mb-0 mb-sm-2">Select your Bag</p>
-			</div>
+		<v-list class="text-center pa-2">
+			<v-list-tile-content class="d-block headline mb-2">Select your Bag</v-list-tile-content>
 
-			<div class="d-inline">
-				<p><small>Our collection</small></p>
-			</div>
+			<v-list-tile-sub-title class="d-block mb-2">Our collection</v-list-tile-sub-title>
 
 			<div>
-				<div v-for="(bagType, index) in collections" :key="index" class="d-block d-sm-inline my-2">
+				<div v-for="(bagType, key, index) in collections" :key="key" class="d-sm-inline-block d-sm-inline mb-2 mb-sm-0">
 					<v-btn
 						v-if="bagType !== params"
 						color="accent2"
-						class="ma-sm-1 small"
-						:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
+						:class="[indexLastArrayItem === index ? 'mr-0' : 'mr-1']"
 						@click="toBagsList(bagType)"
 						>{{ bagType }}</v-btn
 					>
@@ -44,6 +39,9 @@ export default {
 
 		params() {
 			return this.$route.params.bagType;
+		},
+		indexLastArrayItem() {
+			return Object.keys(this.collections).length - 1;
 		}
 	},
 

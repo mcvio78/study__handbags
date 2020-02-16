@@ -32,7 +32,7 @@
 							</v-list-item>
 						</v-col>
 
-						<v-col class="col-7">
+						<v-col class="col-6">
 							<v-list-item-group>
 								<v-row no-gutters>
 									<v-col class="py-0">
@@ -43,11 +43,11 @@
 							</v-list-item-group>
 						</v-col>
 
-						<v-col class="col-2">
+						<v-col class="col-3">
 							<v-row no-gutters class="justify-end">
-								<v-list-item-action class="ma-0">
-									<v-btn text icon color="deep-orange" @click="removeItem(index)">
-										<v-icon>mdi-close-circle</v-icon>
+								<v-list-item-action width="50" height="50" class="ma-0 secondary ">
+									<v-btn width="50" height="50" text icon color="deep-orange" @click="removeItem(index)">
+										<v-icon>mdi-close</v-icon>
 									</v-btn>
 								</v-list-item-action>
 							</v-row>
@@ -55,9 +55,7 @@
 					</v-row>
 				</v-list-item>
 
-				<!--				<v-list-item v-if="ifCartItems" class="justify-end mt-2">-->
-				<!--					<v-btn color="accent2" @click="toCart">To Cart</v-btn>-->
-				<!--				</v-list-item>-->
+				<v-btn class="mt-2" color="accent2" @click="toCart">To Cart</v-btn>
 			</div>
 		</v-list>
 	</v-menu>
