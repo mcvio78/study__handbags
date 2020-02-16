@@ -49,14 +49,14 @@
 					</v-btn>
 
 					<v-btn
+						v-if="user"
 						class="mr-1 ml-0"
 						:class="fontButtons"
 						color="accent2"
 						:disabled="disableToCartButtons || !user"
 						@click="putIntoCart"
 					>
-						<span v-if="user">Buy {{ quantitySelected }}</span>
-						<span v-else>No User</span>
+						<span>Buy {{ quantitySelected }}</span>
 					</v-btn>
 
 					<v-btn class="mr-1 ml-0" :class="fontButtons" color="accent2" @click="closeModal">Close </v-btn>

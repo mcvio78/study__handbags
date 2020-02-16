@@ -12,8 +12,8 @@
 			<div>
 				<div v-for="(bagType, key, index) in collections" :key="key" class="d-sm-inline-block d-sm-inline mb-2 mb-sm-0">
 					<v-btn
-						v-if="bagType !== params"
 						color="accent2"
+						:disabled="bagType === params"
 						:class="[indexLastArrayItem === index ? 'mr-0' : 'mr-1']"
 						@click="toBagsList(bagType)"
 						>{{ bagType }}</v-btn
