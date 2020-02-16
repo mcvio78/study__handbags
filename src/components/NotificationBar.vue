@@ -42,7 +42,11 @@ export default {
 	},
 
 	mounted() {
-		this.timeout = setTimeout(() => this.remove(this.notification), 2000);
+		if (this.isError) {
+			this.timeout = setTimeout(() => this.remove(this.notification), 5000);
+		} else {
+			this.timeout = setTimeout(() => this.remove(this.notification), 1500);
+		}
 	},
 
 	beforeDestroy() {
