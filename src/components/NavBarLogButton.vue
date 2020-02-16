@@ -55,7 +55,7 @@
 					</v-row>
 				</v-list-item>
 
-				<v-btn class="mt-2" color="accent2" @click="toCart">To Cart</v-btn>
+				<v-btn v-if="ifCartItems" class="mt-2" color="accent2" @click="toCart">To Cart</v-btn>
 			</div>
 		</v-list>
 	</v-menu>
