@@ -5,12 +5,12 @@
 				<v-card-title class="headline justify-center">Subscribe or Sign in</v-card-title>
 
 				<v-card-actions class="justify-center pb-0">
-					<v-btn x-large dark color="purple darken-3" @click="toSubscribe">Sign up</v-btn>
+					<v-btn x-large dark color="accent" @click="toSubscribe">Sign up</v-btn>
 				</v-card-actions>
 				<v-card-subtitle class="pt-0">If you don't have an account yet.</v-card-subtitle>
 
 				<v-card-actions class="justify-center pb-0">
-					<v-btn x-large dark color="purple darken-3" @click="toAuthentication">Sign in</v-btn>
+					<v-btn x-large dark color="accent" @click="toAuthentication">Sign in</v-btn>
 				</v-card-actions>
 				<v-card-subtitle class="pt-0">Have an account?</v-card-subtitle>
 			</v-card>

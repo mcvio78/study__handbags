@@ -4,7 +4,7 @@
 		:headers="headers"
 		:items="cartBagObjAndStoreQuantity"
 		:items-per-page="5"
-		class="elevation-2 mb-12  mb-sm-0 fill-height grey lighten-4"
+		class="elevation-2 mb-12  mb-sm-0 fill-height secondary"
 	>
 		<template v-slot:top>
 			<v-container fluid>
@@ -18,9 +18,7 @@
 					</v-col>
 
 					<v-col class="col-4 col-sm-6 col-md-4 pa-0">
-						<v-btn color="deep-purple lighten-3"
-							><!--@click.buy--><span class="subtitle-1" @click="buy">Buy</span></v-btn
-						>
+						<v-btn color="accent2"><!--@click.buy--><span class="subtitle-1" @click="buy">Buy</span></v-btn>
 					</v-col>
 				</v-row>
 			</v-container>

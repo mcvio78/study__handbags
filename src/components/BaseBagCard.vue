@@ -11,10 +11,10 @@
 						:src="handbag.imagePreviewHi"
 						:alt="alt"
 					>
-						<v-row align="start" class="lightbox white--text pa-2 fill-height">
+						<v-row align="start" class="lightbox white--text pt-1 fill-height">
 							<v-col>
-								<div class="subheading pink--text white">{{ handbag.name }}</div>
-								<div class="body-1">Mmcvio78@gmail.com</div>
+								<p class="primary subheading ma-0">{{ handbag.name }}</p>
+								<p class="body-1 ma-0 pa-0">zhbags@gmail.com</p>
 							</v-col>
 						</v-row>
 					</v-img>
@@ -36,7 +36,7 @@
 
 						<v-col class="px-0">
 							<v-btn icon @click.stop="modalBag">
-								<v-icon>mdi-magnify</v-icon>
+								<v-icon>mdi-information</v-icon>
 							</v-btn>
 						</v-col>
 					</v-row>

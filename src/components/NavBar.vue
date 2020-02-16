@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-toolbar color="grey darken-1" dark>
+		<v-toolbar color="primary" dark>
 			<NavbarTitle />
 
 			<v-spacer></v-spacer>

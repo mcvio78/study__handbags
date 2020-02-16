@@ -1,19 +1,14 @@
 <template>
-	<div class="bagsList fill-height grey lighten-3">
+	<div class="bagsList fill-height secondary">
 		<v-row no-gutters>
 			<v-col class="text-center">
-				<p :class="[this.$vuetify.breakpoint.xs ? 'headline' : 'display-1']" class="mb-0 mt-2">
-					This is the {{ bagType | firstCapital }} Collection<span
-						class="font-italic"
-						:class="[this.$vuetify.breakpoint.xs ? 'subtitle-1' : 'headline']"
-					>
-						page</span
-					>
+				<p :class="[this.$vuetify.breakpoint.xs ? 'headline' : 'display-1']" class="mt-4 mb-2">
+					{{ bagType | firstCapital }} Collection page
 				</p>
 			</v-col>
 		</v-row>
 
-		<v-container fluid class="text-center">
+		<v-container fluid class="text-center pa-0">
 			<v-row no-gutters class="justify-center">
 				<BaseBagCard
 					@handBagToModal="handBagToModal"

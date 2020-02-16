@@ -1,10 +1,10 @@
 <template>
 	<div class="text-center">
-		<v-overlay :value="overlay">
+		<v-overlay :value="overlay" opacity="0">
 			<p class="display-3 pa-sm-2 red--text">Oops!</p>
 			<p class="display-1 pa-sm-2 black--text">
 				<template v-if="resource">
-					<span class="display-1">The </span>
+					<span>The </span>
 					<span class="font-weight-bold">{{ inexistentResource }}</span>
 				</template>
 				page you're looking for is not here.

@@ -9,45 +9,55 @@
 			</v-btn>
 		</template>
 
-		<v-list class="text-center py-sm-2 ma-sm-0">
-			<v-list-item-title class="title">User: {{ username }}</v-list-item-title>
+		<v-list class="text-center pa-1 pa-sm-2">
+			<v-list-item-title class="title d-block mb-2">User: {{ username }}</v-list-item-title>
 
-			<v-list-item-action class="d-inline-block">
-				<v-btn color="deep-purple lighten-3" class=" mx-1" @click="logoutFirebase">Logout</v-btn>
-				<v-btn v-if="!urlPurchasedPath" color="deep-purple lighten-3" class=" mr-1" @click="toCartHistory"
-					>Purchased</v-btn
-				>
-			</v-list-item-action>
+			<div class="mb-2">
+				<v-btn class="mr-1" color="accent2" @click="logoutFirebase">Logout</v-btn>
+				<v-btn v-if="!urlPurchasedPath" color="accent2" @click="toCartHistory">Purchased</v-btn>
+			</div>
 
 			<div v-if="!urlCartPath">
-				<v-divider v-if="ifCartItems" class="my-1"></v-divider>
+				<v-divider v-if="ifCartItems" class="mb-2"></v-divider>
 
-				<v-subheader v-if="ifCartItems" class="ma-0 py-0">Your Cart:</v-subheader>
+				<p v-if="ifCartItems" class="mb-2">Your Cart:</p>
 
-				<v-list-item v-for="(item, index) in cart" :key="index" class="subtitle-1 pa-0 ma-0 mb-1 justify-end">
-					<v-list-item>
-						<v-card>
-							<v-img width="50" height="50" :src="item.imageLo"></v-img>
-						</v-card>
-					</v-list-item>
+				<v-list-item v-for="(item, index) in cart" :key="index" class="px-0">
+					<v-row no-gutters class="align-center">
+						<v-col class="col-3">
+							<v-list-item class="mx-0 px-0 mb-1">
+								<v-card>
+									<v-img width="50" height="50" :src="item.imageLo"></v-img>
+								</v-card>
+							</v-list-item>
+						</v-col>
 
-					<v-list-item class="ma-0 pa-0">
-						<v-list-item-group class="text-right">
-							<v-list-item-subtitle>{{ item.name }}</v-list-item-subtitle>
-							<v-list-item-subtitle>Quantity: {{ item.quantity }} </v-list-item-subtitle>
-						</v-list-item-group>
+						<v-col class="col-7">
+							<v-list-item-group>
+								<v-row no-gutters>
+									<v-col class="py-0">
+										<v-list-item-subtitle>{{ item.name }}</v-list-item-subtitle>
+										<v-list-item-subtitle>Quantity: {{ item.quantity }} </v-list-item-subtitle>
+									</v-col>
+								</v-row>
+							</v-list-item-group>
+						</v-col>
 
-						<v-list-item-action class="my-0 ml-0 mr-2">
-							<v-btn text icon color="deep-orange" @click="removeItem(index)">
-								<v-icon>mdi-close</v-icon>
-							</v-btn>
-						</v-list-item-action>
-					</v-list-item>
+						<v-col class="col-2">
+							<v-row no-gutters class="justify-end">
+								<v-list-item-action class="ma-0">
+									<v-btn text icon color="deep-orange" @click="removeItem(index)">
+										<v-icon>mdi-close-circle</v-icon>
+									</v-btn>
+								</v-list-item-action>
+							</v-row>
+						</v-col>
+					</v-row>
 				</v-list-item>
 
-				<v-list-item v-if="ifCartItems" class="justify-end mt-2">
-					<v-btn color="deep-purple lighten-3" @click="toCart">To Cart</v-btn>
-				</v-list-item>
+				<!--				<v-list-item v-if="ifCartItems" class="justify-end mt-2">-->
+				<!--					<v-btn color="accent2" @click="toCart">To Cart</v-btn>-->
+				<!--				</v-list-item>-->
 			</div>
 		</v-list>
 	</v-menu>

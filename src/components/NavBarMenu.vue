@@ -1,7 +1,7 @@
 <template>
 	<v-menu offset-y>
 		<template v-slot:activator="{ on }">
-			<v-btn color="purple darken-2" dark v-on="on">Handbags</v-btn>
+			<v-btn color="accent" dark v-on="on">Handbags</v-btn>
 		</template>
 
 		<v-list class="text-center py-sm-2 ma-sm-0">
@@ -17,7 +17,7 @@
 				<div v-for="(bagType, index) in collections" :key="index" class="d-block d-sm-inline my-2">
 					<v-btn
 						v-if="bagType !== params"
-						color="deep-purple lighten-3"
+						color="accent2"
 						class="ma-sm-1 small"
 						:class="{ 'v-size--x-large': $vuetify.breakpoint.sm }"
 						@click="toBagsList(bagType)"

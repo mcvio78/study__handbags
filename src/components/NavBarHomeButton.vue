@@ -1,5 +1,5 @@
 <template>
-	<v-btn @click="toHome">Home</v-btn>
+	<v-btn class="mx-1" color="accent" dark @click="toHome">Home</v-btn>
 </template>
 
 <script>

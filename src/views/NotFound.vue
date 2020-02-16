@@ -1,8 +1,8 @@
 <template>
 	<div class="text-center">
-		<v-overlay color="red" :value="overlay">
-			<div class="purple">
-				<h1 class="pa-sm-2 red--text">404 Page Not Found.</h1>
+		<v-overlay :value="overlay" color="red" opacity="0.3">
+			<div>
+				<p class="display-1 red--text font-weight-bold pa-sm-2">404 Page Not Found.</p>
 			</div>
 
 			<div class="my-2">

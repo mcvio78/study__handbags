@@ -1,7 +1,7 @@
 <template>
 	<v-dialog width="unset" v-model="dialog" persistent v-if="notEmptyBagModelProp">
-		<v-card>
-			<v-card-title :class="fontTitle">{{ bagModel.name }}</v-card-title>
+		<v-card class="text-center pt-2">
+			<v-card-title class="d-inline-block pa-0 mb-2" :class="fontTitle">{{ bagModel.name }}</v-card-title>
 
 			<v-img
 				sizes="(min-width: 900px) 40vw, 80vw"
@@ -25,36 +25,42 @@
 				</v-container>
 			</v-img>
 
-			<v-card-text class="mt-3 pb-0 "
-				><span class="font-weight-black">Stock:</span> {{ inventories[bagModel.idBag] }}
-				<v-icon color="green darken-1">mdi-check</v-icon>
-				<span class="font-weight-black ml-2">Price:</span> {{ bagModel.price }}
-				<v-icon color="green darken-1">mdi-cash-usd</v-icon>
+			<v-card-text class="pt-2 pb-0">
+				<div class="d-inline-block mr-1">
+					<span class="font-weight-black">Stock:</span> {{ inventories[bagModel.idBag] }}
+					<v-icon v-if="sold" color="red darken-1">mdi-close</v-icon>
+					<v-icon v-else color="green darken-1">mdi-check</v-icon>
+				</div>
+
+				<div class="d-inline-block">
+					<span class="d-inline-block font-weight-black">Price:</span> {{ bagModel.price }}
+					<v-icon color="green darken-1">mdi-cash-usd</v-icon>
+				</div>
 			</v-card-text>
 
-			<v-card-actions class="py-2 justify-space-around">
+			<v-card-actions class="justify-space-around">
 				<div>
-					<v-btn v-if="user" fab dark x-small @click="decreaseQuantity">
+					<v-btn v-if="user" fab class="mx-1" color="primary" dark x-small @click="decreaseQuantity">
 						<v-icon dark>mdi-minus</v-icon>
 					</v-btn>
 
-					<v-btn v-if="user" fab dark x-small @click="increaseQuantity">
+					<v-btn v-if="user" fab class="mr-1 ml-0" color="primary" dark x-small @click="increaseQuantity">
 						<v-icon dark>mdi-plus</v-icon>
 					</v-btn>
 
 					<v-btn
-						color="green darken-1"
-						class="white--text"
-						:disabled="disableToCartButtons || !user"
+						class="mr-1 ml-0"
 						:class="fontButtons"
+						color="accent2"
+						:disabled="disableToCartButtons || !user"
 						@click="putIntoCart"
 					>
 						<span v-if="user">Buy {{ quantitySelected }}</span>
 						<span v-else>No User</span>
 					</v-btn>
-				</div>
 
-				<v-btn color="red darken-1" class="white--text" :class="fontButtons" @click="closeModal">Close </v-btn>
+					<v-btn class="mr-1 ml-0" :class="fontButtons" color="accent2" @click="closeModal">Close </v-btn>
+				</div>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>

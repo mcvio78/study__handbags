@@ -2,7 +2,7 @@
 	<v-row class="ma-0 pa-0">
 		<p v-if="noHistory" class="headline d-inline-block ma-auto">There are no items.</p>
 
-		<v-expansion-panels inset class="grey lighten-3">
+		<v-expansion-panels inset class="secondary">
 			<v-expansion-panel v-for="(dateObject, iKey, index) in history" :key="index">
 				<v-expansion-panel-header>
 					<v-row>
