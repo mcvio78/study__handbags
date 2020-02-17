@@ -5,9 +5,9 @@
 		</template>
 
 		<v-list class="text-center pa-2">
-			<v-list-tile-content class="d-block headline mb-2">Select your Bag</v-list-tile-content>
+			<v-list-item class="d-block headline mb-2">Select your Bag</v-list-item>
 
-			<v-list-tile-sub-title class="d-block mb-2">Our collection</v-list-tile-sub-title>
+			<v-list-item class="d-block mb-2">Our collection</v-list-item>
 
 			<div>
 				<div v-for="(bagType, key, index) in collections" :key="key" class="d-sm-inline-block d-sm-inline mb-2 mb-sm-0">
